@@ -5,22 +5,24 @@ __BEGIN_API
 
 void CPU::Context::save()
 {
-    //adicionar implementação
+    getcontext();
 }
 
 void CPU::Context::load()
 {
-    //adicionar implementação
+    setcontext();
 }
 
 CPU::Context::~Context()
 {
-    //adicionar implementação
+    if (_stack) {       //Se existe uma pilha
+        delete (_stack);//deletar a pilha
+    }
 }
 
 int CPU::switch_context(Context *from, Context *to)
 {
-     //implementação do método
+     swapcontext();
 }
 
 __END_API
