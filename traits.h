@@ -19,7 +19,7 @@ struct Traits {
 template<> struct Traits<CPU>
 {
     //Pilha de tamanho de 16 Kb
-    static const unsigned int STACK_SIZE = 1024 * 16
+    static const unsigned int STACK_SIZE = 1024 * 16;
 };
 
 __END_API
