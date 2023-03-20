@@ -38,6 +38,15 @@ class CPU
 
 };
 
+template<typename ... Tn> CPU::Context::Context(void (* func)(Tn...), Tn ... an) {
+    //A pilha do u_context precisar ser inicializada aqui
+    _stack = new char[STACK_SIZE];
+    _context.uc_stack.ss_sp = _stack;
+    _context.uc_stack.ss_size = STACK_SIZE;
+    makecontext(&_context, (void (*)()) func, (int)sizeof...(an), an...);
+};
+
+
 __END_API
 
 #endif
