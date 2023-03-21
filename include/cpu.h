@@ -38,13 +38,17 @@ class CPU
 
 };
 
-template<typename ... Tn> CPU::Context::Context(void (* func)(Tn...), Tn ... an) {
-    getcontext(&_context);
-    //A pilha do u_context precisar ser inicializada aqui
-    _stack = new char[STACK_SIZE];
-    _context.uc_stack.ss_sp = _stack;
-    _context.uc_stack.ss_size = STACK_SIZE;
-    makecontext(&_context, (void (*)()) func, (int)sizeof...(an), an...);
+template<typename ... Tn> CPU::Context::Context(void (* func)(Tn...), Tn ... an)
+{
+    try { 
+        getcontext(&_context);
+        _stack = new char[STACK_SIZE];
+        _context.uc_stack.ss_sp = &_stack;
+        _context.uc_stack.ss_size = STACK_SIZE;
+        _context.uc_link = &_context;
+        makecontext(&_context, (void (*)()) func, (int)sizeof...(an), an...);}
+    catch (...) {
+        std::cout << "Erro ao tentar fazer o contexto.";}
 };
 
 __END_API

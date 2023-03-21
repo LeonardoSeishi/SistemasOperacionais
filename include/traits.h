@@ -18,7 +18,7 @@ struct Traits {
 
 template<> struct Traits<CPU>
 {
-    //Pilha de tamanho de 16 Kb
+    //Pilha de tamanho 16 Kb
     static const unsigned int STACK_SIZE = 1024 * 16;
 };
 

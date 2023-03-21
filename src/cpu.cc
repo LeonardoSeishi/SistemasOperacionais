@@ -19,7 +19,6 @@ CPU::Context::~Context()
         delete (_stack);}
     catch(...) { 
         std::cout << "Não existe uma pilha";}
-        
 }
 
 int CPU::switch_context(Context *from, Context *to)
