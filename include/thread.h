@@ -45,11 +45,12 @@ public:
     /*
      * Retorna o ID da thread.
      */ 
-    int id();
+    int id() { return _id; }
 
     /*
      * Qualquer outro método que você achar necessário para a solução.
-     */ 
+     */
+    Context * get_self_context();
 
 private:
     int _id;
