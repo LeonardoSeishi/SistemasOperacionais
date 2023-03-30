@@ -53,7 +53,7 @@ public:
     Context * get_self_context();
 
 private:
-    int _id;
+    int _id = 0;
     Context * volatile _context;
     static Thread * _running;
 
@@ -61,6 +61,11 @@ private:
      * Qualquer outro atributo que você achar necessário para a solução.
      */ 
 };
+
+template<typename ... Tn>Thread::Thread(void (* entry)(Tn ...), Tn ... an) {
+    this->_context = new CPU::Context(entry, an ...);
+    this->_id++;
+}
 
 __END_API
 
