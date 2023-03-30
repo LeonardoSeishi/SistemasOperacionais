@@ -50,7 +50,13 @@ public:
     /*
      * Qualquer outro método que você achar necessário para a solução.
      */
+
+    /*Retorna o contexto*/
     Context * get_self_context();
+
+
+    /*destrutor*/
+    ~Thread();
 
 private:
     int _id = 0;
