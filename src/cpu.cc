@@ -15,9 +15,9 @@ void CPU::Context::load()
 
 CPU::Context::~Context()
 {
-    try { 
-        delete (_stack);}
-    catch(...) { 
+    if (_stack) { 
+        delete (_stack);
+    } else { 
         std::cout << "Não existe uma pilha";}
 }
 
