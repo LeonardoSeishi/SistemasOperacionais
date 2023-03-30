@@ -10,6 +10,7 @@
 __BEGIN_API
 
 class CPU; //declaração das classes criadas nos trabalhos devem ser colocadas aqui
+class Debug;
 
 //declaração da classe Traits
 template<typename T>
@@ -20,6 +21,14 @@ template<> struct Traits<CPU>
 {
     //Pilha de tamanho 16 Kb
     static const unsigned int STACK_SIZE = 1024 * 16;
+};
+
+template<> struct Traits<Debug>: public Traits<void>
+{
+    static const bool error = false;
+    static const bool warning = false;
+    static const bool info = false;
+    static const bool trace = true;
 };
 
 __END_API
