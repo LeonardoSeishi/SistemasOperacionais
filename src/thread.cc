@@ -6,21 +6,34 @@ __BEGIN_API
 Thread * Thread::_running = nullptr;
 int _counter = 0;
 
+
+int Thread::id() {
+    return Thread::_id;
+}
+
+
+CPU::Context * Thread::get_context()
+{
+    return Thread::_context;
+};
+
+
+Thread * Thread::running() {
+    return Thread::_running;
+}
+
+
 int Thread::switch_context(Thread * prev, Thread * next)
 {
-    db<Thread>(TRC) << "Thread::switch_context() chamado, id = " << prev->id() << "\n";
-    if (prev->id()) {
-        db<Thread>(TRC) << "Thread::switch_context() OK, id = " << prev->id() << "\n";
-        Thread::set_running(next);
+    if (prev->id() != next->id()) {
+        Thread::_running = next;
         return CPU::switch_context(prev->get_context(), next->get_context());
     } else {
-        db<Thread>(ERR) << "Thread::switch_context() erro, id = " << prev->id() << "\n";
         return 0;
     }
 }
 
-void thread_exit(int exit_code) {
-    db<Thread>(TRC) << "Thread::thread_exit() chamado, code = " << exit_code << "\n";
+void Thread::thread_exit(int exit_code) {
     _counter--;
 }
 
