@@ -40,16 +40,17 @@ class CPU
 
 template<typename ... Tn> CPU::Context::Context(void (* func)(Tn...), Tn ... an)
 {
-    try { 
-        getcontext(&_context);
-        _stack = new char[STACK_SIZE];
+    getcontext(&_context);
+    _stack = new char[STACK_SIZE];
+    if (_stack) { 
         _context.uc_stack.ss_sp = &_stack;
         _context.uc_stack.ss_size = STACK_SIZE;
         _context.uc_link = &_context;
-        makecontext(&_context, (void (*)()) func, (int)sizeof...(an), an...);}
-    catch (...) {
+        makecontext(&_context, (void (*)()) func, (int)sizeof...(an), an...);
+    } else {
         std::cout << "Erro ao tentar fazer o contexto.";}
-}
+
+    }
 
 __END_API
 
