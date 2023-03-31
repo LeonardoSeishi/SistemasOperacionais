@@ -54,7 +54,6 @@ public:
     /*Retorna o contexto*/
     Context * context();
 
-
     /*destrutor*/
     ~Thread();
 
@@ -67,12 +66,12 @@ private:
      * Qualquer outro atributo que você achar necessário para a solução.
      */ 
     int _exit_code;
-    int _counter = 0;
+    static int _counter;
 };
 
 template<typename ... Tn>Thread::Thread(void (* entry)(Tn ...), Tn ... an) {
-    this->_context = new CPU::Context(entry, an ...);
-    this->_id = this->_counter++;
+    _context = new CPU::Context(entry, an ...);
+    _id = _counter++;
 }
 
 __END_API

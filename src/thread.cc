@@ -1,22 +1,18 @@
 #include "../include/thread.h"
-#include "thread.h"
+#include <iostream>
 
 __BEGIN_API
 
 Thread * Thread::_running = nullptr;
-int _counter = 0;
-
+int Thread::_counter = 0;
 
 int Thread::id() {
     return Thread::_id;
 }
 
-
-
 Thread * Thread::running() {
     return Thread::_running;
 }
-
 
 int Thread::switch_context(Thread * prev, Thread * next)
 {
