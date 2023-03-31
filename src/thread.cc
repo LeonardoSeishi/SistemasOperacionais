@@ -19,4 +19,10 @@ void thread_exit(int exit_code) {
     _counter--;
 }
 
+Thread::~Thread() {
+    if(_context) {
+        delete _context;
+    }
+}
+
 __END_API

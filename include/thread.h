@@ -40,7 +40,7 @@ public:
      * exit_code é o código de término devolvido pela tarefa (ignorar agora, vai ser usado mais tarde).
      * Quando a thread encerra, o controle deve retornar à main. 
      */  
-    void thread_exit (int exit_code);
+    void thread_exit (int exit_code) {};
 
     /*
      * Retorna o ID da thread.
@@ -52,11 +52,10 @@ public:
      */
 
     /*Retorna o contexto*/
-    Context * get_context();
+    Context * get_context() { return _context; }
 
+    /*Altera o valor de running*/
     static void set_running(Thread * next) { _running = next; }
-
-    void decrement_id() { _id--; }
 
     /*destrutor*/
     ~Thread();
