@@ -16,13 +16,13 @@ public:
         main_name = "main";
         ping_name = "    Ping";
         pong_name = "        Pong";
-        ThreadMain = new Thread(run, (char *)main_name.data());
-        ping = new Thread(func_ping, (char *)ping_name.data());
-        pong = new Thread(func_pong, (char *)pong_name.data());
+        ThreadMain = new Thread(run, (char *) main_name.data());
+        ping = new Thread(func_ping, (char *) ping_name.data());
+        pong = new Thread(func_pong, (char *) pong_name.data());
 
         mainContext = new CPU::Context();
 
-        CPU::switch_context(mainContext, ThreadMain->get_self_context());
+        CPU::switch_context(mainContext, ThreadMain->get_context());
 
         delete mainContext;
     }
@@ -36,7 +36,7 @@ public:
 
         std::cout << arg << ": fim\n";
 
-        CPU::switch_context(ThreadMain->get_self_context(), mainContext);
+        CPU::switch_context(ThreadMain->get_context(), mainContext);
     }
 
     ~Main()

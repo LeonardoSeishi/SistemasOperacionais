@@ -52,7 +52,7 @@ public:
      */
 
     /*Retorna o contexto*/
-    Context * get_self_context();
+    Context * get_context();
 
 
     /*destrutor*/
