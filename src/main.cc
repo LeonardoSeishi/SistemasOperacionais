@@ -1,7 +1,7 @@
-#include "cpu.h"
 #include <iostream>
-#include "./main_class.h"
-#include "./system.h"
+#include "../include/system.h"
+#include "../include/main_class.h"
+#include "../include/system.h"
 
 __USING_API 
 

@@ -1,5 +1,5 @@
-#include "../include/cpu.h"
 #include <iostream>
+#include "../include/cpu.h"
 
 __BEGIN_API
 
