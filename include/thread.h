@@ -54,12 +54,16 @@ public:
     /*Retorna o contexto*/
     Context * get_context();
 
+    static void set_running(Thread * next) { _running = next; }
+
+    void decrement_id() { _id--; }
 
     /*destrutor*/
     ~Thread();
 
 private:
     int _id = 0;
+    int _counter = 0;
     Context * volatile _context;
     static Thread * _running;
 
@@ -70,7 +74,7 @@ private:
 
 template<typename ... Tn>Thread::Thread(void (* entry)(Tn ...), Tn ... an) {
     this->_context = new CPU::Context(entry, an ...);
-    this->_id++;
+    this->_id = this->_counter++;
 }
 
 __END_API
