@@ -49,7 +49,7 @@ template<typename ... Tn> CPU::Context::Context(void (* func)(Tn...), Tn ... an)
         makecontext(&_context, (void (*)()) func, (int)sizeof...(an), an...);}
     catch (...) {
         std::cout << "Erro ao tentar fazer o contexto.";}
-};
+}
 
 __END_API
 
