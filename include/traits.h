@@ -22,6 +22,7 @@ struct Traits {
 
 template<> struct Traits<CPU>
 {
+    static const bool debugged = true;
     //Pilha de tamanho 16 Kb
     static const unsigned int STACK_SIZE = 1024 * 16;
 };
@@ -29,7 +30,7 @@ template<> struct Traits<CPU>
 template<> 
 struct Traits<Debug>: public Traits<void>
 {
-    static const bool error = false;
+    static const bool error = true;
     static const bool warning = false;
     static const bool info = false;
     static const bool trace = true;
@@ -39,6 +40,13 @@ template<>
 struct Traits<System>: public Traits<void> 
 {
     static const bool debugged = true;
+};
+
+template<>
+struct Traits<Thread>: public Traits<void>
+{
+    static const bool debugged = true;
+
 };
 
 
