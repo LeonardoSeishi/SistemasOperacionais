@@ -25,7 +25,7 @@ public:
     /*
      * Retorna a Thread que está em execução.
      */ 
-    static Thread * running() { return _running; }
+    static Thread * running();
 
     /*
      * Método para trocar o contexto entre duas thread, a anterior (prev)
@@ -40,35 +40,34 @@ public:
      * exit_code é o código de término devolvido pela tarefa (ignorar agora, vai ser usado mais tarde).
      * Quando a thread encerra, o controle deve retornar à main. 
      */  
-    void thread_exit (int exit_code) {};
+    void thread_exit (int exit_code);
 
     /*
      * Retorna o ID da thread.
      */ 
-    int id() { return _id; }
+    int id();
 
     /*
      * Qualquer outro método que você achar necessário para a solução.
      */
 
     /*Retorna o contexto*/
-    Context * get_context() { return _context; }
+    Context * context();
 
-    /*Altera o valor de running*/
-    static void set_running(Thread * next) { _running = next; }
 
     /*destrutor*/
     ~Thread();
 
 private:
     int _id = 0;
-    int _counter = 0;
     Context * volatile _context;
     static Thread * _running;
 
     /*
      * Qualquer outro atributo que você achar necessário para a solução.
      */ 
+    int _exit_code;
+    int _counter = 0;
 };
 
 template<typename ... Tn>Thread::Thread(void (* entry)(Tn ...), Tn ... an) {

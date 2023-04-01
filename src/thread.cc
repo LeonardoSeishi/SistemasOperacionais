@@ -12,11 +12,6 @@ int Thread::id() {
 }
 
 
-CPU::Context * Thread::get_context()
-{
-    return Thread::_context;
-};
-
 
 Thread * Thread::running() {
     return Thread::_running;
@@ -27,15 +22,21 @@ int Thread::switch_context(Thread * prev, Thread * next)
 {
     if (prev->id() != next->id()) {
         Thread::_running = next;
-        return CPU::switch_context(prev->get_context(), next->get_context());
+        return CPU::switch_context(prev->context(), next->context());
     } else {
         return 0;
     }
 }
 
 void Thread::thread_exit(int exit_code) {
+    _exit_code = exit_code;
     _counter--;
 }
+
+CPU::Context * Thread::context()
+{
+    return _context;
+};
 
 Thread::~Thread()
 {

@@ -22,7 +22,7 @@ public:
 
         mainContext = new CPU::Context();
 
-        CPU::switch_context(mainContext, ThreadMain->get_context());
+        CPU::switch_context(mainContext, ThreadMain->context());
 
         delete mainContext;
     }
@@ -36,7 +36,7 @@ public:
 
         std::cout << arg << ": fim\n";
 
-        CPU::switch_context(ThreadMain->get_context(), mainContext);
+        CPU::switch_context(ThreadMain->context(), mainContext);
     }
 
     ~Main()
