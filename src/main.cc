@@ -1,14 +1,11 @@
-#include <iostream>
+// #include <iostream>
 #include "../include/system.h"
 #include "../include/main_class.h"
-#include "../include/system.h"
+#include "../include/thread.h"
 
-__USING_API 
-
+__USING_API
 
 int main(void)
 {
-    System::init();
-    Main *m = new Main();
-    delete m;
+    System::init(&Main::run);
 }
