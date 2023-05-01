@@ -118,6 +118,9 @@ private:
 
 template<typename ... Tn>Thread::Thread(void (* entry)(Tn ...), Tn ... an) {
     _context = new CPU::Context(entry, an ...);
+
+    _link = new Ready_Queue::Element(entry,(std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count()));
+
     _id = _counter++;
 }
 

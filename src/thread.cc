@@ -88,13 +88,30 @@ void Thread::dispatcher() {
  * para ser executada.
  */
 void Thread::yield() {
+    //imprima informação usando o debug em nível TRC
     db<Thread>(TRC) << "Thread chamou yield\n";
-    // Escolhe proxima thread a ser executada
-    // Atualiza prioridade da tarefa que chamou yield
-    // Reinsere a thread que estava executando na fila de prontos
-    // Atualiza o ponteiro _running
-    // Atualiza o estado da proxima thread a ser executada
-    // Troca o contexto entre as threads
-}
+
+    //escolha uma próxima thread a ser executada
+    Thread * next = Thread::_ready.remove()->object();
+
+    //atualiza a prioridade da tarefa que estava sendo executada (aquela que chamou yield) com o
+    //timestamp atual, a fim de reinserí-la na fila de prontos atualizada (cuide de casos especiais, como
+    //estado ser FINISHING ou Thread main que não devem ter suas prioridades alteradas)
+    Thread * prev = Thread::_running;
+    if (prev->_state != FINISHING && prev->_id != 0) {
+
+        prev->_state = READY;
+        prev->_link.rank(std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count());
+        //reinsira a thread que estava executando na fila de prontos
+        Thread::_ready.insert_tail(&prev->_link);
+    }
+
+    //atualiza o ponteiro _running
+    Thread::_running = next;
+    //atualiza o estado da próxima thread a ser executada
+    next->_state = RUNNING;
+    //troque o contexto entre as threads
+    switch_context(prev, next);
+    }
 
 __END_API
