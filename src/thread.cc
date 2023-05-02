@@ -12,9 +12,11 @@ int Thread::id() {
     return Thread::_id;
 }
 
+
 Thread * Thread::running() {
     return Thread::_running;
 }
+
 
 int Thread::switch_context(Thread * prev, Thread * next)
 {
