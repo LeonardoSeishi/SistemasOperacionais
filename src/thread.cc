@@ -1,4 +1,5 @@
 #include "../include/thread.h"
+#include "../include/cpu.h"
 #include <iostream>
 #include <chrono>
 

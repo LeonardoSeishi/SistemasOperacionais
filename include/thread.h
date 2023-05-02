@@ -43,7 +43,7 @@ public:
     /*
      * Retorna a Thread que está em execução.
      */
-    static Thread *running() { return _running; }
+    static Thread * running() {return _running;}
 
     /*
      * Método para trocar o contexto entre duas thread, a anterior (prev)
@@ -116,15 +116,14 @@ private:
     static int _counter;
 };
 
-template <typename... Tn>
-inline Thread::Thread(void (*entry)(Tn...), Tn... an) : _link(this, (std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count()))
-{
-    this->_context = new CPU::Context(entry, an ...);
-    this->_id = _counter++;
-    if (_id > 0) {
-        _ready.insert(&_link);
-    }
-    this->_state = READY;
+template<typename ... Tn>Thread::Thread(void (* entry)(Tn ...), Tn ... an) {
+    Thread::_context = new CPU::Context(entry, an ...);
+
+    Thread::_link = new Ready_Queue::Element(this,(std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count()));
+
+    Thread::_id = _counter++;
+
+    
 }
 
 __END_API
