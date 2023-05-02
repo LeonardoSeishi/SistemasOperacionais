@@ -119,12 +119,12 @@ private:
 template <typename... Tn>
 inline Thread::Thread(void (*entry)(Tn...), Tn... an) : _link(this, (std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count()))
 {
-    this._context = new CPU::Context(entry, an ...);
-    this._id = _counter++;
+    this->_context = new CPU::Context(entry, an ...);
+    this->_id = _counter++;
     if (_id > 0) {
         _ready.insert(&_link);
     }
-    this._state = READY;
+    this->_state = READY;
 }
 
 __END_API
