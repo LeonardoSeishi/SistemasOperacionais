@@ -5,21 +5,25 @@
 
 __BEGIN_API
 
+// VARIÁVEIS
+
 Thread * Thread::_running = nullptr;
 int Thread::_counter = 0;
+Thread Thread::_main;
+Thread Thread::_dispatcher;
 
-int Thread::id() {
-    return Thread::_id;
-}
+CPU::Context Thread::_main_context;
 
+Thread::Ready_Queue Thread::_ready;
+Thread::Ready_Queue Thread::_suspended;
 
-Thread * Thread::running() {
-    return Thread::_running;
-}
+// FUNÇÕES
 
+int Thread::id() { return Thread::_id; }
 
-int Thread::switch_context(Thread * prev, Thread * next)
-{
+Thread * Thread::running() { return Thread::_running; }
+
+int Thread::switch_context(Thread * prev, Thread * next) {
     if (prev->id() != next->id()) {
         Thread::_running = next;
         return CPU::switch_context(prev->context(), next->context());
@@ -37,26 +41,15 @@ void Thread::thread_exit(int exit_code) {
     yield();
 }
 
-CPU::Context * Thread::context()
-{
-    return _context;
-};
+CPU::Context * Thread::context() { return _context; };
 
-Thread::~Thread()
-{
+Thread::~Thread() {
     // Remove thread da fila de prontos
     Thread::_ready.remove(this);
     if(_context) {
         delete _context;
     }
 }
-
-// Trabalho 3
-
-Thread Thread::_main;
-CPU::Context Thread::_main_context;
-Thread Thread::_dispatcher;
-Thread::Ready_Queue Thread::_ready;
 
 void Thread::init(void (*main)(void*)) {
     // Inicializar fila de threads prontas
@@ -135,6 +128,32 @@ void Thread::yield() {
     next->_state = RUNNING;
     //troque o contexto entre as threads
     switch_context(prev, next);
-    }
+}
+
+int Thread::join() {
+    db<Thread>(TRC) << "Thread chamou join\n";
+
+    // _running ou Thread::_running?
+    Thread * prev = _running;
+    prev->suspend();
+
+    Thread::_running = this;
+    this->_state = RUNNING;
+
+    //prev ou this????
+    return prev->_exit_code;
+}
+
+// this.state ou state???
+// this.suspended ou Thread::suspended?
+void Thread::suspend() {
+    this->_state = SUSPENDED;
+    this->_suspended.insert(&this->_link);
+    yield();
+}
+
+void Thread::resume() {
+
+}
 
 __END_API
