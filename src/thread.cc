@@ -153,7 +153,9 @@ void Thread::suspend() {
 }
 
 void Thread::resume() {
-
+    Thread * thr_suspended = Thread::_suspended.remove()->object();
+    thr_suspended->_state = READY;
+    Thread::_ready.insert(&thr_suspended->_link);
 }
 
 __END_API
