@@ -6,11 +6,13 @@
 __BEGIN_API
 
 CPU::Context Thread::_main_context;
+
 Thread * Thread::_running = nullptr;
 Thread Thread::_main;
 Thread Thread::_dispatcher;
 Thread::Ready_Queue Thread::_ready;
 Thread::Ready_Queue Thread::_suspended;
+
 int Thread::_counter = 0;
 
 
@@ -102,7 +104,7 @@ void Thread::dispatcher() {
  */
 void Thread::yield() {
     //imprima informação usando o debug em nível TRC
-    db<Thread>(TRC) << "Thread chamou yield\n";
+    // db<Thread>(TRC) << "Thread chamou yield\n";
 
     //escolha uma próxima thread a ser executada
     Thread * next = Thread::_ready.remove()->object();
@@ -145,14 +147,14 @@ int Thread::join() {
 // this.suspended ou Thread::suspended?
 void Thread::suspend() {
     this->_state = SUSPENDED;
-    this->_suspended.insert(&this->_link);
+    _suspended.insert(&this->_link);
     yield();
 }
 
 void Thread::resume() {
     Thread * thr_suspended = Thread::_suspended.remove()->object();
     thr_suspended->_state = READY;
-    Thread::_ready.insert(&thr_suspended->_link);
+    _ready.insert(&thr_suspended->_link);
 }
 
 __END_API
