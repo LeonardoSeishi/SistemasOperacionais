@@ -18,7 +18,8 @@ CPU::Context::~Context()
     if (_stack) { 
         delete (_stack);
     } else { 
-        std::cout << "Não existe uma pilha";}
+        std::cout << "Não existe uma pilha";
+    }
 }
 
 int CPU::switch_context(Context *from, Context *to)

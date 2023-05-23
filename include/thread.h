@@ -128,6 +128,8 @@ private:
     // Nossos parâmetros
     int _exit_code;
     static int _counter;
+    // Ponteiro para thread que está esperando
+    Thread * _join_callee;
 
 };
 
@@ -139,6 +141,7 @@ inline Thread::Thread(void (*entry)(Tn...), Tn... an) : _link(this, (std::chrono
         _ready.insert(&_link);
     }
     this->_state = READY;
+    this->_join_callee = nullptr;
 }
 
 __END_API

@@ -84,6 +84,7 @@ void Thread::dispatcher() {
         // Atualiza o estado da proxima thread a ser executada
         first->_state = RUNNING;
         // Troca o contexto entre as duas threads
+        db<Thread>(TRC) << "Thread [" << first->_id <<"] executando.\n";
         Thread::switch_context(&Thread::_dispatcher, first);
         // Testa se o estado da proxima thread eh FINISHING e caso afirmativo remove de _ready
         if (first->_state == FINISHING) {
@@ -95,6 +96,7 @@ void Thread::dispatcher() {
     // Remove a thread dispatcher da fila de prontos
     Thread::_ready.remove(&Thread::_dispatcher);
     // Troca o contexto de dispatcher para main
+    db<Thread>(TRC) << "Dispatcher removida\n";
     Thread::switch_context(&Thread::_dispatcher, &Thread::_main);
 }
 
@@ -104,8 +106,12 @@ void Thread::dispatcher() {
  */
 void Thread::yield() {
     //imprima informação usando o debug em nível TRC
-    // db<Thread>(TRC) << "Thread chamou yield\n";
+    db<Thread>(TRC) << "Thread [" << Thread::_running->_id << "]chamou yield\n";
 
+    if (_running->_join_callee != nullptr) {
+        // Busca por thread bloqueada na lista
+        // Chama resume na thread bloqueada
+    }
     //escolha uma próxima thread a ser executada
     Thread * next = Thread::_ready.remove()->object();
 
@@ -130,7 +136,7 @@ void Thread::yield() {
 }
 
 int Thread::join() {
-    db<Thread>(TRC) << "Thread chamou join\n";
+    db<Thread>(TRC) << "Thread [" << this->_id  <<"] chamou join\n";
 
     // _running ou Thread::_running?
     Thread * prev = _running;
@@ -138,14 +144,14 @@ int Thread::join() {
 
     Thread::_running = this;
     this->_state = RUNNING;
+    this->_join_callee = prev;
 
     //prev ou this????
     return prev->_exit_code;
 }
 
-// this.state ou state???
-// this.suspended ou Thread::suspended?
 void Thread::suspend() {
+    db<Thread>(TRC) << "Thread [" << this->_id << "] suspensa\n";
     this->_state = SUSPENDED;
     _suspended.insert(&this->_link);
     yield();
@@ -153,6 +159,7 @@ void Thread::suspend() {
 
 void Thread::resume() {
     Thread * thr_suspended = Thread::_suspended.remove()->object();
+    db<Thread>(TRC) << "Thread [" << thr_suspended->_id << "] resumindo execução\n";
     thr_suspended->_state = READY;
     _ready.insert(&thr_suspended->_link);
 }
