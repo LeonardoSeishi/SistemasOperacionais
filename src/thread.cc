@@ -108,7 +108,9 @@ void Thread::yield() {
     //imprima informação usando o debug em nível TRC
     db<Thread>(TRC) << "Thread [" << Thread::_running->id() << "] chamou yield\n";
 
+    // Checa se thread é bloqueante
     if (_running->_state == FINISHING && _running->_join_callee != nullptr) {
+        // Libera thread bloqueada
         _running->_join_callee->resume();
     }
     //escolha uma próxima thread a ser executada
@@ -138,7 +140,7 @@ int Thread::join() {
     db<Thread>(TRC) << "Thread [" << _running->id()  <<"] chamou join em [" << this->id() << "]\n";
 
     Thread * prev = _running;
-    this->_state = READY;
+    this->_state = READY;   // Funciona pro trab, mas bloqueante pode n estar READY
     this->_join_callee = prev;
     prev->suspend();
 
