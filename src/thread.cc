@@ -5,17 +5,14 @@
 
 __BEGIN_API
 
-// VARIÁVEIS
-
+CPU::Context Thread::_main_context;
 Thread * Thread::_running = nullptr;
-int Thread::_counter = 0;
 Thread Thread::_main;
 Thread Thread::_dispatcher;
-
-CPU::Context Thread::_main_context;
-
 Thread::Ready_Queue Thread::_ready;
 Thread::Ready_Queue Thread::_suspended;
+int Thread::_counter = 0;
+
 
 // FUNÇÕES
 
@@ -33,7 +30,7 @@ int Thread::switch_context(Thread * prev, Thread * next) {
 }
 
 void Thread::thread_exit(int exit_code) {
-    _exit_code = exit_code;
+    Thread::_exit_code = exit_code;
     _counter--;
     // Modifica estado
     _state = FINISHING;

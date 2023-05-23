@@ -86,17 +86,17 @@ public:
     static void yield();
 
     /*
-     *
+     * Deve suspender a Thread em execução até que a Thread alvo finalize
      */
     int join();
 
     /*
-     *
+     * Suspende a Thread até que resume() seja chamado
      */
     void suspend();
 
     /*
-     *
+     * ColocA UMA Thread que estava suspensa de volta para a fila de prontos
      */
     void resume();
 
@@ -117,18 +117,15 @@ public:
 private:
     int _id = 0;
     Context * volatile _context;
-    static Thread * _running;
-    
-    // Atributos passados como base
-    static Thread _main;
     static CPU::Context _main_context;
+    static Thread * _running;
+    static Thread _main;
     static Thread _dispatcher;
+    volatile State _state;
     static Ready_Queue _ready;
     static Ready_Queue _suspended;
     Ready_Queue::Element _link;
-    volatile State _state;
-
-    // Nossos parametros
+    // Nossos parâmetros
     int _exit_code;
     static int _counter;
 
