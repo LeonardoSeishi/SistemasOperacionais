@@ -108,9 +108,8 @@ void Thread::yield() {
     //imprima informação usando o debug em nível TRC
     db<Thread>(TRC) << "Thread [" << Thread::_running->_id << "]chamou yield\n";
 
-    if (_running->_join_callee != nullptr) {
-        // Busca por thread bloqueada na lista
-        // Chama resume na thread bloqueada
+    if (_running->_state == FINISHING && _running->_join_callee != nullptr) {
+        _running->_join_callee->resume();
     }
     //escolha uma próxima thread a ser executada
     Thread * next = Thread::_ready.remove()->object();
@@ -138,13 +137,10 @@ void Thread::yield() {
 int Thread::join() {
     db<Thread>(TRC) << "Thread [" << this->_id  <<"] chamou join\n";
 
-    // _running ou Thread::_running?
     Thread * prev = _running;
-    prev->suspend();
-
-    Thread::_running = this;
-    this->_state = RUNNING;
+    this->_state = READY;
     this->_join_callee = prev;
+    prev->suspend();
 
     //prev ou this????
     return prev->_exit_code;
@@ -158,10 +154,11 @@ void Thread::suspend() {
 }
 
 void Thread::resume() {
-    Thread * thr_suspended = Thread::_suspended.remove()->object();
-    db<Thread>(TRC) << "Thread [" << thr_suspended->_id << "] resumindo execução\n";
-    thr_suspended->_state = READY;
-    _ready.insert(&thr_suspended->_link);
+    // Thread * thr_suspended = Thread::_suspended.remove()->object();
+    Thread::_suspended.remove(this);
+    db<Thread>(TRC) << "Thread [" << this->_id << "] resumindo execução\n";
+    _state = READY;
+    Thread::_ready.insert(&this->_link);
 }
 
 __END_API

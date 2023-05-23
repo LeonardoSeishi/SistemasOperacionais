@@ -96,7 +96,7 @@ public:
     void suspend();
 
     /*
-     * ColocA UMA Thread que estava suspensa de volta para a fila de prontos
+     * Coloca Thread que estava suspensa de volta para a fila de prontos
      */
     void resume();
 
