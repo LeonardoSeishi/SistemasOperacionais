@@ -106,7 +106,7 @@ void Thread::dispatcher() {
  */
 void Thread::yield() {
     //imprima informação usando o debug em nível TRC
-    db<Thread>(TRC) << "Thread [" << Thread::_running->_id << "]chamou yield\n";
+    db<Thread>(TRC) << "Thread [" << Thread::_running->id() << "] chamou yield\n";
 
     if (_running->_state == FINISHING && _running->_join_callee != nullptr) {
         _running->_join_callee->resume();
@@ -135,7 +135,7 @@ void Thread::yield() {
 }
 
 int Thread::join() {
-    db<Thread>(TRC) << "Thread [" << this->_id  <<"] chamou join\n";
+    db<Thread>(TRC) << "Thread [" << _running->id()  <<"] chamou join em [" << this->id() << "]\n";
 
     Thread * prev = _running;
     this->_state = READY;
