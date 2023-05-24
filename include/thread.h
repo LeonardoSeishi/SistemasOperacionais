@@ -128,7 +128,7 @@ private:
     // Nossos parâmetros
     int _exit_code;
     static int _counter;
-    // Ponteiro para thread que está esperando
+    // Ponteiro para thread que está esperando(bloqueada)
     Thread * _join_callee;
 
 };

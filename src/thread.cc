@@ -141,10 +141,11 @@ void Thread::yield() {
 
 int Thread::join() {
     db<Thread>(TRC) << "Thread [" << _running->id()  <<"] chamou join em [" << this->id() << "]\n";
-
+    // Salva ponteiro de thread bloqueada em thread bloqueante
     Thread * prev = _running;
     this->_state = READY;
     this->_join_callee = prev;
+    // Suspende thread bloqueada
     prev->suspend();
 
     return _exit_code;
