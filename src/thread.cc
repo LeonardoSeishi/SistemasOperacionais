@@ -20,11 +20,13 @@ int Thread::_counter = 0;
 
 int Thread::id() { return Thread::_id; }
 
-Thread * Thread::running() { return Thread::_running; }
+Thread * Thread::running() { 
+    return _running; 
+}
 
 int Thread::switch_context(Thread * prev, Thread * next) {
     if (prev->id() != next->id()) {
-        Thread::_running = next;
+        _running = next;
         return CPU::switch_context(prev->context(), next->context());
     } else {
         return 0;
@@ -32,8 +34,8 @@ int Thread::switch_context(Thread * prev, Thread * next) {
 }
 
 void Thread::thread_exit(int exit_code) {
-    Thread::_exit_code = exit_code;
-    _counter--;
+    _exit_code = exit_code;
+    _counter = _counter - 1;
     // Modifica estado
     _state = FINISHING;
     // Sinaliza escalonador
@@ -43,24 +45,25 @@ void Thread::thread_exit(int exit_code) {
 CPU::Context * Thread::context() { return _context; };
 
 Thread::~Thread() {
+    db<Thread>(TRC) << "Thread [" << id() << "] removida.\n";
     // Remove thread da fila de prontos
-    Thread::_ready.remove(this);
+    _ready.remove(this);
     if(_context) {
         delete _context;
+        
     }
 }
 
 void Thread::init(void (*main)(void*)) {
-    // Inicializar fila de threads prontas
-    new (&_ready) Thread::Ready_Queue();
+
     // Inicializar thread Main passando como parametro o ponteiro da funcao main
     new (&_main) Thread(main, (void*) "Main");
     new (&_main_context) CPU::Context();
     // Inicializar thread Dispatcher
     new (&_dispatcher) Thread((void (*)(void *)) & Thread::dispatcher, (void *)NULL);
     // Atualiza estado da main
-    Thread::_main._state = RUNNING;
-    Thread::_running = &Thread::_main;
+    _running = &_main;
+    _main._state = RUNNING;
     // Trocar contexto para thread main
     CPU::switch_context(&_main_context, _main.context());
 }
@@ -73,31 +76,31 @@ void Thread::init(void (*main)(void*)) {
 void Thread::dispatcher() {
     db<Thread>(TRC) << "Dispatcher executando.\n";
     // Enquanto existir thread do usuario
-    while (Thread::_counter > 2) {
+    while (_counter > 2) {
         // Escolhe proxima thread a ser executada
-        Thread *first = Thread::_ready.remove()->object();
+        Thread *first = _ready.remove()->object();
         // Atualiza status da propia thread dispatcher pra READY e reinsere a mesma em _ready
-        Thread::_dispatcher._state = READY;
-        Thread::_ready.insert(&Thread::_dispatcher._link);
+        _dispatcher._state = READY;
+        _ready.insert(&_dispatcher._link);
         // Atualiza o ponteiro _running para apontar para a proxima thread a ser executada
-        Thread::_running = first;
+        _running = first;
         // Atualiza o estado da proxima thread a ser executada
         first->_state = RUNNING;
         // Troca o contexto entre as duas threads
         db<Thread>(TRC) << "Thread [" << first->_id <<"] executando.\n";
-        Thread::switch_context(&Thread::_dispatcher, first);
+        switch_context(&_dispatcher, first);
         // Testa se o estado da proxima thread eh FINISHING e caso afirmativo remove de _ready
         if (first->_state == FINISHING) {
-            Thread::_ready.remove(first);
+            _ready.remove(first);
         }
     }
     // Muda o estado da thread dispatcher para FINISHING
     Thread::_dispatcher._state = FINISHING;
     // Remove a thread dispatcher da fila de prontos
-    Thread::_ready.remove(&Thread::_dispatcher);
+    Thread::_ready.remove(&_dispatcher);
     // Troca o contexto de dispatcher para main
     db<Thread>(TRC) << "Dispatcher removida\n";
-    Thread::switch_context(&Thread::_dispatcher, &Thread::_main);
+    Thread::switch_context(&_dispatcher, &_main);
 }
 
 /*
@@ -106,7 +109,7 @@ void Thread::dispatcher() {
  */
 void Thread::yield() {
     //imprima informação usando o debug em nível TRC
-    db<Thread>(TRC) << "Thread [" << Thread::_running->id() << "] chamou yield\n";
+    db<Thread>(TRC) << "Thread [" << _running->id() << "] chamou yield\n";
 
     // Checa se thread é bloqueante
     if (_running->_state == FINISHING && _running->_join_callee != nullptr) {
@@ -114,22 +117,22 @@ void Thread::yield() {
         _running->_join_callee->resume();
     }
     //escolha uma próxima thread a ser executada
-    Thread * next = Thread::_ready.remove()->object();
+    Thread * next = _ready.remove()->object();
 
     //atualiza a prioridade da tarefa que estava sendo executada (aquela que chamou yield) com o
     //timestamp atual, a fim de reinserí-la na fila de prontos atualizada (cuide de casos especiais, como
     //estado ser FINISHING ou Thread main que não devem ter suas prioridades alteradas)
-    Thread * prev = Thread::_running;
+    Thread * prev = _running;
     if (prev->_state != FINISHING && prev->_id != 0) {
 
         prev->_state = READY;
         prev->_link.rank(std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count());
         //reinsira a thread que estava executando na fila de prontos
-        Thread::_ready.insert_tail(&prev->_link);
+        _ready.insert(&prev->_link);
     }
 
     //atualiza o ponteiro _running
-    Thread::_running = next;
+    _running = next;
     //atualiza o estado da próxima thread a ser executada
     next->_state = RUNNING;
     //troque o contexto entre as threads
@@ -140,27 +143,25 @@ int Thread::join() {
     db<Thread>(TRC) << "Thread [" << _running->id()  <<"] chamou join em [" << this->id() << "]\n";
 
     Thread * prev = _running;
-    this->_state = READY;   // Funciona pro trab, mas bloqueante pode n estar READY
+    this->_state = READY;
     this->_join_callee = prev;
     prev->suspend();
 
-    //prev ou this????
-    return prev->_exit_code;
-}
+    return _exit_code;
+};
 
 void Thread::suspend() {
     db<Thread>(TRC) << "Thread [" << this->_id << "] suspensa\n";
-    this->_state = SUSPENDED;
+    _state = SUSPENDED;
     _suspended.insert(&this->_link);
     yield();
-}
+};
 
 void Thread::resume() {
-    // Thread * thr_suspended = Thread::_suspended.remove()->object();
-    Thread::_suspended.remove(this);
+    _suspended.remove(this);
     db<Thread>(TRC) << "Thread [" << this->_id << "] resumindo execução\n";
-    _state = READY;
-    Thread::_ready.insert(&this->_link);
-}
+    this->_state = READY;
+    this->_ready.insert(&this->_link);
+};
 
 __END_API
