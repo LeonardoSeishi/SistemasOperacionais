@@ -171,9 +171,9 @@ void Thread::suspend() {
     _suspended.insert(&this->_link);
     if (_running == this) {
         yield();
-        return;
+    } else {
+        _ready.remove(this); 
     }
-    _ready.remove(this);
 }
 
 void Thread::resume() {
@@ -194,6 +194,7 @@ void Thread::wakeup() {
     db<Thread>(TRC) << "Thread [" << this->_id << "] acordou\n";
     _state = READY;
     _ready.insert(&this->_link);
+    yield();
 }
 
 __END_API

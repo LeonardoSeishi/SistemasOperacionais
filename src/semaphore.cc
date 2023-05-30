@@ -7,9 +7,9 @@ void Semaphore::p() {
     db<Semaphore>(TRC) << "Semaphore post: " << _counter << "\n";
     if (_counter == 0) {
         sleep();
-        return;
+    } else {
+        fdec(_counter);
     }
-    fdec(_counter);
     // if (fdec(_counter) < 0) {
     //     sleep();
     // }
@@ -17,9 +17,10 @@ void Semaphore::p() {
 
 void Semaphore::v() {
     db<Semaphore>(TRC) << "Semaphore free: " << _counter << "\n";
-    if (finc(_counter) < 1) {
+    if (_counter < 1) {
         wakeup();
     }
+    finc(_counter);
 }
 
 int Semaphore::finc(volatile int &number) {
@@ -42,7 +43,9 @@ void Semaphore::wakeup() {
     // Acorda próxima thread da fila
     if (_waiting_queue.size() != 0) {
         Thread *first = _waiting_queue.remove()->object();
+        db<Semaphore>(TRC) << "Wakeup [" << first->id() << "]\n";
         first->wakeup();
+        
     }
 }
 
