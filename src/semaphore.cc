@@ -4,29 +4,37 @@
 __BEGIN_API
 
 void Semaphore::p() {
-    if (fdec(_counter) < 0) {
+    db<Semaphore>(TRC) << "Semaphore post: " << _counter << "\n";
+    if (_counter == 0) {
         sleep();
+        return;
     }
+    fdec(_counter);
+    // if (fdec(_counter) < 0) {
+    //     sleep();
+    // }
 }
 
 void Semaphore::v() {
+    db<Semaphore>(TRC) << "Semaphore free: " << _counter << "\n";
     if (finc(_counter) < 1) {
         wakeup();
     }
 }
 
 int Semaphore::finc(volatile int &number) {
-    return 0;
+    return CPU::finc(number);
 }
 
 int Semaphore::fdec(volatile int &number) {
-    return 0;
+    return CPU::fdec(number);
 }
 
 void Semaphore::sleep() {
     Thread *sleep_thread = Thread::running();
     // Coloca a thread atual na fila de espera e deixa ela dormindo
-    _waiting_queue.insert(&sleep_thread->link());
+    Thread::Ready_Queue::Element link_ptr = sleep_thread->link();
+    _waiting_queue.insert(&link_ptr);
     sleep_thread->sleep();
 }
 
@@ -39,6 +47,7 @@ void Semaphore::wakeup() {
 }
 
 void Semaphore::wakeup_all() {
+    db<Semaphore>(TRC) << "Semaphore wake up all\n";
     // Acorda todas as threads na fila de espera
     while (_waiting_queue.size() > 0) {
         wakeup();

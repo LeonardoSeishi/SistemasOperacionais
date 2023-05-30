@@ -80,7 +80,7 @@ void Thread::init(void (*main)(void*)) {
  * Chama o escalonador para definir a próxima tarefa a ser executada.
  */
 void Thread::dispatcher() {
-    db<Thread>(TRC) << "Dispatcher executando.\n";
+    // db<Thread>(TRC) << "Dispatcher executando.\n";
     // Enquanto existir thread do usuario
     while (_counter > 2) {
         // Escolhe proxima thread a ser executada
@@ -93,7 +93,7 @@ void Thread::dispatcher() {
         // Atualiza o estado da proxima thread a ser executada
         first->_state = RUNNING;
         // Troca o contexto entre as duas threads
-        db<Thread>(TRC) << "Thread [" << first->_id <<"] executando.\n";
+        // db<Thread>(TRC) << "Thread [" << first->_id <<"] executando.\n";
         switch_context(&_dispatcher, first);
         // Testa se o estado da proxima thread eh FINISHING e caso afirmativo remove de _ready
         if (first->_state == FINISHING) {
@@ -115,7 +115,7 @@ void Thread::dispatcher() {
  */
 void Thread::yield() {
     //imprima informação usando o debug em nível TRC
-    db<Thread>(TRC) << "Thread [" << _running->id() << "] chamou yield\n";
+    // db<Thread>(TRC) << "Thread [" << _running->id() << "] chamou yield\n";
 
     // Checa se thread é bloqueante
     if (_running->_state == FINISHING && _running->_join_callee != nullptr) {
@@ -178,17 +178,14 @@ void Thread::resume() {
 }
 
 void Thread::sleep() {
-    db<Thread>(TRC) << "Thread [" << this->_id << "] esperando\n";
-    // Estado nunca vai ser finishing
+    db<Thread>(TRC) << "Thread [" << this->_id << "] dormindo\n";
+    // Thread que chamar sleep sempre será a running
     _state = WAITING;
-    // Se é a thread em execução escalona outra
-    if (_running == this) {
-        yield();
-    }
+    yield();
 }
 
 void Thread::wakeup() {
-    db<Thread>(TRC) << "Thread [" << this->_id << "] acordou da espera\n";
+    db<Thread>(TRC) << "Thread [" << this->_id << "] acordou\n";
     _state = READY;
     _ready.insert(&this->_link);
 }
