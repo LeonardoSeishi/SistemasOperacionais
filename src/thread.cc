@@ -37,13 +37,13 @@ int Thread::switch_context(Thread * prev, Thread * next) {
 
 void Thread::thread_exit(int exit_code) {
     _exit_code = exit_code;
-    _counter = _counter - 1;
+    //_counter = _counter - 1;
     // Modifica estado
     _state = FINISHING;
     // Resume execucao da thread que estava esperando
-    if (this->_join_callee != nullptr) {
-        this->_join_callee->resume();
-    }
+    //if (this->_join_callee != nullptr) {
+    //    this->_join_callee->resume();
+   // }
     // Sinaliza escalonador
     yield();
 }
@@ -177,10 +177,10 @@ void Thread::suspend() {
 }
 
 void Thread::resume() {
-    _suspended.remove(this);
-    db<Thread>(TRC) << "Thread [" << this->_id << "] resumindo execução\n";
-    this->_state = READY;
-    this->_ready.insert(&this->_link);
+    _suspended.remove(this->_running);
+    db<Thread>(TRC) << "Thread [" << this->_join_callee->_id << "] resumindo execução\n";
+    this->_join_callee->_state = READY;
+    this->_ready.insert(&this->_join_callee->_link);
 }
 
 void Thread::sleep() {
