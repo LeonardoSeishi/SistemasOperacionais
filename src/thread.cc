@@ -115,26 +115,32 @@ void Thread::dispatcher() {
  */
 void Thread::yield() {
     //imprima informação usando o debug em nível TRC
-    // db<Thread>(TRC) << "Thread [" << _running->id() << "] chamou yield\n";
+    //db<Thread>(TRC) << "Thread [" << _running->id() << "] chamou yield\n";
 
-    // Checa se thread é bloqueante
-    if (_running->_state == FINISHING && _running->_join_callee != nullptr) {
-        // Libera thread bloqueada
-        _running->_join_callee->resume();
+    Thread * prev = _running;
+
+    if (prev->_state == FINISHING && prev->_join_callee != nullptr) 
+    {
+        prev->resume();
     }
-    //escolha uma próxima thread a ser executada
+
     Thread * next = _ready.remove()->object();
+
 
     //atualiza a prioridade da tarefa que estava sendo executada (aquela que chamou yield) com o
     //timestamp atual, a fim de reinserí-la na fila de prontos atualizada (cuide de casos especiais, como
     //estado ser FINISHING ou Thread main que não devem ter suas prioridades alteradas)
-    Thread * prev = _running;
-    if (prev->_state != FINISHING && prev->_id != 0) {
-        prev->_state = READY;
-        prev->_link.rank(std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count());
+    if (prev->_state != FINISHING && prev->_state != SUSPENDED && prev->_state != WAITING && prev != &_main) 
+    {
+        // Atualiza a posição na lista
+        prev->_link.rank(std::chrono::duration_cast<std::chrono::microseconds>
+            (std::chrono::high_resolution_clock::now().time_since_epoch()).count());
+
         //reinsira a thread que estava executando na fila de prontos
+        prev->_state = READY;
         _ready.insert(&prev->_link);
     }
+
 
     //atualiza o ponteiro _running
     _running = next;
