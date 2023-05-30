@@ -38,6 +38,10 @@ void Thread::thread_exit(int exit_code) {
     _counter = _counter - 1;
     // Modifica estado
     _state = FINISHING;
+    // Resume execucao da thread que estava esperando
+    if (this->_join_callee != nullptr) {
+        this->_join_callee->resume();
+    }
     // Sinaliza escalonador
     yield();
 }
@@ -141,9 +145,12 @@ void Thread::yield() {
 
 int Thread::join() {
     db<Thread>(TRC) << "Thread [" << _running->id()  <<"] chamou join em [" << this->id() << "]\n";
+    if (this->_state == FINISHING) {
+        return _exit_code; 
+    }
     // Salva ponteiro de thread bloqueada em thread bloqueante
     Thread * prev = _running;
-    this->_state = READY;
+    // this->_state = READY;
     this->_join_callee = prev;
     // Suspende thread bloqueada
     prev->suspend();
@@ -155,7 +162,11 @@ void Thread::suspend() {
     db<Thread>(TRC) << "Thread [" << this->_id << "] suspensa\n";
     _state = SUSPENDED;
     _suspended.insert(&this->_link);
-    yield();
+    if (_running == this) {
+        yield();
+    } else {
+        _ready.remove(this);
+    }
 };
 
 void Thread::resume() {
