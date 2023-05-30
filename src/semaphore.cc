@@ -7,9 +7,8 @@ void Semaphore::p() {
     db<Semaphore>(TRC) << "Semaphore post: " << _counter << "\n";
     if (_counter == 0) {
         sleep();
-    } else {
-        fdec(_counter);
     }
+    fdec(_counter);
     // if (fdec(_counter) < 0) {
     //     sleep();
     // }
