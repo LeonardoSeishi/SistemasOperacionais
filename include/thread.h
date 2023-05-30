@@ -22,7 +22,8 @@ public:
         RUNNING,
         READY,
         FINISHING,
-        SUSPENDED
+        SUSPENDED,
+        WAITING
     };
 
     /*
@@ -106,13 +107,24 @@ public:
     ~Thread();
 
     /*
-     * Qualquer outro método que você achar necessário para a solução.
-     */
-
-    /*
      * Retorna o contexto
      */
     Context * context();
+
+    /*
+     * Retorna o link da thread
+    */
+    Ready_Queue::Element link();
+
+    /**
+     * Coloca thread pra dormir
+    */
+    void sleep();
+
+    /*
+     * Acorda thread
+    */
+    void wakeup();
 
 private:
     int _id = 0;

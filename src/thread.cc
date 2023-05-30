@@ -20,6 +20,8 @@ int Thread::_counter = 0;
 
 int Thread::id() { return Thread::_id; }
 
+Thread::Ready_Queue::Element Thread::link() { return Thread::_link; }
+
 Thread * Thread::running() { 
     return _running; 
 }
@@ -128,7 +130,6 @@ void Thread::yield() {
     //estado ser FINISHING ou Thread main que não devem ter suas prioridades alteradas)
     Thread * prev = _running;
     if (prev->_state != FINISHING && prev->_id != 0) {
-
         prev->_state = READY;
         prev->_link.rank(std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count());
         //reinsira a thread que estava executando na fila de prontos
@@ -156,7 +157,7 @@ int Thread::join() {
     prev->suspend();
 
     return _exit_code;
-};
+}
 
 void Thread::suspend() {
     db<Thread>(TRC) << "Thread [" << this->_id << "] suspensa\n";
@@ -164,16 +165,32 @@ void Thread::suspend() {
     _suspended.insert(&this->_link);
     if (_running == this) {
         yield();
-    } else {
-        _ready.remove(this);
+        return;
     }
-};
+    _ready.remove(this);
+}
 
 void Thread::resume() {
     _suspended.remove(this);
     db<Thread>(TRC) << "Thread [" << this->_id << "] resumindo execução\n";
     this->_state = READY;
     this->_ready.insert(&this->_link);
-};
+}
+
+void Thread::sleep() {
+    db<Thread>(TRC) << "Thread [" << this->_id << "] esperando\n";
+    // Estado nunca vai ser finishing
+    _state = WAITING;
+    // Se é a thread em execução escalona outra
+    if (_running == this) {
+        yield();
+    }
+}
+
+void Thread::wakeup() {
+    db<Thread>(TRC) << "Thread [" << this->_id << "] acordou da espera\n";
+    _state = READY;
+    _ready.insert(&this->_link);
+}
 
 __END_API
