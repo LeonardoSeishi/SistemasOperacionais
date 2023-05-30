@@ -177,7 +177,7 @@ void Thread::suspend() {
 }
 
 void Thread::resume() {
-    _suspended.remove(this->_running);
+    _suspended.remove(this->_join_callee);
     db<Thread>(TRC) << "Thread [" << this->_join_callee->_id << "] resumindo execução\n";
     this->_join_callee->_state = READY;
     this->_ready.insert(&this->_join_callee->_link);
