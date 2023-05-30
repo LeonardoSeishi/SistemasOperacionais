@@ -9,9 +9,6 @@ void Semaphore::p() {
         sleep();
     }
     fdec(_counter);
-    // if (fdec(_counter) < 0) {
-    //     sleep();
-    // }
 }
 
 void Semaphore::v() {

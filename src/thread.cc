@@ -151,14 +151,13 @@ void Thread::yield() {
 }
 
 int Thread::join() {
-    db<Thread>(TRC) << "Thread [" << _running->id()  <<"] chamou join em [" << this->id() << "]\n";
-    if (this->_state == FINISHING) {
+    db<Thread>(TRC) << "Thread [" << _running->id()  <<"] chamou join em [" << id() << "]\n";
+    if (_state == FINISHING) {
         return _exit_code; 
     }
     // Salva ponteiro de thread bloqueada em thread bloqueante
     Thread * prev = _running;
-    // this->_state = READY;
-    this->_join_callee = prev;
+    _join_callee = prev;
     // Suspende thread bloqueada
     prev->suspend();
 
@@ -166,10 +165,10 @@ int Thread::join() {
 }
 
 void Thread::suspend() {
-    db<Thread>(TRC) << "Thread [" << this->_id << "] suspensa\n";
+    db<Thread>(TRC) << "Thread [" << _id << "] suspensa\n";
     _state = SUSPENDED;
-    _suspended.insert(&this->_link);
-    if (_running == this) {
+    _suspended.insert(&_link);
+    if (this->_running == this) {
         yield();
     } else {
         _ready.remove(this); 
@@ -177,23 +176,23 @@ void Thread::suspend() {
 }
 
 void Thread::resume() {
-    _suspended.remove(this->_join_callee);
-    db<Thread>(TRC) << "Thread [" << this->_join_callee->_id << "] resumindo execução\n";
-    this->_join_callee->_state = READY;
-    this->_ready.insert(&this->_join_callee->_link);
+    db<Thread>(TRC) << "Thread [" << _join_callee->_id << "] resumindo execução\n";
+    _suspended.remove(_join_callee);
+    _join_callee->_state = READY;
+    _ready.insert(&_join_callee->_link);
 }
 
 void Thread::sleep() {
-    db<Thread>(TRC) << "Thread [" << this->_id << "] dormindo\n";
+    db<Thread>(TRC) << "Thread [" << _id << "] dormindo\n";
     // Thread que chamar sleep sempre será a running
     _state = WAITING;
     yield();
 }
 
 void Thread::wakeup() {
-    db<Thread>(TRC) << "Thread [" << this->_id << "] acordou\n";
+    db<Thread>(TRC) << "Thread [" << _id << "] acordou\n";
     _state = READY;
-    _ready.insert(&this->_link);
+    _ready.insert(&_link);
     yield();
 }
 
