@@ -41,8 +41,8 @@ void Thread::thread_exit(int exit_code) {
     // Modifica estado
     _state = FINISHING;
     // Resume execucao da thread que estava esperando
-    if (this->_join_callee != nullptr) {
-        this->_join_callee->resume();
+    if (_join_callee != nullptr) {
+        _join_callee->resume();
     }
     // Sinaliza escalonador
     yield();
@@ -115,17 +115,11 @@ void Thread::dispatcher() {
  */
 void Thread::yield() {
     //imprima informação usando o debug em nível TRC
-    //db<Thread>(TRC) << "Thread [" << _running->id() << "] chamou yield\n";
+    db<Thread>(TRC) << "Thread [" << _running->id() << "] chamou yield\n";
 
     Thread * prev = _running;
 
-    //if (prev->_state == FINISHING && prev->_join_callee != nullptr) 
-    //{
-    //    prev->resume();
-    //}
-
     Thread * next = _ready.remove()->object();
-
 
     //atualiza a prioridade da tarefa que estava sendo executada (aquela que chamou yield) com o
     //timestamp atual, a fim de reinserí-la na fila de prontos atualizada (cuide de casos especiais, como
@@ -165,45 +159,37 @@ int Thread::join() {
     return _exit_code;
 }
 
-/*void Thread::suspend() {
-    db<Thread>(TRC) << "Thread [" << this->_id << "] suspensa\n";
-    _state = SUSPENDED;
-    _suspended.insert(&this->_link);
-    _ready.remove(this); 
-    if (_running == this) {
-        yield();
-    }
-}*/
-
 void Thread::suspend() {
-    db<Thread>(TRC) << "Thread [" << _id << "] suspensa\n";
+    db<Thread>(TRC) << "Thread [" << id() << "] suspensa\n";
+    
+    if (_state == READY) {
+        _ready.remove(this);
+    }
     _state = SUSPENDED;
-    _suspended.insert(&this->_link);
-    if (_state)
-    _ready.remove(this);
+    _suspended.insert(&_link);
     if (_running == this) {
         yield();
     }
 }
 
 void Thread::resume() {
+    db<Thread>(TRC) << "Thread [" << id() << "] resumindo execução\n";
     _suspended.remove(this);
-    db<Thread>(TRC) << "Thread [" << this->_id << "] resumindo execução\n";
-    this->_state = READY;
-    this->_ready.insert(&this->_link);
+    _state = READY;
+    _ready.insert(&_link);
 }
 
 void Thread::sleep() {
-    db<Thread>(TRC) << "Thread [" << this->_id << "] dormindo\n";
+    db<Thread>(TRC) << "Thread [" << id() << "] dormindo\n";
     // Thread que chamar sleep sempre será a running
     _state = WAITING;
     yield();
 }
 
 void Thread::wakeup() {
-    db<Thread>(TRC) << "Thread [" << this->_id << "] acordou\n";
+    db<Thread>(TRC) << "Thread [" << id() << "] acordou\n";
     _state = READY;
-    _ready.insert(&this->_link);
+    _ready.insert(&_link);
     yield();
 }
 

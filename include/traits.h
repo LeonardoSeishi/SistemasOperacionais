@@ -32,10 +32,10 @@ template<> struct Traits<CPU>
 template<> 
 struct Traits<Debug>: public Traits<void>
 {
-    static const bool error = false;
+    static const bool error = true;
     static const bool warning = false;
-    static const bool info = false;
-    static const bool trace = false;
+    static const bool info = true;
+    static const bool trace = true;
 };
 
 template<>
@@ -54,7 +54,7 @@ struct Traits<Thread>: public Traits<void>
 template<>
 struct Traits<Lists>: public Traits<void>
 {
-    static const bool debugged = true;
+    static const bool debugged = false;
 
 };
 
