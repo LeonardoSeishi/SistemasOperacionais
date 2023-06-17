@@ -1,5 +1,6 @@
 #include "../include/thread.h"
 #include "../include/cpu.h"
+#include "../include/semaphore.h"
 #include <iostream>
 #include <chrono>
 
@@ -13,12 +14,16 @@ Thread Thread::_dispatcher;
 Thread::Ready_Queue Thread::_ready;
 Thread::Ready_Queue Thread::_suspended;
 
+Semaphore::Waiting_Queue _waiting_queue;  //!!!!!! nao sei se eh certo fazer isso
+
 int Thread::_counter = 0;
 
 
 // FUNÇÕES
 
 int Thread::id() { return Thread::_id; }
+
+Thread::Ready_Queue::Element Thread::link() { return Thread::_link; }
 
 Thread * Thread::running() { 
     return _running; 
@@ -39,8 +44,8 @@ void Thread::thread_exit(int exit_code) {
     // Modifica estado
     _state = FINISHING;
     // Resume execucao da thread que estava esperando
-    if (this->_join_callee != nullptr) {
-        this->_join_callee->resume();
+    if (_join_callee != nullptr) {
+        _join_callee->resume();
     }
     // Sinaliza escalonador
     yield();
@@ -50,12 +55,19 @@ CPU::Context * Thread::context() { return _context; };
 
 Thread::~Thread() {
     db<Thread>(TRC) << "Thread [" << id() << "] removida.\n";
+
     // Remove thread da fila de prontos
     _ready.remove(this);
-    if(_context) {
-        delete _context;
-        
+
+    // Se a thread esta dormindo na fila do semaforo
+    if (_state == WAITING) {
+        _waiting_queue.remove(this); 
     }
+
+    if(_context) {
+        delete _context;     
+    }
+    
 }
 
 void Thread::init(void (*main)(void*)) {
@@ -78,7 +90,7 @@ void Thread::init(void (*main)(void*)) {
  * Chama o escalonador para definir a próxima tarefa a ser executada.
  */
 void Thread::dispatcher() {
-    db<Thread>(TRC) << "Dispatcher executando.\n";
+    // db<Thread>(TRC) << "Dispatcher executando.\n";
     // Enquanto existir thread do usuario
     while (_counter > 2) {
         // Escolhe proxima thread a ser executada
@@ -91,7 +103,7 @@ void Thread::dispatcher() {
         // Atualiza o estado da proxima thread a ser executada
         first->_state = RUNNING;
         // Troca o contexto entre as duas threads
-        db<Thread>(TRC) << "Thread [" << first->_id <<"] executando.\n";
+        // db<Thread>(TRC) << "Thread [" << first->_id <<"] executando.\n";
         switch_context(&_dispatcher, first);
         // Testa se o estado da proxima thread eh FINISHING e caso afirmativo remove de _ready
         if (first->_state == FINISHING) {
@@ -115,25 +127,24 @@ void Thread::yield() {
     //imprima informação usando o debug em nível TRC
     db<Thread>(TRC) << "Thread [" << _running->id() << "] chamou yield\n";
 
-    // Checa se thread é bloqueante
-    if (_running->_state == FINISHING && _running->_join_callee != nullptr) {
-        // Libera thread bloqueada
-        _running->_join_callee->resume();
-    }
-    //escolha uma próxima thread a ser executada
+    Thread * prev = _running;
+
     Thread * next = _ready.remove()->object();
 
     //atualiza a prioridade da tarefa que estava sendo executada (aquela que chamou yield) com o
     //timestamp atual, a fim de reinserí-la na fila de prontos atualizada (cuide de casos especiais, como
     //estado ser FINISHING ou Thread main que não devem ter suas prioridades alteradas)
-    Thread * prev = _running;
-    if (prev->_state != FINISHING && prev->_id != 0) {
+    if (prev->_state != FINISHING && prev->_state != SUSPENDED && prev->_state != WAITING && prev != &_main) 
+    {
+        // Atualiza a posição na lista
+        prev->_link.rank(std::chrono::duration_cast<std::chrono::microseconds>
+            (std::chrono::high_resolution_clock::now().time_since_epoch()).count());
 
-        prev->_state = READY;
-        prev->_link.rank(std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count());
         //reinsira a thread que estava executando na fila de prontos
+        prev->_state = READY;
         _ready.insert(&prev->_link);
     }
+
 
     //atualiza o ponteiro _running
     _running = next;
@@ -144,36 +155,59 @@ void Thread::yield() {
 }
 
 int Thread::join() {
-    db<Thread>(TRC) << "Thread [" << _running->id()  <<"] chamou join em [" << this->id() << "]\n";
-    if (this->_state == FINISHING) {
+    db<Thread>(TRC) << "Thread [" << _running->id()  <<"] chamou join em [" << id() << "]\n";
+    if (_state == FINISHING) {
         return _exit_code; 
     }
     // Salva ponteiro de thread bloqueada em thread bloqueante
     Thread * prev = _running;
     // this->_state = READY;
-    this->_join_callee = prev;
+    _join_callee = prev;
     // Suspende thread bloqueada
     prev->suspend();
 
     return _exit_code;
-};
+}
 
 void Thread::suspend() {
-    db<Thread>(TRC) << "Thread [" << this->_id << "] suspensa\n";
-    _state = SUSPENDED;
-    _suspended.insert(&this->_link);
-    if (_running == this) {
-        yield();
-    } else {
+    db<Thread>(TRC) << "Thread [" << id() << "] suspensa\n";
+    
+    if (_state == READY) {
         _ready.remove(this);
     }
-};
+    _state = SUSPENDED;
+    _suspended.insert(&_link);
+    if (_running == this) {
+        yield();
+    }
+}
 
 void Thread::resume() {
+    db<Thread>(TRC) << "Thread [" << id() << "] resumindo execução\n";
     _suspended.remove(this);
-    db<Thread>(TRC) << "Thread [" << this->_id << "] resumindo execução\n";
-    this->_state = READY;
-    this->_ready.insert(&this->_link);
-};
+    _state = READY;
+    _ready.insert(&_link);
+}
+
+void Thread::sleep() {
+    db<Thread>(TRC) << "Thread [" << id() << "] dormindo\n";
+    // Thread que chamar sleep sempre será a running
+
+    // Operações deveriam ter sido não é implementada na Thread (-1) 
+    // Coloca a thread atual na fila de espera e deixa ela dormindo !!!!!!!!!!!!
+    //Ready_Queue::Element link_ptr = link();
+    //_waiting_queue.insert(&link_ptr);
+
+    //muda o estado da thread
+    _state = WAITING;
+    yield();
+}
+
+void Thread::wakeup() {
+    db<Thread>(TRC) << "Thread [" << id() << "] acordou\n";
+    _state = READY;
+    _ready.insert(&_link);
+    yield();
+}
 
 __END_API
