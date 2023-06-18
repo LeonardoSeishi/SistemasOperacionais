@@ -17,6 +17,7 @@ protected:
     typedef CPU::Context Context;
 public:
     typedef Ordered_List<Thread> Ready_Queue;
+    typedef Ordered_List<Thread> Waiting_Queue;
 
     // Thread State
     enum State {
@@ -120,12 +121,12 @@ public:
     /**
      * Coloca thread pra dormir
     */
-    void sleep(); //nao sei se esta certo ainda
+    static void sleep(Waiting_Queue _waiting_queue); //nao sei se esta certo ainda
 
     /*
      * Acorda thread
     */
-    void wakeup();
+    static void wakeup(Waiting_Queue _waiting_queue);
 
 private:
     int _id = 0;
@@ -137,6 +138,7 @@ private:
     volatile State _state;
     static Ready_Queue _ready;
     static Ready_Queue _suspended;
+    Waiting_Queue _waiting;
     Ready_Queue::Element _link;
     // Nossos parâmetros
     int _exit_code;

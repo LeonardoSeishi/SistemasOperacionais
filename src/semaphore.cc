@@ -29,19 +29,14 @@ int Semaphore::fdec(volatile int &number) {
 }
 
 void Semaphore::sleep() {
-    Thread *sleep_thread = Thread::running();
-    Thread::Ready_Queue::Element link_ptr = sleep_thread->link();
-    _waiting_queue.insert(&link_ptr);
-    sleep_thread->sleep();
+    //Thread::Ready_Queue::Element link_ptr = sleep_thread->link();
+    //_waiting_queue.insert(&link_ptr);
+    Thread::sleep(_waiting_queue);
 }
 
 void Semaphore::wakeup() {
     // Acorda próxima thread da fila
-    if (_waiting_queue.size() != 0) {
-        Thread *first = _waiting_queue.remove()->object();
-        first->wakeup();
-        
-    }
+    Thread::wakeup(_waiting_queue);
 }
 
 void Semaphore::wakeup_all() {

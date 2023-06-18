@@ -39,11 +39,13 @@ void Window::run()
             
             // key pressed
             case sf::Event::KeyPressed:
+                //to fazendo assim o pause apenas pra testar, seria melhor se a gente
+                //colocasse todas as threads para dormir
                 if (!game_control->paused()) {
                     if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
                         std::cout << "Pausa!" << std::endl;
-                        game_control->pause();
                         //pausar o jogo 
+                        game_control->pause();
                     } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
                         std::cout << "Keyboard esquerda!" << std::endl;
                         player->move_left();
@@ -63,6 +65,11 @@ void Window::run()
                         std::cout << "shoot!" << std::endl;
                         //atirar
                         //new Thread ????
+                    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
+                        std::cout << "reiniciar!" << std::endl;
+                        //reiniciar
+                        game_control->restart();
+
                     } else {
                         std::cout << "Keyboard pressed = " << event.key.code << std::endl;
                     break;
@@ -71,8 +78,8 @@ void Window::run()
                 } else {
                     if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
                         std::cout << "Pausa!" << std::endl;
-                        game_control->pause();
                         //despausar
+                        game_control->pause();
                     } else {
                         std::cout << "Keyboard pressed = " << event.key.code << std::endl;
                     break;}

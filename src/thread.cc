@@ -189,25 +189,33 @@ void Thread::resume() {
     _ready.insert(&_link);
 }
 
-void Thread::sleep() {
-    db<Thread>(TRC) << "Thread [" << id() << "] dormindo\n";
-    // Thread que chamar sleep sempre será a running
+void Thread::sleep(Waiting_Queue _waiting_queue) {
+    db<Thread>(TRC) << "Thread [" << _running->id() << "] dormindo\n";
 
-    // Operações deveriam ter sido não é implementada na Thread (-1) 
+    _running->_waiting = _waiting_queue;
+
     // Coloca a thread atual na fila de espera e deixa ela dormindo !!!!!!!!!!!!
-    //Ready_Queue::Element link_ptr = link();
-    //_waiting_queue.insert(&link_ptr);
+    Ready_Queue::Element link_ptr = _running->link();
+    _waiting_queue.insert(&link_ptr);
 
     //muda o estado da thread
-    _state = WAITING;
+    _running->_state = WAITING;
     yield();
 }
 
-void Thread::wakeup() {
-    db<Thread>(TRC) << "Thread [" << id() << "] acordou\n";
-    _state = READY;
-    _ready.insert(&_link);
+void Thread::wakeup(Waiting_Queue _waiting_queue) {
+    db<Thread>(TRC) << "Thread [" << _running->id() << "] acordou\n";
+
+    //if (_waiting_queue.size() != 0) {
+    Thread *first = _waiting_queue.remove()->object();
+    first->_state = READY;
+    first->_ready.insert(&first->_link);
+
+    db<Thread>(TRC) << "Thread [" << first->id() << "] acordou\n";
+
     yield();
+    //}
+
 }
 
 __END_API

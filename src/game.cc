@@ -23,6 +23,7 @@ void Game::restart() {
     _score = 0;
     _speed = 1;
     _eliminations = 0;
+    _paused = false;
     //outras coisas
 }
 
