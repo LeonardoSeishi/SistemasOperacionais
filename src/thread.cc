@@ -21,7 +21,7 @@ int Thread::_counter = 0;
 
 // FUNÇÕES
 
-int Thread::id() { return Thread::_id; }
+int Thread::id() { return _id; }
 
 Thread::Ready_Queue::Element Thread::link() { return Thread::_link; }
 
@@ -67,7 +67,7 @@ Thread::~Thread() {
     if(_context) {
         delete _context;     
     }
-    
+
 }
 
 void Thread::init(void (*main)(void*)) {

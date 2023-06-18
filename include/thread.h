@@ -5,6 +5,7 @@
 #include "traits.h"
 #include "debug.h"
 #include "list.h"
+#include "semaphore.h"
 #include <ctime>
 #include <chrono>
 
@@ -119,7 +120,7 @@ public:
     /**
      * Coloca thread pra dormir
     */
-    void sleep();
+    void sleep(); //nao sei se esta certo ainda
 
     /*
      * Acorda thread
