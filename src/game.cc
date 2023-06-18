@@ -1,12 +1,9 @@
 #include "../include/game.h"
 
-Game::Game() {
 
-}
+/*Game::~Game() {
 
-Game::~Game() {
-
-}
+}*/
 
 void Game::kill(/**/) { //passar nave inimiga como parameto para destruila???
     //delete EnemyShip
@@ -26,10 +23,19 @@ void Game::restart() {
     _score = 0;
     _speed = 1;
     _eliminations = 0;
+    //outras coisas
+}
 
+void Game::pause() {
+    if (paused()) {
+        _paused = false;
+    } else {
+        _paused = true;
+    }
 }
 
 //gets e sets
+bool Game::paused() { return _paused;}
 unsigned int Game::speed() {return _speed;}
 unsigned int Game::score() {return _score;}
 unsigned int Game::eliminations() {return _eliminations;}

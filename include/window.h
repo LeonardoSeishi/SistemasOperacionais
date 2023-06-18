@@ -1,10 +1,14 @@
 #ifndef window_h
 #define window_h
 
-#include "game.h"
 #include <iostream>
 #include <png.h>
 #include <SFML/Graphics.hpp>
+
+#include "game.h"
+#include "thread.h"
+#include "spaceship.h"
+#include "semaphore.h"
 
 class Window
 {
@@ -25,6 +29,8 @@ do que jeito que esta aqui, todos os inimigos terao a mesma imagem
 tirando a independencia deles
 */
 private:
+    //static Thread * spaceships[5];
+    //static Semaphore * sem;
 
     // Maze Texture
     sf::Texture maze_tex;

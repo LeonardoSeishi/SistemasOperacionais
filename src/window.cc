@@ -1,8 +1,5 @@
 #include "../include/window.h"
-#include "../include/semaphore.h"
-#include "../include/thread.h"
-#include "../include/spaceship.h"
-#include "../include/game.h"
+
 //#include "../include/space.h"
 
 
@@ -24,8 +21,12 @@ void Window::run()
     window.setKeyRepeatEnabled(false);
 
     PlayerShip * player = new PlayerShip(220, 365);
+    Game * game_control = new Game(1); //level 1
 
 
+    //spaceships[0] = new Thread(, "player", 0);
+    //spaceships[1] = new Thread(enemy_movement);
+    //spaceships[2] = new Thread(enemy_movement_);
     while (window.isOpen())
     {
         sf::Event event;
@@ -38,32 +39,44 @@ void Window::run()
             
             // key pressed
             case sf::Event::KeyPressed:
-                if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-                    std::cout << "Keyboard esquerda!" << std::endl;
-                    player->move_left();
-                } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-                    std::cout << "Keyboard direita!" << std::endl;
-                    player->move_right();
-                } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-                    std::cout << "Keyboard para baixo!" << std::endl;
-                    player->move_down();
-                } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-                    std::cout << "Keyboard para cima!" << std::endl;
-                    player->move_up();
-                } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
-                    std::cout << "Pausa!" << std::endl;
-                    //pausar o jogo 
-                } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-                    std::cout << "Close Game!" << std::endl;
-                    //sair do jogo 
-                } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-                    std::cout << "shoot!" << std::endl;
-                    //
+                if (!game_control->paused()) {
+                    if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+                        std::cout << "Pausa!" << std::endl;
+                        game_control->pause();
+                        //pausar o jogo 
+                    } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+                        std::cout << "Keyboard esquerda!" << std::endl;
+                        player->move_left();
+                    } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+                        std::cout << "Keyboard direita!" << std::endl;
+                        player->move_right();
+                    } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+                        std::cout << "Keyboard para baixo!" << std::endl;
+                        player->move_down();
+                    } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+                        std::cout << "Keyboard para cima!" << std::endl;
+                        player->move_up();
+                    } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+                        std::cout << "Close Game!" << std::endl;
+                        //sair do jogo 
+                    } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+                        std::cout << "shoot!" << std::endl;
+                        //atirar
+                        //new Thread ????
+                    } else {
+                        std::cout << "Keyboard pressed = " << event.key.code << std::endl;
+                    break;
+                    }   
+                //gambiarra
                 } else {
-                    std::cout << "Keyboard pressed = " << event.key.code << std::endl;
-                break;
+                    if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+                        std::cout << "Pausa!" << std::endl;
+                        game_control->pause();
+                        //despausar
+                    } else {
+                        std::cout << "Keyboard pressed = " << event.key.code << std::endl;
+                    break;}
                 }
-            
             }
         }
 
@@ -91,9 +104,13 @@ void Window::run()
         enemy_ship_sprite.setPosition(245, 150);
         window.draw(enemy_ship_sprite);
 
+
+
         shot_sprite.setPosition(204, 400);
         window.draw(shot_sprite);
         
+
+
         window.display();
     }
 }
@@ -133,3 +150,8 @@ void Window::load_and_bind_textures()
     enemy_ship_sprite.setTexture(enemy_ship_tex);
     enemy_ship_sprite.scale(-0.5, -0.5);
 }
+
+
+//void enemy_movement(){}
+
+//static void enemy_movement(){}
