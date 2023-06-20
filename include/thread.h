@@ -121,12 +121,12 @@ public:
     /**
      * Coloca thread pra dormir
     */
-    static void sleep(Waiting_Queue _waiting_queue); //nao sei se esta certo ainda
+    static void sleep(Waiting_Queue * waiting_queue);
 
     /*
      * Acorda thread
     */
-    static void wakeup(Waiting_Queue _waiting_queue);
+    static void wakeup(Waiting_Queue * waiting_queue);
 
 private:
     int _id = 0;
@@ -138,9 +138,9 @@ private:
     volatile State _state;
     static Ready_Queue _ready;
     static Ready_Queue _suspended;
-    Waiting_Queue _waiting;
     Ready_Queue::Element _link;
     // Nossos parâmetros
+    Waiting_Queue * _waiting;
     int _exit_code;
     static int _counter;
     // Ponteiro para thread que está esperando(bloqueada)

@@ -1,6 +1,5 @@
 #include "../include/thread.h"
 #include "../include/cpu.h"
-#include "../include/semaphore.h"
 #include <iostream>
 #include <chrono>
 
@@ -14,14 +13,12 @@ Thread Thread::_dispatcher;
 Thread::Ready_Queue Thread::_ready;
 Thread::Ready_Queue Thread::_suspended;
 
-Semaphore::Waiting_Queue _waiting_queue;  //!!!!!! nao sei se eh certo fazer isso
-
 int Thread::_counter = 0;
 
 
 // FUNÇÕES
 
-int Thread::id() { return _id; }
+int Thread::id() { return Thread::_id; }
 
 Thread::Ready_Queue::Element Thread::link() { return Thread::_link; }
 
@@ -55,19 +52,16 @@ CPU::Context * Thread::context() { return _context; };
 
 Thread::~Thread() {
     db<Thread>(TRC) << "Thread [" << id() << "] removida.\n";
-
     // Remove thread da fila de prontos
-    _ready.remove(this);
-
-    // Se a thread esta dormindo na fila do semaforo
     if (_state == WAITING) {
-        _waiting_queue.remove(this); 
+        _waiting->remove(this);
     }
 
+    _ready.remove(this);
     if(_context) {
-        delete _context;     
+        delete _context;
+        
     }
-
 }
 
 void Thread::init(void (*main)(void*)) {
@@ -189,33 +183,33 @@ void Thread::resume() {
     _ready.insert(&_link);
 }
 
-void Thread::sleep(Waiting_Queue _waiting_queue) {
-    db<Thread>(TRC) << "Thread [" << _running->id() << "] dormindo\n";
+void Thread::sleep(Waiting_Queue * waiting_queue) {
+    db<Thread>(TRC) << "Thread [" << running()->id() << "] dormindo\n";
 
-    _running->_waiting = _waiting_queue;
+    running()->_waiting = waiting_queue;
 
-    // Coloca a thread atual na fila de espera e deixa ela dormindo !!!!!!!!!!!!
-    Ready_Queue::Element link_ptr = _running->link();
-    _waiting_queue.insert(&link_ptr);
+    Thread * sleep_thread = running();
+    Thread::Ready_Queue::Element link_ptr = sleep_thread->link();
+    running()->_waiting->insert(&link_ptr);
+
 
     //muda o estado da thread
-    _running->_state = WAITING;
+    running()->_state = WAITING;
     yield();
 }
 
-void Thread::wakeup(Waiting_Queue _waiting_queue) {
-    db<Thread>(TRC) << "Thread [" << _running->id() << "] acordou\n";
 
-    //if (_waiting_queue.size() != 0) {
-    Thread *first = _waiting_queue.remove()->object();
-    first->_state = READY;
-    first->_ready.insert(&first->_link);
+void Thread::wakeup(Waiting_Queue *waiting_queue) {
 
-    db<Thread>(TRC) << "Thread [" << first->id() << "] acordou\n";
+    Thread *next = waiting_queue->remove()->object();
+    if (next != nullptr) {
+        next->_state = READY;
+        next->_ready.insert(&next->_link);
 
-    yield();
-    //}
+        db<Thread>(TRC) << "Thread [" << next->id() << "] acordou\n";
 
+        yield();
+    } 
 }
 
 __END_API

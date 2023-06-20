@@ -1,5 +1,4 @@
 #include "../include/semaphore.h"
-#include "../include/cpu.h"
 #include <iostream>
 
 __BEGIN_API
@@ -29,14 +28,14 @@ int Semaphore::fdec(volatile int &number) {
 }
 
 void Semaphore::sleep() {
-    //Thread::Ready_Queue::Element link_ptr = sleep_thread->link();
-    //_waiting_queue.insert(&link_ptr);
-    Thread::sleep(_waiting_queue);
+
+    Thread::sleep(&_waiting_queue);
 }
 
+
 void Semaphore::wakeup() {
-    // Acorda próxima thread da fila
-    Thread::wakeup(_waiting_queue);
+
+    Thread::wakeup(&_waiting_queue);
 }
 
 void Semaphore::wakeup_all() {
@@ -45,6 +44,7 @@ void Semaphore::wakeup_all() {
     while (_waiting_queue.size() > 0) {
         wakeup();
     }
-}       
+}
+
 
 __END_API
