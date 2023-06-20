@@ -14,6 +14,11 @@ class Debug;
 class System;
 class Thread;
 class Lists;
+class Game;
+class PlayerShip;
+class Input;
+class EnemyShip;
+class GameWindow;
 
 //declaração da classe Traits
 template<typename T>

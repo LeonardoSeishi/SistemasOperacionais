@@ -1,10 +1,13 @@
 #ifndef spaceship_h
 #define spaceship_h
 
+#include <SFML/Graphics.hpp>
 #include "game_entity.h"
 #include "window.h"
-#include <SFML/Graphics.hpp>
+#include "traits.h"
+#include "semaphore.h"
 
+__BEGIN_API
 
 class Spaceship: public GameEntity
 {
@@ -20,24 +23,20 @@ public:
 
     void shoot();
 
+    sf::Sprite* getSprite();
+
+    sf::Texture* getTexture();
+
+private:
+    sf::Sprite* shipSprite;
+    sf::Texture* shipTexture;
 };
 
 
 class EnemyShip: public Spaceship 
 {
 public:
-    EnemyShip(unsigned int x, unsigned int y, unsigned int speed){
-        _x = x;
-        _y = y;
-        /*calcular a direction dependendo de qual parede ele ira surgir
-        if (_y < 0 && _x > 0 && _x < parede_direita) {
-            _direction = DOWN;
-        } else if (_y > valor_chao && _x > 0 && _x < parede_direita) {
-            _direction = UP;
-        } else if ...
-        */
-       _speed = speed;
-    }
+    EnemyShip(unsigned int x, unsigned int y, unsigned int speed);
 
     ~EnemyShip();
 
@@ -55,15 +54,7 @@ private:
 class PlayerShip: public Spaceship 
 {
 public:
-    PlayerShip(int x, int y){
-        _health = 3;
-        _direction = UP;
-        _speed = 10;
-        //* meio da tela
-        _x = x;
-        _y = y;
-        //*/
-    }
+    PlayerShip(int x, int y);
 
     ~PlayerShip();
 
@@ -78,6 +69,6 @@ private:
 
 };
 
-
+__END_API
 
 #endif
