@@ -27,6 +27,7 @@ public:
 
     void endGame();
 
+    void startGame();
 
     //gets e sets
     bool paused();

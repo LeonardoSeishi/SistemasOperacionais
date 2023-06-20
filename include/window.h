@@ -16,9 +16,15 @@ class GameWindow
 public:
     GameWindow();
 
-    void run();
+    ~GameWindow();
 
-    void draw_texture(sf::Sprite* sprite, int length, int height, float angle);
+    static void run(sf::RenderWindow* window, sf::Sprite* sprite);
+
+    static void draw_texture(sf::RenderWindow* window, sf::Sprite* sprite, int x, int y, float angle);
+
+    static void init();
+
+    static Semaphore sem;
 
 private:
     void load_and_bind_textures();
@@ -31,8 +37,8 @@ tirando a independencia deles
 */
 private:
     //static Thread * spaceships[5];
-    //static Semaphore * sem;
-
+    sf::RenderWindow* game_window;
+    Thread* _render_thread;
     // Maze Texture
     sf::Texture maze_tex;
     sf::Sprite maze_sprite;

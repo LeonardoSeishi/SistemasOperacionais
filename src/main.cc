@@ -4,9 +4,12 @@
 __USING_API
 int main(void)
 {
-    GameWindow* window = new GameWindow();
+    // GameWindow* window = new GameWindow();
+    Game* game = new Game();
+    game->startGame();
+    
 
-    window->run();
+    // window->run();
 
     return 0;
 }

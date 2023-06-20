@@ -73,6 +73,11 @@ void Game::endGame() {
     return;
 }
 
+void Game::startGame() {
+    GameWindow::init();
+    // Inicializa threads do jogo
+}
+
 //gets e sets
 bool Game::paused() { return _paused;}
 unsigned int Game::getSpeed() {return speed;}

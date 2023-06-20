@@ -6,28 +6,43 @@ __BEGIN_API
 
 GameWindow::GameWindow()
 {
+    game_window = new sf::RenderWindow(sf::VideoMode(900, 560), "SFML works!");
+    game_window->setKeyRepeatEnabled(false);
     load_and_bind_textures();
+    
+    _render_thread = new Thread(run, game_window, &maze_sprite);
 }
 
-void GameWindow::draw_texture(sf::Sprite* sprite, int length, int height, float angle)
-{
+GameWindow::~GameWindow() {
+    // humm?
+    delete game_window;
 }
 
-void GameWindow::run()
+void GameWindow::init() {
+    // new (&sem) Semaphore(1);
+    // new (&_render_thread) Thread(run);
+}
+
+void GameWindow::draw_texture(sf::RenderWindow* window, sf::Sprite* sprite, int x, int y, float angle)
 {
-    sf::RenderWindow window(sf::VideoMode(900, 560), "SFML works!");
+    sprite->setPosition(x, y);
+    sprite->setRotation(angle);
+    window->draw(*sprite);
+}
+
+void GameWindow::run(sf::RenderWindow* window, sf::Sprite* sprite)
+{
 
     //Link: https://www.sfml-dev.org/tutorials/2.5/window-events.php
     //https://www.sfml-dev.org/documentation/2.5.1/classsf_1_1Keyboard.php
-    window.setKeyRepeatEnabled(false);
-
-    while (window.isOpen())
+    while (window->isOpen())
     {
 
-        window.clear();
-        window.draw(maze_sprite);
-
-        window.display();
+        // game_window->clear();
+        window->draw(*sprite);
+        // Espera threads das naves e tiros
+        std::cout << "run da window\n";
+        window->display();
     }
 }
 
