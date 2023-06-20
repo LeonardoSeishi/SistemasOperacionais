@@ -1,11 +1,12 @@
 #ifndef spaceship_h
 #define spaceship_h
 
+#include "game_entity.h"
 #include "window.h"
 #include <SFML/Graphics.hpp>
 
 
-class Spaceship 
+class Spaceship: public GameEntity
 {
 public:
 
