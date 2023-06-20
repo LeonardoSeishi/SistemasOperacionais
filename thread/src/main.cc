@@ -1,5 +1,5 @@
 #include "../include/traits.h"
-#include "../include/window.h"
+#include "../../game/include/window.h"
 
 __USING_API
 int main(void)
