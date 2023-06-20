@@ -15,22 +15,22 @@ void Input::prun()
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
         {
             std::cout << "Keyboard esquerda!" << std::endl;
-            player->move_left();
+            player->move(Spaceship::Direction::LEFT);
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
         {
             std::cout << "Keyboard direita!" << std::endl;
-            player->move_right();
+            player->move(Spaceship::Direction::RIGHT);
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
         {
             std::cout << "Keyboard para baixo!" << std::endl;
-            player->move_down();
+            player->move(Spaceship::Direction::DOWN));
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
         {
             std::cout << "Keyboard para cima!" << std::endl;
-            player->move_up();
+            player->move(Spaceship::Direction::UP));
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
         {

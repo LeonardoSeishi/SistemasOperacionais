@@ -13,13 +13,7 @@ class Spaceship: public GameEntity
 {
 public:
 
-    void move_up();
-
-    void move_down();
-    
-    void move_left();
-    
-    void move_right();
+    void move(Spaceship::Direction);
 
     void shoot();
 

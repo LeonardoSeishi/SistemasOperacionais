@@ -2,36 +2,33 @@
 
 __BEGIN_API
 
-void Spaceship::move_up() {
-    unsigned int new_y = y() - speed();
-    set_position(x(), new_y);
-    _direction = UP;
-    sf::Sprite *sprite = getSprite();
-    sprite->setPosition(x(), new_y);
-}
 
-void Spaceship::move_down() {
-    unsigned int new_y = y() + speed();
-    set_position(x(), new_y);
-    _direction = DOWN;
-    sf::Sprite *sprite = getSprite();
-    sprite->setPosition(x(), new_y);
-}
+void Spaceship::move(Spaceship::Direction direction) {
+    unsigned int new_x = x();
+    unsigned int new_y = y();
 
-void Spaceship::move_left() {
-    unsigned int new_x = x() - speed();
-    set_position(new_x, y());
-    _direction = LEFT;
-    sf::Sprite *sprite = getSprite();
-    sprite->setPosition(new_x, y());
-}
+    switch (direction) {
+        case UP:
+            new_y -= speed();
+            _direction = UP;
+            break;
+        case DOWN:
+            new_y += speed();
+            _direction = DOWN;
+            break;
+        case LEFT:
+            new_x -= speed();
+            _direction = LEFT;
+            break;
+        case RIGHT:
+            new_x += speed();
+            _direction = RIGHT;
+            break;
+    }
 
-void Spaceship::move_right() {
-    unsigned int new_x = x() + speed();
-    set_position(new_x, y());
-    _direction = RIGHT;
+    set_position(new_x, new_y);
     sf::Sprite *sprite = getSprite();
-    sprite->setPosition(new_x, y());
+    sprite->setPosition(new_x, new_y);
 }
 
 void Spaceship::shoot() {
