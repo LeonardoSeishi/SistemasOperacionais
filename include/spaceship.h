@@ -10,13 +10,6 @@ class Spaceship: public GameEntity
 {
 public:
 
-    enum Direction {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT
-    };
-
     void move_up();
 
     void move_down();
@@ -27,23 +20,6 @@ public:
 
     void shoot();
 
-    //gets e sets
-    unsigned int health();
-    unsigned int speed();
-    unsigned int x();
-    unsigned int y();
-    Direction direction();
-
-    void set_position(unsigned int x, unsigned int y);
-
-//Declaracao dos atributos da nave   
-protected:
-    unsigned int _speed;
-    volatile Direction _direction;
-
-    //posicao
-    unsigned int _x;
-    unsigned int _y;
 };
 
 
@@ -64,6 +40,9 @@ public:
     }
 
     ~EnemyShip();
+
+    //funcao o qual a thread ira rodar
+    void runEnemyShip();
 
     void lose_life();
 
@@ -87,6 +66,8 @@ public:
     }
 
     ~PlayerShip();
+
+    void runPlayerShip();
 
     bool lose_life();
 

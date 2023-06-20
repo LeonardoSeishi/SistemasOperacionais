@@ -32,22 +32,6 @@ void Spaceship::shoot() {
     Direction projectile_direction = direction();
 }
 
-
-//gets e sets
-
-unsigned int Spaceship::speed() {return _speed;}
-
-unsigned int Spaceship::x() {return _x;}
-
-unsigned int Spaceship::y() {return _y;}
-
-Spaceship::Direction Spaceship::direction() {return _direction;} 
-
-void Spaceship::set_position(unsigned int x, unsigned int y){
-    _x = x;
-    _y = y;
-}
-
 //PLAYER
 
 //retorna True se a nave morrer
