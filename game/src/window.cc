@@ -1,21 +1,22 @@
+#include <iostream>
+
 #include "../include/window.h"
 
 //#include "../include/space.h"
 
 __BEGIN_API
 
-GameWindow::GameWindow()
+GameWindow::GameWindow() : game_window(sf::VideoMode(900, 560), "Game", sf::Style::Titlebar | sf::Style::Close)
 {
-    game_window = new sf::RenderWindow(sf::VideoMode(900, 560), "SFML works!");
-    game_window->setKeyRepeatEnabled(false);
+    game_window.setKeyRepeatEnabled(false);
     load_and_bind_textures();
     
-    _render_thread = new Thread(run, game_window, &maze_sprite);
+   // _render_thread = new Thread(run, &maze_sprite);
 }
 
 GameWindow::~GameWindow() {
     // humm?
-    delete game_window;
+    delete _render_thread;
 }
 
 void GameWindow::init() {

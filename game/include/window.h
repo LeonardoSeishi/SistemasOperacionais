@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <png.h>
+#include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
 #include "game.h"
@@ -37,7 +38,7 @@ tirando a independencia deles
 */
 private:
     //static Thread * spaceships[5];
-    sf::RenderWindow* game_window;
+    sf::RenderWindow game_window;
     Thread* _render_thread;
     // Maze Texture
     sf::Texture maze_tex;
