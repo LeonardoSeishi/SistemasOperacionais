@@ -1,11 +1,11 @@
 #include "../include/input.h"
 #include "../include/spaceship.h"
 
-using Direction = Spaceship::Direction;
+// using Direction = Spaceship::Direction;
 
 __BEGIN_API
 
-using Spaceship::Direction::LEFT;
+// using Spaceship::Direction::LEFT;
 // using Spaceship::Direction::RIGHT;
 // using Spaceship::Direction::UP;
 // using Spaceship::Direction::DOWN;
