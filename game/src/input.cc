@@ -1,6 +1,14 @@
 #include "../include/input.h"
+#include "../include/spaceship.h"
+
+using Direction = Spaceship::Direction;
 
 __BEGIN_API
+
+using Spaceship::Direction::LEFT;
+// using Spaceship::Direction::RIGHT;
+// using Spaceship::Direction::UP;
+// using Spaceship::Direction::DOWN;
 
 void Input::prun()
 {
@@ -25,12 +33,12 @@ void Input::prun()
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
         {
             std::cout << "Keyboard para baixo!" << std::endl;
-            player->move(Spaceship::Direction::DOWN));
+            player->move(Spaceship::Direction::DOWN);
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
         {
             std::cout << "Keyboard para cima!" << std::endl;
-            player->move(Spaceship::Direction::UP));
+            player->move(Spaceship::Direction::UP);
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
         {
