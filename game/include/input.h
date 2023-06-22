@@ -5,8 +5,8 @@
 #include <SFML/Graphics.hpp>
 #include "traits.h"
 #include "spaceship.h"
-#include "thread.h"
-#include "semaphore.h"
+#include "../../thread/include/thread.h"
+#include "../../thread/include/semaphore.h"
 
 __BEGIN_API
 

@@ -7,9 +7,9 @@
 #include <SFML/Graphics.hpp>
 
 #include "game.h"
-#include "thread.h"
 #include "spaceship.h"
-#include "semaphore.h"
+#include "../../thread/include/thread.h"
+#include "../../thread/include/semaphore.h"
 
 __BEGIN_API
 class GameWindow

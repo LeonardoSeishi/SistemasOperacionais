@@ -1,7 +1,7 @@
 #ifndef game_h
 #define game_h
 
-#include "traits.h"
+#include "../../thread/include/traits.h"
 #include "window.h"
 #include "spaceship.h"
 #include "input.h"
