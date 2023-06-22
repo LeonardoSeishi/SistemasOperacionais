@@ -29,6 +29,8 @@ public:
 
     void startGame();
 
+    static void init(void *name);
+
     //gets e sets
     bool paused();
     unsigned int getSpeed();
@@ -38,7 +40,7 @@ public:
 private:
     Semaphore *game_sem;
     // Classes de threads
-    GameWindow* game_window;
+    // GameWindow* game_window;
     Input *input_obj;
     PlayerShip *player_obj;
     EnemyShip *enemy_1;

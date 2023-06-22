@@ -3,8 +3,8 @@
 
 #include <stdio.h>
 #include <SFML/Graphics.hpp>
-#include "traits.h"
 #include "spaceship.h"
+#include "../../thread/include/traits.h"
 #include "../../thread/include/thread.h"
 #include "../../thread/include/semaphore.h"
 

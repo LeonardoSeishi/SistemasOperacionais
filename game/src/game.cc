@@ -11,18 +11,18 @@ Game::Game()
     score = 0;
 
     game_sem = new Semaphore(1);
-    game_window = new GameWindow();
-    player_obj = new PlayerShip(220, 365);
-    input_obj = new Input(player_obj);
-    enemy_1 = new EnemyShip(245, 150, 0);
-    enemy_2 = new EnemyShip(245, 155, 0);
-    enemy_3 = new EnemyShip(245, 160, 0);
-    enemy_4 = new EnemyShip(245, 165, 0);
+    // game_window = new GameWindow();
+    // player_obj = new PlayerShip(220, 365);
+    // input_obj = new Input(player_obj);
+    // enemy_1 = new EnemyShip(245, 150, 0);
+    // enemy_2 = new EnemyShip(245, 155, 0);
+    // enemy_3 = new EnemyShip(245, 160, 0);
+    // enemy_4 = new EnemyShip(245, 165, 0);
 }
 
 Game::~Game() {
     delete game_sem;
-    delete game_window;
+    // delete game_window;
     delete input_obj;
     delete player_obj;
     delete enemy_1;
@@ -74,8 +74,16 @@ void Game::endGame() {
 }
 
 void Game::startGame() {
-    GameWindow::init();
     // Inicializa threads do jogo
+    // Thread *_window = new Thread(GameWindow::run, game->game_window);
+    // _window_thread = new Thread(GameWindow::run);
+}
+
+void Game::init(void *name) {
+    GameWindow *_window = new GameWindow();
+    GameWindow::init();
+    GameWindow::run();
+    // Thread *_twindow = new Thread(GameWindow::run);
 }
 
 //gets e sets
