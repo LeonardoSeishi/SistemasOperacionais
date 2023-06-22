@@ -4,8 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include "game_entity.h"
 #include "window.h"
-#include "traits.h"
-#include "semaphore.h"
+#include "../../thread/include/traits.h"
+#include "../../thread/include/semaphore.h"
 
 __BEGIN_API
 
