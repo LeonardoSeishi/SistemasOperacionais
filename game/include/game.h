@@ -39,6 +39,7 @@ public:
 
 private:
     Semaphore *game_sem;
+
     // Classes de threads
     // GameWindow* game_window;
     Input *input_obj;
@@ -49,11 +50,11 @@ private:
     EnemyShip *enemy_4;
 
     bool _paused;
-    unsigned int level;
-    unsigned int speed;
+    unsigned int _level;
+    unsigned int _speed;
     // scoreboard
-    unsigned int eliminations;
-    unsigned int score;
+    unsigned int _eliminations;
+    unsigned int _score;
 
     // acho que nao precisa, mas vou deixar anotado aqui para lembrar
     // highscore json

@@ -5,10 +5,10 @@ __BEGIN_API
 Game::Game()
 {
     _paused = false;
-    level = 1;
-    speed = 10;
-    eliminations = 0;
-    score = 0;
+    _level = 1;
+    _speed = 10;
+    _eliminations = 0;
+    _score = 0;
 
     game_sem = new Semaphore(1);
     // game_window = new GameWindow();
@@ -33,26 +33,26 @@ Game::~Game() {
 
 void Game::kill(/**/) { //passar nave inimiga como parameto para destruila???
     //delete EnemyShip
-    score = getScore() + 100;
+    _score = getScore() + 100;
 
     if (getSpeed() < 3)
     { // checar se nao esta na velocidade maxima
         if (getEliminations() < 4)
         {
-            speed = getSpeed() + 1;   //aumenta a velocidade do jogo
-            eliminations = 0;      //reseta a contagem
+            _speed = getSpeed() + 1;   //aumenta a velocidade do jogo
+            _eliminations = 0;      //reseta a contagem
         }
         else
         {
-            eliminations = getEliminations() + 1;
+            _eliminations = getEliminations() + 1;
         }
     }
 }
 
 void Game::restart() {
-    score = 0;
-    speed = 1;
-    eliminations = 0;
+    _score = 0;
+    _speed = 1;
+    _eliminations = 0;
     _paused = false;
     //outras coisas
 }
@@ -88,8 +88,8 @@ void Game::init(void *name) {
 
 //gets e sets
 bool Game::paused() { return _paused;}
-unsigned int Game::getSpeed() {return speed;}
-unsigned int Game::getScore() {return score;}
-unsigned int Game::getEliminations() {return eliminations;}
+unsigned int Game::getSpeed() {return _speed;}
+unsigned int Game::getScore() {return _score;}
+unsigned int Game::getEliminations() {return _eliminations;}
 
 __END_API
