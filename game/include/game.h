@@ -36,22 +36,25 @@ public:
     unsigned int getEliminations();
 
 private:
-    Semaphore *game_sem;
+    Semaphore *_game_sem;
+
     // Classes de threads
-    GameWindow* game_window;
-    Input *input_obj;
-    PlayerShip *player_obj;
-    EnemyShip *enemy_1;
-    EnemyShip *enemy_2;
-    EnemyShip *enemy_3;
-    EnemyShip *enemy_4;
+    GameWindow* _game_window;
+    Input *_input_obj;
+    PlayerShip *_player_obj;
+    EnemyShip *_enemy_1;
+    EnemyShip *_enemy_2;
+    EnemyShip *_enemy_3;
+    EnemyShip *_enemy_4;
+
+
 
     bool _paused;
-    unsigned int level;
-    unsigned int speed;
+    unsigned int _level;
+    unsigned int _speed;
     // scoreboard
-    unsigned int eliminations;
-    unsigned int score;
+    unsigned int _eliminations;
+    unsigned int _score;
 
     // acho que nao precisa, mas vou deixar anotado aqui para lembrar
     // highscore json
