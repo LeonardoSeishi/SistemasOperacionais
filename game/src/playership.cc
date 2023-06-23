@@ -6,9 +6,9 @@ __BEGIN_API
 void PlayerShip::runPlayerShip() {
     std::cout << "Chegou no run playership\n";
     while (Game::isWindowOpen()) {
-        Game::sem()->p();
+        //Game::sem()->p();
         Thread::yield();
-        Game::sem()->v();
+        //Game::sem()->v();
     }
     //temos que fazer algum jeito para ele saber que o jogo esta rodando
     //para poder receber os input
@@ -24,12 +24,12 @@ PlayerShip::PlayerShip(int x, int y) {
     _x = x;
     _y = y;
     //*/
-    sf::Texture* texture = getTexture();
-    sf::Sprite* sprite = getSprite();
-    texture->loadFromFile("sprites/space_ships/space_ship1.png");
-    sprite->setTexture(*texture);
-    sprite->scale(-0.5, -0.5);
-    sprite->setPosition(_x, _y);
+    //sf::Texture* texture = getTexture();
+    //sf::Sprite* sprite = getSprite();
+    //texture->loadFromFile("sprites/space_ships/space_ship1.png");
+    //sprite->setTexture(*texture);
+    //sprite->scale(-0.5, -0.5);
+    //sprite->setPosition(_x, _y);
 
 }
 

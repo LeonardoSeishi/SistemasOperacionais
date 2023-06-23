@@ -111,7 +111,7 @@ void Game::init(void *name) {
 
     std::cout << "main: esperando player_thread...\n";
     ec = _player_thread->join();
-    std::cout << "main: window_thread acabou com exit code " << ec << "\n";
+    std::cout << "main: player_thread acabou com exit code " << ec << "\n";
 
     delete _game_sem;
 
@@ -124,7 +124,7 @@ void Game::init(void *name) {
 void Game::windowRun() {
     _game_window = new GameWindow();
     _game_window->run();
-    //_windowOpen = false;
+    _windowOpen = false;
     delete _game_window;
     _window_thread->thread_exit(2);
 

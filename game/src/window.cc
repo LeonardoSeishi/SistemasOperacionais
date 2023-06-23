@@ -42,7 +42,6 @@ void GameWindow::run()
     std::cout << "Chegou no run  window\n";
     while (window.isOpen())
     {
-        //Game::sem()->p();
 
         window.clear();
         sf::Event event;
@@ -57,7 +56,6 @@ void GameWindow::run()
         window.display();
 
         Thread::yield();
-        //Game::sem()->v();
         //o yield esta dando segfault insta
         //precisa de um yield, se nao essa thread vai rodar sozinha, e as outras ficarao travadas
     }
