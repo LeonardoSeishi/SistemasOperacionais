@@ -59,6 +59,12 @@ void GameWindow::run()
         //o yield esta dando segfault insta
         //precisa de um yield, se nao essa thread vai rodar sozinha, e as outras ficarao travadas
     }
+    bool e;
+    std::cout << "close window\n";
+    Game::closeWindow();
+    e = Game::isWindowOpen();
+    std::cout << e <<"\n";
+
 }
 
 

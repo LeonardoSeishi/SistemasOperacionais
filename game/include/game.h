@@ -59,6 +59,7 @@ public:
 
     //gets e sets
     static bool isWindowOpen();
+    static bool closeWindow() {_windowOpen = false;}
     static Semaphore* sem();
 
     static bool paused();

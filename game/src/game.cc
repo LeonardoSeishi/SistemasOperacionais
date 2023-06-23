@@ -24,16 +24,7 @@ unsigned int Game::_speed;
 unsigned int Game::_eliminations;
 unsigned int Game::_score;
 
-Game::Game()
-{
-    _windowOpen = true;
-    _paused = false;
-    _level = 1;
-    _speed = 10;
-    _eliminations = 0;
-    _score = 0;
-
-}
+Game::Game() {}
 
 Game::~Game() {}
 
@@ -97,6 +88,13 @@ void Game::init(void *name) {
     //_game_window = new GameWindow();
     //GameWindow::init();
     //GameWindow::run();
+    _windowOpen = true;
+    _paused = false;
+    _level = 1;
+    _speed = 10;
+    _eliminations = 0;
+    _score = 0;
+
     _game_sem = new Semaphore(1);
 
     _window_thread = new Thread(windowRun);
@@ -122,9 +120,10 @@ void Game::init(void *name) {
 }
 
 void Game::windowRun() {
+
+    std::cout << "Chegou no run playership\n";
     _game_window = new GameWindow();
     _game_window->run();
-    _windowOpen = false;
     delete _game_window;
     _window_thread->thread_exit(2);
 
