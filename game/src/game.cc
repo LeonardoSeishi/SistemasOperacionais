@@ -1,6 +1,20 @@
 #include "../include/game.h"
 
 __BEGIN_API
+//threads
+Thread * Game::_window_thread;
+Thread * Game::_player_thread;
+Thread * Game::_enemy_thread;
+Thread * Game::_input_thread;
+//Thread * Game::_
+//Thread * Game::
+
+//classes
+GameWindow * Game::_game_window;
+PlayerShip * Game::_player_obj;
+EnemyShip * Game::_enemy_obj;
+Input * Game::_input_obj;
+//
 
 Game::Game()
 {
@@ -10,26 +24,9 @@ Game::Game()
     _eliminations = 0;
     _score = 0;
 
-    game_sem = new Semaphore(1);
-    // game_window = new GameWindow();
-    // player_obj = new PlayerShip(220, 365);
-    // input_obj = new Input(player_obj);
-    // enemy_1 = new EnemyShip(245, 150, 0);
-    // enemy_2 = new EnemyShip(245, 155, 0);
-    // enemy_3 = new EnemyShip(245, 160, 0);
-    // enemy_4 = new EnemyShip(245, 165, 0);
 }
 
-Game::~Game() {
-    delete game_sem;
-    // delete game_window;
-    delete input_obj;
-    delete player_obj;
-    delete enemy_1;
-    delete enemy_2;
-    delete enemy_3;
-    delete enemy_4;
-}
+Game::~Game() {}
 
 void Game::kill(/**/) { //passar nave inimiga como parameto para destruila???
     //delete EnemyShip
@@ -80,11 +77,43 @@ void Game::startGame() {
 }
 
 void Game::init(void *name) {
-    GameWindow *_window = new GameWindow();
-    GameWindow::init();
-    GameWindow::run();
-    // Thread *_twindow = new Thread(GameWindow::run);
+    //_game_window = new GameWindow();
+    //GameWindow::init();
+    //GameWindow::run();
+    _window_thread = new Thread(windowRun);
+    _player_thread = new Thread(playerRun);
+
+    _window_thread->join();
+    _player_thread->join();
+
+    delete _window_thread;
+    delete _player_thread;
+    
 }
+
+void Game::windowRun() {
+    _game_window = new GameWindow();
+    _game_window->GameWindow::run();
+    delete _game_window;
+    _window_thread->thread_exit(2);
+
+}
+
+void Game::playerRun() {
+    _player_obj = new PlayerShip(240,240);
+
+    std::cout << "criou o _player_obj\n";
+    
+    _player_obj->PlayerShip::runPlayerShip();
+    delete _player_obj;
+    _player_thread->thread_exit(3);
+}
+
+//void Game::enemyRun
+
+//void Game::shotRun
+
+//void Game::inputRun
 
 //gets e sets
 bool Game::paused() { return _paused;}

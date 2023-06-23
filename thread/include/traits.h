@@ -30,7 +30,7 @@ template<> struct Traits<CPU>
 {
     static const bool debugged = true;
     //Pilha de tamanho 16 Kb
-    static const unsigned int STACK_SIZE = 1024 * 512;
+    static const unsigned int STACK_SIZE = 1024 * 1024;
 };
 
 template<> 

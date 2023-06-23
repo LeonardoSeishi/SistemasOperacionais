@@ -16,14 +16,6 @@ public:
     void move(Spaceship::Direction);
 
     void shoot();
-
-    sf::Sprite* getSprite();
-
-    sf::Texture* getTexture();
-
-private:
-    sf::Sprite* shipSprite;
-    sf::Texture* shipTexture;
 };
 
 

@@ -2,10 +2,12 @@
 #define game_h
 
 #include "../../thread/include/traits.h"
+#include "../../thread/include/thread.h"
+#include "../../thread/include/semaphore.h"
 #include "window.h"
 #include "spaceship.h"
 #include "input.h"
-#include "semaphore.h"
+
 
 __BEGIN_API
 
@@ -31,6 +33,17 @@ public:
 
     static void init(void *name);
 
+    static void windowRun();
+    static void playerRun();
+    static void enemyRun();
+    /*
+    static void Run();
+    static void Run();
+    static void Run();
+    static void Run();
+    static void Run();
+    */
+
     //gets e sets
     bool paused();
     unsigned int getSpeed();
@@ -38,16 +51,27 @@ public:
     unsigned int getEliminations();
 
 private:
-    Semaphore *game_sem;
+    //static Semaphore *_game_sem;
 
     // Classes de threads
-    // GameWindow* game_window;
-    Input *input_obj;
-    PlayerShip *player_obj;
-    EnemyShip *enemy_1;
-    EnemyShip *enemy_2;
-    EnemyShip *enemy_3;
-    EnemyShip *enemy_4;
+    static GameWindow* _game_window;
+    static Input *_input_obj;
+    static PlayerShip *_player_obj;
+    static EnemyShip *_enemy_obj;
+    static EnemyShip *_enemy_1;
+    static EnemyShip *_enemy_2;
+    static EnemyShip *_enemy_3;
+    static EnemyShip *_enemy_4;
+
+    //threads 
+    static Thread * _window_thread;
+    static Thread * _input_thread;
+    static Thread * _player_thread;
+    static Thread * _enemy_thread;
+    /*static Thread * 
+    static Thread * 
+    static Thread * 
+    */
 
     bool _paused;
     unsigned int _level;

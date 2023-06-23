@@ -14,3 +14,11 @@ void GameEntity::set_position(unsigned int x, unsigned int y){
     _x = x;
     _y = y;
 }
+
+sf::Sprite* GameEntity::getSprite() {
+    return _shipSprite;
+}
+
+sf::Texture* GameEntity::getTexture() {
+    return _shipTexture;
+}

@@ -9,19 +9,25 @@ __BEGIN_API
 sf::RenderWindow GameWindow::window(sf::VideoMode(900,800), "VASCO da GAMA");
 sf::Sprite GameWindow::maze_sprite;
 
-GameWindow::GameWindow() {}
+GameWindow::GameWindow() {
+    sf::Texture teste;
+    teste.loadFromFile("sprites/maze/screen.png");
+    maze_sprite.setTexture(teste);
+    maze_sprite.scale(1.5, 1.5);
+}
+
 GameWindow::~GameWindow() {
     // humm?
     // delete _render_thread;
 }
 
-void GameWindow::init() {
+/*void GameWindow::init() {
     sf::Texture teste;
     teste.loadFromFile("sprites/maze/screen.png");
     maze_sprite.setTexture(teste);
     maze_sprite.scale(1.5, 1.5);
     // new (&sem) Semaphore(1);
-}
+}*/
 
 void GameWindow::draw_texture(sf::RenderWindow window, sf::Sprite sprite, int x, int y, float angle)
 {
@@ -48,6 +54,9 @@ void GameWindow::run()
         }
         window.draw(maze_sprite);
         window.display();
+        //Thread::yield();
+        //o yield esta dando segfault insta
+        //precisa de um yield, se nao essa thread vai rodar sozinha, e as outras ficarao travadas
     }
 }
 
