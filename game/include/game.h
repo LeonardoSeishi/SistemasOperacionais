@@ -13,8 +13,32 @@ __BEGIN_API
 
 class Game
 {
+private:
+    static void windowRun();
+    static void playerRun();
+    static void enemyRun();
+    /*
+    static void Run();
+    static void Run();
+    static void Run();
+    static void Run();
+    static void Run();
+    */
 
 public:
+
+    static int do_work(int n)
+    {
+        int i, j, soma;
+
+        soma = 0;
+        for (i = 0; i < n; i++) {
+            for (j = 0; j < n; j++)
+                {soma += j * i;}
+        return soma;
+        }
+    }
+
     Game();
 
     ~Game();
@@ -33,25 +57,17 @@ public:
 
     static void init(void *name);
 
-    static void windowRun();
-    static void playerRun();
-    static void enemyRun();
-    /*
-    static void Run();
-    static void Run();
-    static void Run();
-    static void Run();
-    static void Run();
-    */
-
     //gets e sets
-    bool paused();
-    unsigned int getSpeed();
-    unsigned int getScore();
-    unsigned int getEliminations();
+    static bool isWindowOpen();
+    static Semaphore* sem();
+
+    static bool paused();
+    static unsigned int getSpeed();
+    static unsigned int getScore();
+    static unsigned int getEliminations();
 
 private:
-    //static Semaphore *_game_sem;
+    static Semaphore *_game_sem;
 
     // Classes de threads
     static GameWindow* _game_window;
@@ -73,12 +89,13 @@ private:
     static Thread * 
     */
 
-    bool _paused;
-    unsigned int _level;
-    unsigned int _speed;
+    static bool _windowOpen;
+    static bool _paused;
+    static unsigned int _level;
+    static unsigned int _speed;
     // scoreboard
-    unsigned int _eliminations;
-    unsigned int _score;
+    static unsigned int _eliminations;
+    static unsigned int _score;
 
     // acho que nao precisa, mas vou deixar anotado aqui para lembrar
     // highscore json

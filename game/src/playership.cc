@@ -5,8 +5,10 @@ __BEGIN_API
 
 void PlayerShip::runPlayerShip() {
     std::cout << "Chegou no run playership\n";
-    while (true) {
+    while (Game::isWindowOpen()) {
+        Game::sem()->p();
         Thread::yield();
+        Game::sem()->v();
     }
     //temos que fazer algum jeito para ele saber que o jogo esta rodando
     //para poder receber os input

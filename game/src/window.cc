@@ -17,8 +17,6 @@ GameWindow::GameWindow() {
 }
 
 GameWindow::~GameWindow() {
-    // humm?
-    // delete _render_thread;
 }
 
 /*void GameWindow::init() {
@@ -44,6 +42,8 @@ void GameWindow::run()
     std::cout << "Chegou no run  window\n";
     while (window.isOpen())
     {
+        //Game::sem()->p();
+
         window.clear();
         sf::Event event;
         while (window.pollEvent(event))
@@ -51,10 +51,13 @@ void GameWindow::run()
             // "close requested" event: we close the window
             if (event.type == sf::Event::Closed)
                window.close();
+               //Thread::yield();
         }
         window.draw(maze_sprite);
         window.display();
-        //Thread::yield();
+
+        Thread::yield();
+        //Game::sem()->v();
         //o yield esta dando segfault insta
         //precisa de um yield, se nao essa thread vai rodar sozinha, e as outras ficarao travadas
     }
