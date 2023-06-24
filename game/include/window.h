@@ -22,31 +22,46 @@ public:
 
     static void run();
 
-    static void draw_texture(sf::RenderWindow window, sf::Sprite sprite, int x, int y, float angle);
+    static sf::Texture draw_texture(std::string path);
+
+    static sf::Sprite make_sprite(
+        sf::Texture texture,
+        double scale_x, 
+        double scale_y,
+        int position_x, 
+        int position_y, 
+        float angle
+    );
 
     static void init();
 
+    static void init_sprites();
+
     static sf::RenderWindow window;
-
-    static sf::Sprite maze_sprite;
-
     static Semaphore sem;
 
-private:
-    void load_and_bind_textures();
+    static sf::Texture maze_tex;
+    static sf::Sprite maze_sprite;
+    
+    static sf::Texture player_tex;
+    static sf::Sprite player_sprite;
+
+    static sf::Texture enemy_tex;
+    static sf::Sprite enemy_sprite;
+    
+    static sf::Texture shot_tex;
+    static sf::Sprite shot_sprite;
+
+protected:
+
 
 private:
     //static Thread * spaceships[5];
 
     // sf::RenderWindow game_window;
     Thread _render_thread;
-    // Maze Texture
-    sf::Texture maze_tex;
-    // sf::Sprite maze_sprite;
+
     
-    //Shot texture
-    // sf::Texture shot_tex;
-    // sf::Sprite shot_sprite;
 };
 
 /*
