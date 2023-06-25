@@ -102,7 +102,7 @@ void Game::init(void *name) {
     _input_obj = new Input(_player_obj);
 
     _window_thread = new Thread(GameWindow::run, _game_window);
-    _player_thread = new Thread(playerRun);
+    _player_thread = new Thread(PlayerShip::runPlayerShip, _player_obj);
     _input_thread = new Thread(Input::run);
 
     do_work(20000);
@@ -128,24 +128,16 @@ void Game::init(void *name) {
     
 }
 
-void Game::windowRun() {
+// void Game::windowRun() {
+// }
 
-    // std::cout << "Chegou no run playership\n";
-    // _game_window = new GameWindow();
-
-    // _game_window->run();
-    // _window_thread->thread_exit(2);
-    // delete _game_window;
-
-}
-
-void Game::playerRun() {
-    std::cout << "Dentro de playerRun em game.cc\n";
+// void Game::playerRun(PlayerShip *player_obj) {
+//     std::cout << "Dentro de playerRun em game.cc\n";
     
-    _player_obj->runPlayerShip();
-    _player_thread->thread_exit(3);
-    delete _player_obj;
-}
+//     _player_obj->runPlayerShip(player_obj);
+//     _player_thread->thread_exit(3);
+//     delete _player_obj;
+// }
 
 //void Game::enemyRun
 

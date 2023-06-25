@@ -6,11 +6,16 @@
 
 __BEGIN_API
 
-sf::RenderWindow GameWindow::window(sf::VideoMode(900,800), "VASCO da GAMA");
+sf::RenderWindow GameWindow::window(sf::VideoMode(1086, 746), "Jogo das Naves");
 sf::Sprite GameWindow::maze_sprite;
 sf::Texture GameWindow::maze_tex;
 sf::Sprite GameWindow::player_sprite;
 sf::Texture GameWindow::player_tex;
+sf::Texture GameWindow::enemy_tex;
+sf::Sprite GameWindow::enemy1_sprite;
+sf::Sprite GameWindow::enemy2_sprite;
+sf::Sprite GameWindow::enemy3_sprite;
+sf::Sprite GameWindow::enemy4_sprite;
 
 GameWindow::GameWindow() {}
 
@@ -37,6 +42,7 @@ void GameWindow::make_sprite(
 {
     sprite.setTexture(texture);
     sprite.scale(scale_x, scale_y);
+    // Buga sprite da window
     // sprite.setPosition(position_x, position_y);
     // sprite.setRotation(angle);
 }
@@ -46,9 +52,30 @@ void GameWindow::init_sprites()
 {
     load_texture("sprites/maze/screen.png", get_maze_texture());
     load_texture("sprites/space_ships/space_ship1.png", get_player_texture());
-
-    make_sprite(get_maze_texture(), get_maze_sprite(), 1.5, 1.5, 0, 0, 90);
+    load_texture("sprites/space_ships/enemy_space_ship1.png", get_enemy_texture());
+    // Calcula bounds da maze pra centralizar na window
+    // N funciona ainda
+    sf::Vector2u window_size = window.getSize();
+    sf::FloatRect maze_bounds = get_maze_sprite().getGlobalBounds();
+    float maze_w = maze_bounds.width;
+    float maze_h = maze_bounds.height;
+    float maze_x = (window_size.x - maze_w)/2.0f + maze_w/2.0f;
+    float maze_y = (window_size.y - maze_h)/2.0f + maze_h/2.0f;
+    make_sprite(get_maze_texture(), get_maze_sprite(), 2.0, 2.0, maze_x, maze_y, 90);
     make_sprite(get_player_texture(), get_player_sprite(), 0.5, 0.5, 240, 365, 90);
+    get_player_sprite().setPosition(543, 373);
+
+    make_sprite(get_enemy_texture(), get_enemy1_sprite(), 0.5, 0.5, 0, 0, 0);
+    get_enemy1_sprite().setPosition(0, 0);
+
+    make_sprite(get_enemy_texture(), get_enemy2_sprite(), 0.5, 0.5, 0, 0, 0);
+    get_enemy2_sprite().setPosition(320, 420);
+    
+    make_sprite(get_enemy_texture(), get_enemy3_sprite(), 0.5, 0.5, 0, 0, 0);
+    get_enemy3_sprite().setPosition(50, 50);
+    
+    make_sprite(get_enemy_texture(), get_enemy4_sprite(), 0.5, 0.5, 0, 0, 0);
+    get_enemy1_sprite().setPosition(200, 500);
 }
 
 void GameWindow::draw_entity(sf::Sprite &sprite, float rotation, float x, float y)
@@ -70,13 +97,15 @@ void GameWindow::run(GameWindow *window_obj)
     {
         // Limpa artefatos
         window.clear();
+
         // Espera outros objetos desenharem
-        int a = 0;
-        for (int i = 0; i < 1000; i++) {
-            a++;
-        }
+
         window.draw(get_maze_sprite());
         window.draw(get_player_sprite());
+        window.draw(get_enemy1_sprite());
+        window.draw(get_enemy2_sprite());
+        window.draw(get_enemy3_sprite());
+        window.draw(get_enemy4_sprite());
         window.display();
 
         Thread::yield();

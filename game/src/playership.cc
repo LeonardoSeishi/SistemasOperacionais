@@ -3,7 +3,7 @@
 
 __BEGIN_API
 
-void PlayerShip::runPlayerShip() {
+void PlayerShip::runPlayerShip(PlayerShip *player) {
     std::cout << "Chegou no run playership\n";
 
     while (Game::isWindowOpen()) {
@@ -37,7 +37,6 @@ bool PlayerShip::lose_life() {
         return 0;
     } else {
         //matar a nave
-        //deletar a thread
         return 1;
     }
 }

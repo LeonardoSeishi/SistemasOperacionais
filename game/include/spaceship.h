@@ -13,7 +13,7 @@ class Spaceship: public GameEntity
 {
 public:
 
-    void move(GameEntity::Direction);
+    void move(GameEntity::Direction, sf::Sprite &sprite);
 
     void shoot();
 };
@@ -26,15 +26,14 @@ public:
 
     ~EnemyShip();
 
-    //funcao o qual a thread ira rodar
-    void runEnemyShip();
-
     void lose_life();
+
+    // Roda algoritmo
+    static void runEnemyShip();
 
 private:
     int _dificult;
-/*  algoritmo de movimentacao???
-*/
+
 };
 
 class PlayerShip: public Spaceship 
@@ -44,7 +43,8 @@ public:
 
     ~PlayerShip();
 
-    void runPlayerShip();
+    // Monitora vida e atira
+    static void runPlayerShip(PlayerShip *player);
 
     bool lose_life();
 

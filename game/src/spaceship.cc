@@ -2,8 +2,8 @@
 
 __BEGIN_API
 
-
-void Spaceship::move(Spaceship::Direction direction) {
+void Spaceship::move(Spaceship::Direction direction, sf::Sprite &sprite)
+{
     unsigned int new_x = x();
     unsigned int new_y = y();
     // Speed pode ser o numero de vezes que inimigos se movimentam antes de player
@@ -11,22 +11,22 @@ void Spaceship::move(Spaceship::Direction direction) {
         case UP:
             new_y -= speed();
             _direction = UP;
-            GameWindow::draw_entity(GameWindow::get_player_sprite(), 0, new_x, new_y);
+            GameWindow::draw_entity(sprite, 0, new_x, new_y);
             break;
         case DOWN:
             new_y += speed();
             _direction = DOWN;
-            GameWindow::draw_entity(GameWindow::get_player_sprite(), 180, new_x, new_y);
+            GameWindow::draw_entity(sprite, 180, new_x, new_y);
             break;
         case LEFT:
             new_x -= speed();
             _direction = LEFT;
-            GameWindow::draw_entity(GameWindow::get_player_sprite(), 270, new_x, new_y);
+            GameWindow::draw_entity(sprite, 270, new_x, new_y);
             break;
         case RIGHT:
             new_x += speed();
             _direction = RIGHT;
-            GameWindow::draw_entity(GameWindow::get_player_sprite(), 90, new_x, new_y);
+            GameWindow::draw_entity(sprite, 90, new_x, new_y);
             break;
     }
     set_position(new_x, new_y);

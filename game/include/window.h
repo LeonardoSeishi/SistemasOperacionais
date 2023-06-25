@@ -8,6 +8,7 @@
 
 #include "game.h"
 #include "spaceship.h"
+#include "window.h"
 #include "../../thread/include/traits.h"
 #include "../../thread/include/thread.h"
 #include "../../thread/include/semaphore.h"
@@ -45,7 +46,14 @@ public:
     static sf::Texture& get_maze_texture() { return maze_tex; }
 
     static sf::Sprite& get_player_sprite() { return player_sprite; }
-    static sf:: Texture& get_player_texture() { return player_tex; }
+    static sf::Texture& get_player_texture() { return player_tex; }
+
+    static sf::Texture &get_enemy_texture() { return enemy_tex; }
+
+    static sf::Sprite &get_enemy1_sprite() { return enemy1_sprite; }
+    static sf::Sprite &get_enemy2_sprite() { return enemy2_sprite; }
+    static sf::Sprite &get_enemy3_sprite() { return enemy3_sprite; }    
+    static sf::Sprite &get_enemy4_sprite() { return enemy4_sprite; }
 
 public:
     static sf::RenderWindow window;
@@ -60,38 +68,18 @@ private:
     static sf::Texture player_tex;
     static sf::Sprite player_sprite;
 
-    sf::Texture enemy_tex;
-    sf::Sprite enemy_sprite;
-    
+    static sf::Texture enemy_tex;
+    static sf::Sprite enemy1_sprite;
+    static sf::Sprite enemy2_sprite;
+    static sf::Sprite enemy3_sprite;
+    static sf::Sprite enemy4_sprite;
+
     sf::Texture shot_tex;
     sf::Sprite shot_sprite;
 
     
 };
 
-/*
-inline GameWindow::GameWindow(){ //: game_window(sf::VideoMode(900, 560, 32), "Game"){//, sf::Style::Titlebar | sf::Style::Close) {
-    // game_window.setKeyRepeatEnabled(false);
-    window.create(sf::VideoMode(900, 800, 32), "Game");
-    window.setKeyRepeatEnabled(false);
-    // load_and_bind_textures();
-    maze_tex.loadFromFile("sprites/maze/screen.png");
-    maze_sprite.setTexture(maze_tex);
-    maze_sprite.scale(1.5, 1.5);
-    // while(game_window.isOpen()) {
-    //     game_window.clear();
-    //     sf::Event event;
-    //     while (game_window.pollEvent(event))
-    //     {
-    //         // "close requested" event: we close the window
-    //         if (event.type == sf::Event::Closed)
-    //             game_window.close();
-    //     }
-    //     game_window.draw(maze_sprite);
-    // }
-    // new (&_render_thread) Thread(GameWindow::run, &game_window, &maze_sprite);
-}
-*/
 __END_API
 
 #endif

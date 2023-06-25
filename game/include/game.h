@@ -13,10 +13,10 @@ __BEGIN_API
 
 class Game
 {
-private:
-    static void windowRun();
-    static void playerRun();
-    static void enemyRun();
+// private:
+//     static void windowRun();
+//     static void playerRun(PlayerShip *player_obj);
+//     static void enemyRun();
     /*
     static void Run();
     static void Run();
