@@ -15,10 +15,10 @@ void GameEntity::set_position(unsigned int x, unsigned int y){
     _y = y;
 }
 
-sf::Sprite& GameEntity::getSprite() {
-    return _shipSprite;
-}
+// sf::Sprite& GameEntity::getSprite() {
+//     return _shipSprite;
+// }
 
-sf::Texture& GameEntity::getTexture() {
-    return _shipTexture;
-}
+// sf::Texture& GameEntity::getTexture() {
+//     return _shipTexture;
+// }

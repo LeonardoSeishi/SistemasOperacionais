@@ -11,22 +11,22 @@ void Spaceship::move(Spaceship::Direction direction) {
         case UP:
             new_y -= speed();
             _direction = UP;
-            GameWindow::draw_entity(getSprite(), 90, new_x, new_y);
+            GameWindow::draw_entity(GameWindow::get_player_sprite(), 0, new_x, new_y);
             break;
         case DOWN:
             new_y += speed();
             _direction = DOWN;
-            GameWindow::draw_entity(getSprite(), 270, new_x, new_y);
+            GameWindow::draw_entity(GameWindow::get_player_sprite(), 180, new_x, new_y);
             break;
         case LEFT:
             new_x -= speed();
             _direction = LEFT;
-            GameWindow::draw_entity(getSprite(), 180, new_x, new_y);
+            GameWindow::draw_entity(GameWindow::get_player_sprite(), 270, new_x, new_y);
             break;
         case RIGHT:
             new_x += speed();
             _direction = RIGHT;
-            GameWindow::draw_entity(getSprite(), 0, new_x, new_y);
+            GameWindow::draw_entity(GameWindow::get_player_sprite(), 90, new_x, new_y);
             break;
     }
     set_position(new_x, new_y);

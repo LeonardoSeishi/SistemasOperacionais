@@ -19,9 +19,9 @@ public:
     unsigned int y();
     Direction direction();
 
-    sf::Sprite& getSprite();
+    // sf::Sprite& getSprite();
 
-    sf::Texture& getTexture();
+    // sf::Texture& getTexture();
 
     void set_position(unsigned int x, unsigned int y);
 
@@ -34,8 +34,8 @@ protected:
     unsigned int _x;
     unsigned int _y;
 
-    sf::Sprite _shipSprite;
-    sf::Texture _shipTexture;
+    // sf::Sprite _shipSprite;
+    // sf::Texture _shipTexture;
 };
 
 #endif

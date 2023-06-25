@@ -12,6 +12,9 @@ void Input::run()
     while (Game::isWindowOpen())
     {
         while (Game::getWindow().window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                Game::getWindow().window.close();
+            }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
             {
                 std::cout << "Pausa!" << std::endl;

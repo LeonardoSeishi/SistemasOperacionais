@@ -98,17 +98,12 @@ void Game::init(void *name) {
     _game_sem = new Semaphore(1);
 
     _game_window = new GameWindow();
-    std::cout << "Chegou aqui -> game init\n";
     _player_obj = new PlayerShip(220, 365);
-    std::cout << "criou o _player_obj\n";
     _input_obj = new Input(_player_obj);
-    std::cout << "criou o _input_obj\n";
+
     _window_thread = new Thread(GameWindow::run, _game_window);
-    std::cout << "WINDOW start\n";
     _player_thread = new Thread(playerRun);
-    std::cout << "Player start\n";
     _input_thread = new Thread(Input::run);
-    std::cout << "Input start\n";
 
     do_work(20000);
 
@@ -121,11 +116,15 @@ void Game::init(void *name) {
     ec = _player_thread->join();
     std::cout << "main: player_thread acabou com exit code " << ec << "\n";
 
+    std::cout << "main: esperando input_thread...\n";
+    ec = _input_thread->join();
+    std::cout << "main: input_thread acabou com exit code " << ec << "\n";
+
     delete _game_sem;
 
     delete _window_thread;
     delete _player_thread;
-    
+    delete _input_thread;
     
 }
 

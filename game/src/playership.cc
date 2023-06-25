@@ -12,10 +12,6 @@ void PlayerShip::runPlayerShip() {
         Thread::yield();
         //Game::sem()->v();
     }
-    //temos que fazer algum jeito para ele saber que o jogo esta rodando
-    //para poder receber os input
-    //sem usar a classe window
-    //while (window.isOpen()) { 
 }
 
 PlayerShip::PlayerShip(int x, int y) {
@@ -25,14 +21,6 @@ PlayerShip::PlayerShip(int x, int y) {
     //* meio da tela
     _x = x;
     _y = y;
-    std::cout << "PlayerShip construtor 1\n";
-    getTexture().loadFromFile("sprites/space_ships/space_ship1.png");
-
-    std::cout << "PlayerShip construtor 2\n";
-    getSprite().setTexture(_shipTexture);
-    
-    std::cout << "PlayerShip construtor 3\n";
-    getSprite().scale(0.5, 0.5);
 }
 
 PlayerShip::~PlayerShip() {
