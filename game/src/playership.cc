@@ -25,14 +25,14 @@ PlayerShip::PlayerShip(int x, int y) {
     //* meio da tela
     _x = x;
     _y = y;
-    //*/
-    //sf::Texture* texture = getTexture();
-    //sf::Sprite* sprite = getSprite();
-    //texture->loadFromFile("sprites/space_ships/space_ship1.png");
-    //sprite->setTexture(*texture);
-    //sprite->scale(-0.5, -0.5);
-    //sprite->setPosition(_x, _y);
+    std::cout << "PlayerShip construtor 1\n";
+    getTexture().loadFromFile("sprites/space_ships/space_ship1.png");
 
+    std::cout << "PlayerShip construtor 2\n";
+    getSprite().setTexture(_shipTexture);
+    
+    std::cout << "PlayerShip construtor 3\n";
+    getSprite().scale(0.5, 0.5);
 }
 
 PlayerShip::~PlayerShip() {

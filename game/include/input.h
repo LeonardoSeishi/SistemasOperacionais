@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <SFML/Graphics.hpp>
 #include "spaceship.h"
+#include "game.h"
 #include "../../thread/include/traits.h"
 #include "../../thread/include/thread.h"
 #include "../../thread/include/semaphore.h"
@@ -17,25 +18,26 @@ public:
     Input(PlayerShip* player_ptr)
     {
         player = player_ptr;
-        game_running_status = true;
+        // game_window = Game::getWindow();
         // Inicializa thread
         // Inicializa mutex
-        input_mutex = new Semaphore(1);
+        // input_mutex = new Semaphore(1);
     }
     ~Input()
     {
         // Delete thread
-        delete input_mutex;
+        // delete input_mutex;
         std::cout << "Thread input finalizada\n";
     }
-    void prun();
-    void pkill();
+    static void run();
+    void kill();
     void checkInput();
 
 private:
-    bool game_running_status;
-    PlayerShip *player;
+    static PlayerShip *player;
+    // static GameWindow &game_window;
     Semaphore *input_mutex;
+
 };
 
 __END_API

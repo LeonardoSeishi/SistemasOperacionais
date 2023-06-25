@@ -36,9 +36,9 @@ public:
 
     static void init();
 
-    static void run(GameWindow *teste);
+    static void draw_entity(sf::Sprite& sprite, float rotation, float x, float  y);
 
-    static void draw_entity();
+    static void run(GameWindow *window_obj);
 
     // Getters
     static sf::Sprite& get_maze_sprite() { return maze_sprite; }

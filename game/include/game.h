@@ -60,12 +60,15 @@ public:
     //gets e sets
     static bool isWindowOpen();
     static bool closeWindow() {_windowOpen = false;}
+    static GameWindow& getWindow() { return *_game_window; }
     static Semaphore* sem();
 
     static bool paused();
     static unsigned int getSpeed();
     static unsigned int getScore();
     static unsigned int getEliminations();
+    // Passar pra cc
+    // static GameWindow& getWindow() { return *_game_window; }
 
 private:
     static Semaphore *_game_sem;

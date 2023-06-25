@@ -15,12 +15,12 @@ EnemyShip::EnemyShip(unsigned int x, unsigned int y, unsigned int speed) {
     } else if ...
     */
     _speed = speed;
-    sf::Texture *texture = getTexture();
-    sf::Sprite *sprite = getSprite();
-    texture->loadFromFile("sprites/space_ships/enemy_space_ship1.png");
-    sprite->setTexture(*texture);
-    sprite->scale(-0.5, -0.5);
-    sprite->setPosition(_x, _y);
+    // sf::Texture *texture = getTexture();
+    // sf::Sprite *sprite = getSprite();
+    // texture->loadFromFile("sprites/space_ships/enemy_space_ship1.png");
+    // sprite->setTexture(*texture);
+    // sprite->scale(-0.5, -0.5);
+    // sprite->setPosition(_x, _y);
 }
 
 EnemyShip::~EnemyShip() {}

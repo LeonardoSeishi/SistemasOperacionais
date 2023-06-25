@@ -51,12 +51,19 @@ void GameWindow::init_sprites()
     std::cout << "Passou make sprite\n";
 }
 
+void GameWindow::draw_entity(sf::Sprite &sprite, float rotation, float x, float y)
+{
+    sprite.setPosition(x, y);
+    sprite.setRotation(rotation);
+    window.draw(sprite);
+}
 
-void GameWindow::run(GameWindow *teste)
+void GameWindow::run(GameWindow *window_obj)
 {
     //Link: https://www.sfml-dev.org/tutorials/2.5/window-events.php
     //https://www.sfml-dev.org/documentation/2.5.1/classsf_1_1Keyboard.php
-    teste->init_sprites();
+    window_obj->init_sprites();
+    window.setKeyRepeatEnabled(false);
     std::cout << "Chegou no run  window\n";
     while (window.isOpen())
     {
