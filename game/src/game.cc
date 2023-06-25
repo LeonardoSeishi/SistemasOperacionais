@@ -97,7 +97,9 @@ void Game::init(void *name) {
 
     _game_sem = new Semaphore(1);
 
-    _window_thread = new Thread(windowRun);
+    _game_window = new GameWindow();
+    std::cout << "Chegou aqui\n";
+    _window_thread = new Thread(GameWindow::run, _game_window);
     _player_thread = new Thread(playerRun);
 
     do_work(20000);
@@ -121,11 +123,12 @@ void Game::init(void *name) {
 
 void Game::windowRun() {
 
-    std::cout << "Chegou no run playership\n";
-    _game_window = new GameWindow();
-    _game_window->run();
-    delete _game_window;
-    _window_thread->thread_exit(2);
+    // std::cout << "Chegou no run playership\n";
+    // _game_window = new GameWindow();
+
+    // _game_window->run();
+    // _window_thread->thread_exit(2);
+    // delete _game_window;
 
 }
 
@@ -135,8 +138,8 @@ void Game::playerRun() {
     std::cout << "criou o _player_obj\n";
     
     _player_obj->runPlayerShip();
-    delete _player_obj;
     _player_thread->thread_exit(3);
+    delete _player_obj;
 }
 
 //void Game::enemyRun

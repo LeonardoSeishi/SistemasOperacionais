@@ -7,7 +7,7 @@ void PlayerShip::runPlayerShip() {
     std::cout << "Chegou no run playership\n";
 
     while (Game::isWindowOpen()) {
-        std::cout << "Game::isWindowOpen()\n";
+        // std::cout << "Game::isWindowOpen()\n";
         //Game::sem()->p();
         Thread::yield();
         //Game::sem()->v();

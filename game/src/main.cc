@@ -5,10 +5,7 @@
 #include "../include/window.h"
 
 __USING_API
-int a = 1;
-int teste(int& i) {
-    return i++;
-}
+
 int main(void)
 {
     // GameWindow* window = new GameWindow();

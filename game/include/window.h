@@ -20,12 +20,11 @@ public:
 
     ~GameWindow();
 
-    static void run();
+    void load_texture(std::string path, sf::Texture& texture);
 
-    static sf::Texture draw_texture(std::string path);
-
-    static sf::Sprite make_sprite(
-        sf::Texture texture,
+    void make_sprite(
+        sf::Texture& texture,
+        sf::Sprite& sprite,
         double scale_x, 
         double scale_y,
         int position_x, 
@@ -33,33 +32,39 @@ public:
         float angle
     );
 
+    void init_sprites();
+
     static void init();
 
-    static void init_sprites();
+    static void run(GameWindow *teste);
 
+    static void draw_entity();
+
+    // Getters
+    static sf::Sprite& get_maze_sprite() { return maze_sprite; }
+    static sf::Texture& get_maze_texture() { return maze_tex; }
+
+    static sf::Sprite& get_player_sprite() { return player_sprite; }
+    static sf:: Texture& get_player_texture() { return player_tex; }
+
+public:
     static sf::RenderWindow window;
     static Semaphore sem;
 
+private:
+
+    Thread _render_thread;
     static sf::Texture maze_tex;
     static sf::Sprite maze_sprite;
     
     static sf::Texture player_tex;
     static sf::Sprite player_sprite;
 
-    static sf::Texture enemy_tex;
-    static sf::Sprite enemy_sprite;
+    sf::Texture enemy_tex;
+    sf::Sprite enemy_sprite;
     
-    static sf::Texture shot_tex;
-    static sf::Sprite shot_sprite;
-
-protected:
-
-
-private:
-    //static Thread * spaceships[5];
-
-    // sf::RenderWindow game_window;
-    Thread _render_thread;
+    sf::Texture shot_tex;
+    sf::Sprite shot_sprite;
 
     
 };
