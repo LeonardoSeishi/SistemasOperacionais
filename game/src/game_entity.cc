@@ -47,7 +47,6 @@ void GameEntity::set_position(unsigned int x, unsigned int y){
     _y = y;
 }
 
-<<<<<<< HEAD
 void GameEntity::draw_entity(sf::Sprite &sprite, float rotation, float x, float y)
 {
     sprite.setPosition(x, y);
@@ -56,10 +55,6 @@ void GameEntity::draw_entity(sf::Sprite &sprite, float rotation, float x, float 
     sprite.setRotation(rotation);
 }
 
-=======
-
-__END_API
->>>>>>> 21685f2a913690bcd3a1b10bbdb200f5d42223f7
 // sf::Sprite& GameEntity::getSprite() {
 //     return _shipSprite;
 // }
@@ -67,3 +62,5 @@ __END_API
 // sf::Texture& GameEntity::getTexture() {
 //     return _shipTexture;
 // }
+
+__END_API

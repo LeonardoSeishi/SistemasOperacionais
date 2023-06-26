@@ -2,36 +2,6 @@
 
 __BEGIN_API
 
-void Spaceship::move(Spaceship::Direction direction, sf::Sprite &sprite)
-{
-    unsigned int new_x = x();
-    unsigned int new_y = y();
-    // Speed pode ser o numero de vezes que inimigos se movimentam antes de player
-    switch (direction) {
-        case UP:
-            new_y -= speed();
-            _direction = UP;
-            draw_entity(sprite, 0, new_x, new_y);
-            break;
-        case DOWN:
-            new_y += speed();
-            _direction = DOWN;
-            draw_entity(sprite, 180, new_x, new_y);
-            break;
-        case LEFT:
-            new_x -= speed();
-            _direction = LEFT;
-            draw_entity(sprite, 270, new_x, new_y);
-            break;
-        case RIGHT:
-            new_x += speed();
-            _direction = RIGHT;
-            draw_entity(sprite, 90, new_x, new_y);
-            break;
-    }
-    set_position(new_x, new_y);
-}
-
 void Spaceship::shoot() {
     unsigned int projectile_x = x();
     unsigned int projectile_y = y();
