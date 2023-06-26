@@ -98,7 +98,7 @@ void Game::init(void *name) {
     _game_sem = new Semaphore(1);
 
     _game_window = new GameWindow();
-    _player_obj = new PlayerShip(220, 365);
+    _player_obj = new PlayerShip(380, 330);
     _input_obj = new Input(_player_obj);
 
     _window_thread = new Thread(GameWindow::run, _game_window);

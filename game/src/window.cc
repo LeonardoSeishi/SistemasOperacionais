@@ -35,16 +35,15 @@ void GameWindow::make_sprite(
     sf::Sprite& sprite,
     double scale_x, 
     double scale_y,
-    int position_x, 
-    int position_y, 
-    float angle
+    int position_x = 0, 
+    int position_y = 0, 
+    float angle = (0,0)
     ) 
 {
     sprite.setTexture(texture);
     sprite.scale(scale_x, scale_y);
-    // Buga sprite da window
-    // sprite.setPosition(position_x, position_y);
-    // sprite.setRotation(angle);
+    sprite.setPosition(position_x, position_y);
+    sprite.setRotation(angle);
 }
 
 // Inicializa sprites do objeto window
@@ -53,29 +52,31 @@ void GameWindow::init_sprites()
     load_texture("sprites/maze/screen.png", get_maze_texture());
     load_texture("sprites/space_ships/space_ship1.png", get_player_texture());
     load_texture("sprites/space_ships/enemy_space_ship1.png", get_enemy_texture());
+
     // Calcula bounds da maze pra centralizar na window
     // N funciona ainda
+
     sf::Vector2u window_size = window.getSize();
     sf::FloatRect maze_bounds = get_maze_sprite().getGlobalBounds();
     float maze_w = maze_bounds.width;
     float maze_h = maze_bounds.height;
     float maze_x = (window_size.x - maze_w)/2.0f + maze_w/2.0f;
     float maze_y = (window_size.y - maze_h)/2.0f + maze_h/2.0f;
-    make_sprite(get_maze_texture(), get_maze_sprite(), 2.0, 2.0, maze_x, maze_y, 90);
-    make_sprite(get_player_texture(), get_player_sprite(), 0.5, 0.5, 240, 365, 90);
-    get_player_sprite().setPosition(543, 373);
 
-    make_sprite(get_enemy_texture(), get_enemy1_sprite(), 0.5, 0.5, 0, 0, 0);
-    get_enemy1_sprite().setPosition(0, 0);
 
-    make_sprite(get_enemy_texture(), get_enemy2_sprite(), 0.5, 0.5, 0, 0, 0);
-    get_enemy2_sprite().setPosition(320, 420);
-    
-    make_sprite(get_enemy_texture(), get_enemy3_sprite(), 0.5, 0.5, 0, 0, 0);
-    get_enemy3_sprite().setPosition(50, 50);
-    
-    make_sprite(get_enemy_texture(), get_enemy4_sprite(), 0.5, 0.5, 0, 0, 0);
-    get_enemy1_sprite().setPosition(200, 500);
+    make_sprite(get_maze_texture(), get_maze_sprite(), 2.0, 2.0);
+
+    // PARA MOVER SPRITES:
+    // Da posição 10 a 705 no sentido horizontal X
+    // Da posição 10 a 685 no sentido vertical Y
+    // CENTRALIZAÇÃO DO PLAYER: (390, 340)
+
+    make_sprite(get_player_texture(), get_player_sprite(), 0.5, 0.5, 390, 340, 90);
+    make_sprite(get_enemy_texture(), get_enemy1_sprite(), 0.5, 0.5, 10, 10, 0);
+    make_sprite(get_enemy_texture(), get_enemy2_sprite(), 0.5, 0.5, 705, 10, 0);    
+    make_sprite(get_enemy_texture(), get_enemy3_sprite(), 0.5, 0.5, 10, 685, 0);    
+    make_sprite(get_enemy_texture(), get_enemy4_sprite(), 0.5, 0.5, 705, 685, 0);
+   // get_enemy4_sprite().setPosition(300, 500);
 }
 
 void GameWindow::draw_entity(sf::Sprite &sprite, float rotation, float x, float y)
