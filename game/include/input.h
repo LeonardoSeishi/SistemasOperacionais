@@ -3,10 +3,8 @@
 
 #include <stdio.h>
 #include <SFML/Graphics.hpp>
-#include "window.h"
-#include "../../thread/include/traits.h"
-#include "../../thread/include/thread.h"
-#include "../../thread/include/semaphore.h"
+#include "game.h"
+
 
 __BEGIN_API
 

@@ -1,19 +1,15 @@
-#ifndef window_h
-#define window_h
-
-#include <iostream>
-#include <png.h>
-#include <SFML/Window.hpp>
-#include <SFML/Graphics.hpp>
+#ifndef game_window_h
+#define game_window_h
 
 #include "../../thread/include/traits.h"
-#include "../../thread/include/thread.h"
-#include "../../thread/include/semaphore.h"
-
-#include "game.h"
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <iostream>
+#include <png.h>
 
 
 __BEGIN_API
+
 class GameWindow
 {
 public:
@@ -23,7 +19,7 @@ public:
 
     void load_texture(std::string path, sf::Texture& texture);
 
-    void make_sprite(
+    static void make_sprite(
         sf::Texture& texture,
         sf::Sprite& sprite,
         double scale_x, 
@@ -34,10 +30,6 @@ public:
     );
 
     void init_sprites();
-
-    static void init();
-
-    // static void draw_entity(sf::Sprite& sprite, float rotation, float x, float  y);
 
     static void run(GameWindow *window_obj);
 
@@ -58,7 +50,6 @@ public:
     static sf::Sprite& get_shot_sprite() { return shot_sprite; }
     static sf::Texture& get_shot_texture() { return shot_tex; }
 
-public:
     static sf::RenderWindow window;
     static Semaphore sem;
 
@@ -79,8 +70,7 @@ private:
 
     static sf::Texture shot_tex;
     static sf::Sprite shot_sprite;
-
-    
+  
 };
 
 __END_API

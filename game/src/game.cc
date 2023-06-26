@@ -9,6 +9,7 @@ Thread * Game::_enemy_1_thread;
 Thread * Game::_enemy_2_thread;
 Thread * Game::_enemy_3_thread;
 Thread * Game::_enemy_4_thread;
+Thread * Game::_menu_thread;
 Thread * Game::_input_thread;
 
 //Classes
@@ -19,6 +20,7 @@ EnemyShip * Game::_enemy_1;
 EnemyShip * Game::_enemy_2;
 EnemyShip * Game::_enemy_3;
 EnemyShip * Game::_enemy_4;
+Menu * Game::_menu;
 Input * Game::_input_obj;
 
 //Variáveis
@@ -33,6 +35,7 @@ unsigned int Game::_score;
 
 
 Game::Game() {
+    
 
 }
 
@@ -104,7 +107,7 @@ void Game::init(void *name) {
     _enemy_2 = new EnemyShip(705, 10, 1);
     _enemy_3 = new EnemyShip(10, 685, 1);
     _enemy_4 = new EnemyShip(705, 685, 1);
-
+    _menu = new Menu();
     _input_obj = new Input(_player);
 
     _window_thread = new Thread(GameWindow::run, _game_window);
@@ -114,12 +117,17 @@ void Game::init(void *name) {
     _enemy_3_thread = new Thread(EnemyShip::runEnemyShip, _enemy_3, 1);
     _enemy_4_thread = new Thread(EnemyShip::runEnemyShip, _enemy_4, 1);
 
+    _menu_thread = new Thread(Menu::run, _menu);
     _input_thread = new Thread(Input::run);
 
     int ec;
     std::cout << "main: esperando window_thread...\n";
     ec = _window_thread->join();
     std::cout << "main: window_thread acabou com exit code " << ec << "\n";
+
+    std::cout << "main: esperando menu_thread...\n";
+    ec = _window_thread->join();
+    std::cout << "menu_thread acabou com exit code " << ec << "\n";
 
     std::cout << "main: esperando player_thread...\n";
     ec = _player_thread->join();
@@ -144,6 +152,7 @@ void Game::init(void *name) {
     delete _game_sem;
 
     delete _window_thread;
+    delete _menu_thread;
     delete _player_thread;
     delete _enemy_1_thread;
     delete _enemy_2_thread;

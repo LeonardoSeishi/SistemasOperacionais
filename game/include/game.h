@@ -2,11 +2,12 @@
 #define game_h
 
 #include "../../thread/include/traits.h"
-#include "../../thread/include/thread.h"
 #include "../../thread/include/semaphore.h"
-#include "spaceship.h"
+#include "../../thread/include/thread.h"
+#include "menu.h"
 #include "input.h"
-
+#include "spaceship.h"
+#include "projectile.h"
 #include <vector>
 
 
@@ -14,10 +15,10 @@ __BEGIN_API
 
 class Game
 {
-// private:
-//     static void windowRun();
-//     static void playerRun(PlayerShip *player_obj);
-//     static void enemyRun();
+    // private:
+    //     static void windowRun();
+    //     static void playerRun(PlayerShip *player_obj);
+    //     static void enemyRun();
     /*
     static void Run();
     static void Run();
@@ -27,16 +28,18 @@ class Game
     */
 
 public:
-
     static int do_work(int n)
     {
         int i, j, soma;
 
         soma = 0;
-        for (i = 0; i < n; i++) {
+        for (i = 0; i < n; i++)
+        {
             for (j = 0; j < n; j++)
-                {soma += j * i;}
-        return soma;
+            {
+                soma += j * i;
+            }
+            return soma;
         }
     }
 
@@ -58,19 +61,19 @@ public:
 
     static void init(void *name);
 
-    //gets e sets
+    // gets e sets
     static bool isWindowOpen();
-    static bool closeWindow() {_windowOpen = false;}
-    static Semaphore* sem();
-    static GameWindow& getWindow() { return *_game_window; }
+    static bool closeWindow() { _windowOpen = false; }
+    static Semaphore *sem();
+    static GameWindow &getWindow() { return *_game_window; }
     // static PlayerShip getPlayer() { return *_player; }
     // static EnemyShip getEnemy1() { return *_enemy_1; }
     // static EnemyShip getEnemy2() { return *_enemy_2; }
     // static EnemyShip getEnemy3() { return *_enemy_3; }
     // static EnemyShip getEnemy4() { return *_enemy_4; }
 
-    static void addEnemy(sf::Sprite& enemy);
-    static std::vector<sf::Sprite>& getEnemies();
+    static void addEnemy(sf::Sprite &enemy);
+    static std::vector<sf::Sprite> &getEnemies();
 
     static bool paused();
     static unsigned int getSpeed();
@@ -83,28 +86,30 @@ private:
     static Semaphore *_game_sem;
 
     // Classes de threads
-    static GameWindow* _game_window;
+    static GameWindow *_game_window;
     static Input *_input_obj;
+    static Menu *_menu;
     static PlayerShip *_player;
     static EnemyShip *_enemy_1;
     static EnemyShip *_enemy_2;
     static EnemyShip *_enemy_3;
     static EnemyShip *_enemy_4;
 
-    //threads 
-    static Thread * _window_thread;
-    static Thread * _input_thread;
-    static Thread * _player_thread;
-    static Thread * _enemy_1_thread;
-    static Thread * _enemy_2_thread;
-    static Thread * _enemy_3_thread;
-    static Thread * _enemy_4_thread;
+    // threads
+    static Thread *_window_thread;
+    static Thread *_input_thread;
+    static Thread *_menu_thread;
+    static Thread *_player_thread;
+    static Thread *_enemy_1_thread;
+    static Thread *_enemy_2_thread;
+    static Thread *_enemy_3_thread;
+    static Thread *_enemy_4_thread;
 
-    static std::vector<EnemyShip*> _enemies;
+    static std::vector<EnemyShip *> _enemies;
 
-    /*static Thread * 
-    static Thread * 
-    static Thread * 
+    /*static Thread *
+    static Thread *
+    static Thread *
     */
 
     static bool _windowOpen;
@@ -123,4 +128,3 @@ private:
 
 __END_API
 #endif
-

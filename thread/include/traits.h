@@ -15,10 +15,11 @@ class System;
 class Thread;
 class Lists;
 class Game;
-class PlayerShip;
-class Input;
-class EnemyShip;
 class GameWindow;
+class PlayerShip;
+class EnemyShip;
+class Input;
+
 
 //declaração da classe Traits
 template<typename T>

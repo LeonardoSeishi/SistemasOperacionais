@@ -1,8 +1,7 @@
 #include <iostream>
-#include "../../thread/include/traits.h"
-#include "../../thread/include/system.h"
 
-#include "../include/window.h"
+#include "../../thread/include/system.h"
+#include "../include/game.h"
 
 __USING_API
 

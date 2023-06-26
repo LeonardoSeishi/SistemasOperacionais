@@ -1,9 +1,9 @@
 #ifndef game_entity_h
 #define game_entity_h
 
+#include "window.h"
 #include <SFML/Graphics.hpp>
-#include "../../thread/include/traits.h"
-#include "../../thread/include/semaphore.h"
+#include <SFML/Window.hpp>
 
 __BEGIN_API
 

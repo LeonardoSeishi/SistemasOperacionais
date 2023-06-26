@@ -2,8 +2,6 @@
 
 #include "../include/window.h"
 
-//#include "../include/space.h"
-
 __BEGIN_API
 
 sf::RenderWindow GameWindow::window(sf::VideoMode(1086, 746), "Jogo das Naves");

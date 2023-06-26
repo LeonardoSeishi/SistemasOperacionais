@@ -2,11 +2,8 @@
 #define collision_h
 
 #include <SFML/Graphics.hpp>
-#include "../include/spaceship.h"
-#include "../include/projectile.h"
-
 #include <vector>
-
+#include "game.h"
 
 __BEGIN_API
 
