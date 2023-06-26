@@ -13,8 +13,6 @@ class Spaceship: public GameEntity
 {
 public:
 
-    void move(GameEntity::Direction, sf::Sprite &sprite);
-
     void shoot();
 
     //const sf::Sprite& getSprite() const;

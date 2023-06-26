@@ -3,10 +3,12 @@
 
 #include "game_entity.h"
 
+__BEGIN_API
+
 class Projectile: public GameEntity
 {
 public:
-    Projectile();
+    Projectile(unsigned int x, unsigned int y, Direction direction);
 
     ~Projectile();
 
@@ -22,5 +24,7 @@ private:
     bool _enemy;
 
 };
+
+__END_API
 
 #endif

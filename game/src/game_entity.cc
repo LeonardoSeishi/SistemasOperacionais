@@ -2,6 +2,38 @@
 
 //gets e sets
 
+__BEGIN_API
+
+void GameEntity::move(Direction direction, sf::Sprite &sprite)
+{
+    unsigned int new_x = x();
+    unsigned int new_y = y();
+    // Speed pode ser o numero de vezes que inimigos se movimentam antes de player
+    switch (direction) {
+        case UP:
+            new_y -= speed();
+            _direction = UP;
+            GameWindow::draw_entity(sprite, 0, new_x, new_y);
+            break;
+        case DOWN:
+            new_y += speed();
+            _direction = DOWN;
+            GameWindow::draw_entity(sprite, 180, new_x, new_y);
+            break;
+        case LEFT:
+            new_x -= speed();
+            _direction = LEFT;
+            GameWindow::draw_entity(sprite, 270, new_x, new_y);
+            break;
+        case RIGHT:
+            new_x += speed();
+            _direction = RIGHT;
+            GameWindow::draw_entity(sprite, 90, new_x, new_y);
+            break;
+    }
+    set_position(new_x, new_y);
+}
+
 unsigned int GameEntity::speed() {return _speed;}
 
 unsigned int GameEntity::x() {return _x;}
@@ -15,6 +47,7 @@ void GameEntity::set_position(unsigned int x, unsigned int y){
     _y = y;
 }
 
+<<<<<<< HEAD
 void GameEntity::draw_entity(sf::Sprite &sprite, float rotation, float x, float y)
 {
     sprite.setPosition(x, y);
@@ -23,6 +56,10 @@ void GameEntity::draw_entity(sf::Sprite &sprite, float rotation, float x, float 
     sprite.setRotation(rotation);
 }
 
+=======
+
+__END_API
+>>>>>>> 21685f2a913690bcd3a1b10bbdb200f5d42223f7
 // sf::Sprite& GameEntity::getSprite() {
 //     return _shipSprite;
 // }

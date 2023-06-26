@@ -42,10 +42,9 @@ void EnemyShip::runEnemyShip(EnemyShip *enemy, int algoritmo)
 
     while (Game::isWindowOpen())
     {
-        // std::cout << "Game::isWindowOpen()\n";
-        // Game::sem()->p();
+        
         Thread::yield();
-        // Game::sem()->v();
+
     }
 }
 

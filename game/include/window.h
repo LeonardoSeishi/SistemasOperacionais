@@ -55,6 +55,9 @@ public:
     static sf::Sprite &get_enemy3_sprite() { return enemy3_sprite; }    
     static sf::Sprite &get_enemy4_sprite() { return enemy4_sprite; }
 
+    static sf::Sprite& get_shot_sprite() { return shot_sprite; }
+    static sf::Texture& get_shot_texture() { return shot_tex; }
+
 public:
     static sf::RenderWindow window;
     static Semaphore sem;
@@ -74,8 +77,8 @@ private:
     static sf::Sprite enemy3_sprite;
     static sf::Sprite enemy4_sprite;
 
-    sf::Texture shot_tex;
-    sf::Sprite shot_sprite;
+    static sf::Texture shot_tex;
+    static sf::Sprite shot_sprite;
 
     
 };
