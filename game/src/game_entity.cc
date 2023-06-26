@@ -13,22 +13,22 @@ void GameEntity::move(Direction direction, sf::Sprite &sprite)
         case UP:
             new_y -= speed();
             _direction = UP;
-            GameWindow::draw_entity(sprite, 0, new_x, new_y);
+            draw_entity(sprite, 0, new_x, new_y);
             break;
         case DOWN:
             new_y += speed();
             _direction = DOWN;
-            GameWindow::draw_entity(sprite, 180, new_x, new_y);
+            draw_entity(sprite, 180, new_x, new_y);
             break;
         case LEFT:
             new_x -= speed();
             _direction = LEFT;
-            GameWindow::draw_entity(sprite, 270, new_x, new_y);
+            draw_entity(sprite, 270, new_x, new_y);
             break;
         case RIGHT:
             new_x += speed();
             _direction = RIGHT;
-            GameWindow::draw_entity(sprite, 90, new_x, new_y);
+            draw_entity(sprite, 90, new_x, new_y);
             break;
     }
     set_position(new_x, new_y);

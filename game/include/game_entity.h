@@ -2,7 +2,6 @@
 #define game_entity_h
 
 #include <SFML/Graphics.hpp>
-#include "window.h"
 #include "../../thread/include/traits.h"
 #include "../../thread/include/semaphore.h"
 

@@ -37,7 +37,7 @@ public:
 
     static void init();
 
-    static void draw_entity(sf::Sprite& sprite, float rotation, float x, float  y);
+    // static void draw_entity(sf::Sprite& sprite, float rotation, float x, float  y);
 
     static void run(GameWindow *window_obj);
 

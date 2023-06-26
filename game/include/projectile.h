@@ -1,7 +1,7 @@
 #ifndef projectile_h
 #define projectile_h
 
-#include "game_entity.h"
+#include "../include/game.h"
 
 __BEGIN_API
 

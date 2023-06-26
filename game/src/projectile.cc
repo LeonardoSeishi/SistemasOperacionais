@@ -13,7 +13,7 @@ void Projectile::runProjectile() {
     std::cout << "Chegou no run playership\n";
 
     while (Game::isWindowOpen()) {
-        Projectile::move(direction(),GameWindow::get_shot_sprite());
+        Projectile::move(direction(), GameWindow::get_shot_sprite());
         Thread::yield();
     }
 
