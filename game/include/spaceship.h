@@ -16,6 +16,8 @@ public:
     void move(GameEntity::Direction, sf::Sprite &sprite);
 
     void shoot();
+
+    //const sf::Sprite& getSprite() const;
 };
 
 
@@ -29,7 +31,7 @@ public:
     void lose_life();
 
     // Roda algoritmo
-    static void runEnemyShip();
+    static void runEnemyShip(EnemyShip *enemy, int algoritmo);
 
 private:
     int _dificult;

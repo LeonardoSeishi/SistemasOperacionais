@@ -1,22 +1,27 @@
 #include "../include/game.h"
 
 __BEGIN_API
-//threads
+
+//Threads
 Thread * Game::_window_thread;
 Thread * Game::_player_thread;
-Thread * Game::_enemy_thread;
+Thread * Game::_enemy_1_thread;
+Thread * Game::_enemy_2_thread;
+Thread * Game::_enemy_3_thread;
+Thread * Game::_enemy_4_thread;
 Thread * Game::_input_thread;
-//Thread * Game::_
-//Thread * Game::
 
-//classes
+//Classes
 Semaphore * Game::_game_sem;
 GameWindow * Game::_game_window;
-PlayerShip * Game::_player_obj;
-EnemyShip * Game::_enemy_obj;
+PlayerShip * Game::_player;
+EnemyShip * Game::_enemy_1;
+EnemyShip * Game::_enemy_2;
+EnemyShip * Game::_enemy_3;
+EnemyShip * Game::_enemy_4;
 Input * Game::_input_obj;
-//
 
+//Variáveis
 bool Game::_windowOpen;
 bool Game::_paused;
 unsigned int Game::_level;
@@ -24,7 +29,12 @@ unsigned int Game::_speed;
 unsigned int Game::_eliminations;
 unsigned int Game::_score;
 
-Game::Game() {}
+// std::vector<sf::Sprite> Game::_enemies;
+
+
+Game::Game() {
+
+}
 
 Game::~Game() {}
 
@@ -78,16 +88,7 @@ Semaphore * Game::sem(){
     return _game_sem;
 }
 
-void Game::startGame() {
-    // Inicializa threads do jogo
-    // Thread *_window = new Thread(GameWindow::run, game->game_window);
-    // _window_thread = new Thread(GameWindow::run);
-}
-
 void Game::init(void *name) {
-    //_game_window = new GameWindow();
-    //GameWindow::init();
-    //GameWindow::run();
     _windowOpen = true;
     _paused = false;
     _level = 1;
@@ -98,11 +99,21 @@ void Game::init(void *name) {
     _game_sem = new Semaphore(1);
 
     _game_window = new GameWindow();
-    _player_obj = new PlayerShip(380, 330);
-    _input_obj = new Input(_player_obj);
+    _player = new PlayerShip(380, 330);
+    _enemy_1 = new EnemyShip(10, 10, 1);
+    _enemy_2 = new EnemyShip(705, 10, 1);
+    _enemy_3 = new EnemyShip(10, 685, 1);
+    _enemy_4 = new EnemyShip(705, 685, 1);
+
+    _input_obj = new Input(_player);
 
     _window_thread = new Thread(GameWindow::run, _game_window);
-    _player_thread = new Thread(PlayerShip::runPlayerShip, _player_obj);
+    _player_thread = new Thread(PlayerShip::runPlayerShip, _player);
+    _enemy_1_thread = new Thread(EnemyShip::runEnemyShip, _enemy_1, 0);
+    _enemy_2_thread = new Thread(EnemyShip::runEnemyShip, _enemy_2, 0);
+    _enemy_3_thread = new Thread(EnemyShip::runEnemyShip, _enemy_3, 1);
+    _enemy_4_thread = new Thread(EnemyShip::runEnemyShip, _enemy_4, 1);
+
     _input_thread = new Thread(Input::run);
 
     do_work(20000);
@@ -116,14 +127,31 @@ void Game::init(void *name) {
     ec = _player_thread->join();
     std::cout << "main: player_thread acabou com exit code " << ec << "\n";
 
-    std::cout << "main: esperando input_thread...\n";
-    ec = _input_thread->join();
-    std::cout << "main: input_thread acabou com exit code " << ec << "\n";
+    std::cout << "main: esperando enemy_1_thread...\n";
+    ec = _enemy_1_thread->join();
+    std::cout << "main: enemy_1_thread acabou com exit code " << ec << "\n";
+
+    std::cout << "main: esperando enemy_2_thread...\n";
+    ec = _enemy_2_thread->join();
+    std::cout << "main: enemy_2_thread acabou com exit code " << ec << "\n";
+
+    std::cout << "main: esperando enemy_3_thread...\n";
+    ec = _enemy_3_thread->join();
+    std::cout << "main: enemy_3_thread acabou com exit code " << ec << "\n";
+
+    std::cout << "main: esperando enemy_4_thread...\n";
+    ec = _enemy_4_thread->join();
+    std::cout << "main: enemy_4_thread acabou com exit code " << ec << "\n";
 
     delete _game_sem;
 
     delete _window_thread;
     delete _player_thread;
+    delete _enemy_1_thread;
+    delete _enemy_2_thread;
+    delete _enemy_3_thread;
+    delete _enemy_4_thread;
+
     delete _input_thread;
     
 }
@@ -144,6 +172,15 @@ void Game::init(void *name) {
 //void Game::shotRun
 
 //void Game::inputRun
+
+
+// void Game::addEnemy(sf::Sprite& enemy) {
+//     _enemies.push_back(enemy);
+// }
+
+// std::vector<EnemyShip*>& Game::getEnemies() {
+//     return _enemies;
+// }
 
 //gets e sets
 bool Game::paused() { return _paused;}

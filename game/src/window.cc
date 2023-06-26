@@ -77,6 +77,12 @@ void GameWindow::init_sprites()
     make_sprite(get_enemy_texture(), get_enemy3_sprite(), 0.5, 0.5, 10, 685, 0);    
     make_sprite(get_enemy_texture(), get_enemy4_sprite(), 0.5, 0.5, 705, 685, 0);
    // get_enemy4_sprite().setPosition(300, 500);
+
+
+    // Game::addEnemy(get_enemy1_sprite);
+    // Game::addEnemy(get_enemy2_sprite);
+    // Game::addEnemy(get_enemy3_sprite);
+    // Game::addEnemy(get_enemy4_sprite);
 }
 
 void GameWindow::draw_entity(sf::Sprite &sprite, float rotation, float x, float y)
@@ -108,6 +114,13 @@ void GameWindow::run(GameWindow *window_obj)
         window.draw(get_enemy3_sprite());
         window.draw(get_enemy4_sprite());
         window.display();
+        
+
+        // PlayerShip& player = Game::getPlayer();
+        // std::vector<EnemyShip*> enemies = Game::getEnemies();  // Assuming you have a function that returns a vector of EnemyShip pointers in Game class
+        // std::vector<Projectile*> projectiles = Game::getProjectiles();  // Assuming you have a function that returns a vector of Projectile pointers in Game class
+       
+        // Collision::handleCollisions(player, enemies, projectiles);
 
         Thread::yield();
     }

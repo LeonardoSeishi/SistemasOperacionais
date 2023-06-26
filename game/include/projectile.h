@@ -15,6 +15,8 @@ public:
     //gets
     bool isEnemyShot();
 
+    const sf::Sprite& getSprite() const;
+
 private:
     //verifica se tiro é inimigo
     bool _enemy;
