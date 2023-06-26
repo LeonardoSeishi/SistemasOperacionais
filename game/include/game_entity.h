@@ -24,6 +24,7 @@ public:
     // sf::Texture& getTexture();
 
     void set_position(unsigned int x, unsigned int y);
+    void draw_entity(sf::Sprite &sprite, float rotation, float x, float y);
 
 //Declaracao dos atributos de uma entidade  
 protected:

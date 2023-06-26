@@ -85,13 +85,7 @@ void GameWindow::init_sprites()
     // Game::addEnemy(get_enemy4_sprite);
 }
 
-void GameWindow::draw_entity(sf::Sprite &sprite, float rotation, float x, float y)
-{
-    sprite.setPosition(x, y);
-    sf::FloatRect bounds = sprite.getLocalBounds();
-    sprite.setOrigin(bounds.width/2, bounds.height/2);
-    sprite.setRotation(rotation);
-}
+
 
 void GameWindow::run(GameWindow *window_obj)
 {

@@ -2,10 +2,10 @@
 #define spaceship_h
 
 #include <SFML/Graphics.hpp>
-#include "game_entity.h"
-#include "window.h"
 #include "../../thread/include/traits.h"
 #include "../../thread/include/semaphore.h"
+#include "game_entity.h"
+
 
 __BEGIN_API
 

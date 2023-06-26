@@ -15,6 +15,14 @@ void GameEntity::set_position(unsigned int x, unsigned int y){
     _y = y;
 }
 
+void GameEntity::draw_entity(sf::Sprite &sprite, float rotation, float x, float y)
+{
+    sprite.setPosition(x, y);
+    sf::FloatRect bounds = sprite.getLocalBounds();
+    sprite.setOrigin(bounds.width/2, bounds.height/2);
+    sprite.setRotation(rotation);
+}
+
 // sf::Sprite& GameEntity::getSprite() {
 //     return _shipSprite;
 // }

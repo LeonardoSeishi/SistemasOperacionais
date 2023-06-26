@@ -1,4 +1,4 @@
-#include "../include/spaceship.h"
+#include "../include/game.h"
 //PLAYER
 
 __BEGIN_API

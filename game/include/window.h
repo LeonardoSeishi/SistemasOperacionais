@@ -6,12 +6,12 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
-#include "game.h"
-#include "spaceship.h"
-#include "window.h"
 #include "../../thread/include/traits.h"
 #include "../../thread/include/thread.h"
 #include "../../thread/include/semaphore.h"
+
+#include "game.h"
+
 
 __BEGIN_API
 class GameWindow
