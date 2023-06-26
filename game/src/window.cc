@@ -16,6 +16,8 @@ sf::Sprite GameWindow::enemy1_sprite;
 sf::Sprite GameWindow::enemy2_sprite;
 sf::Sprite GameWindow::enemy3_sprite;
 sf::Sprite GameWindow::enemy4_sprite;
+sf::Texture GameWindow::shot_tex;
+sf::Sprite GameWindow::shot_sprite;
 
 GameWindow::GameWindow() {}
 
@@ -128,8 +130,6 @@ void GameWindow::run(GameWindow *window_obj)
     bool e;
     std::cout << "close window\n";
     Game::closeWindow();
-    e = Game::isWindowOpen();
-    std::cout << e <<"\n";
 }
 
 __END_API

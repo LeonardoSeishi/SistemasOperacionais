@@ -2,6 +2,11 @@
 #define game_entity_h
 
 #include <SFML/Graphics.hpp>
+#include "window.h"
+#include "../../thread/include/traits.h"
+#include "../../thread/include/semaphore.h"
+
+__BEGIN_API
 
 class GameEntity 
 {
@@ -12,6 +17,8 @@ public:
         LEFT,
         RIGHT
     };
+
+    void move(GameEntity::Direction, sf::Sprite &sprite);
 
     //gets e sets
     unsigned int speed();
@@ -37,5 +44,7 @@ protected:
     // sf::Sprite _shipSprite;
     // sf::Texture _shipTexture;
 };
+
+__END_API
 
 #endif

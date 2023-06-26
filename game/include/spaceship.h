@@ -1,19 +1,13 @@
 #ifndef spaceship_h
 #define spaceship_h
 
-#include <SFML/Graphics.hpp>
 #include "game_entity.h"
-#include "window.h"
-#include "../../thread/include/traits.h"
-#include "../../thread/include/semaphore.h"
 
 __BEGIN_API
 
 class Spaceship: public GameEntity
 {
 public:
-
-    void move(GameEntity::Direction, sf::Sprite &sprite);
 
     void shoot();
 

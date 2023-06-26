@@ -116,8 +116,6 @@ void Game::init(void *name) {
 
     _input_thread = new Thread(Input::run);
 
-    do_work(20000);
-
     int ec;
     std::cout << "main: esperando window_thread...\n";
     ec = _window_thread->join();
