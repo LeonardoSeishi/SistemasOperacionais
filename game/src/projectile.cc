@@ -38,17 +38,16 @@ Thread * Projectile::get_thread() {
 }
 
 void Projectile::runProjectile(Projectile *shot) {
-    std::cout << "Chegou no run Projectile\n";
 
     while (Game::isWindowOpen()) {
         shot->move(shot->direction());
         GameWindow::draw_sprite(shot->getSprite());
         if (shot->get_health() < 1) {
-            std::cout << "tiro colidiu\n";
+            //colisao
             break;
         } else if (!shot->checkPositionBound()) {
-            std::cout << "tiro saiu da tela\n";
             break;
+            //saiu da tela
         }
         Thread::yield();
     }
@@ -56,13 +55,12 @@ void Projectile::runProjectile(Projectile *shot) {
 }
 
 
-//////////////////////////////////////////////
+//////////////////// Game Entity //////////////////////////
 
 void Projectile::move(GameEntity::Direction direction)
 {
     unsigned int new_x = x();
     unsigned int new_y = y();
-    // Speed pode ser o numero de vezes que inimigos se movimentam antes de player
     switch (direction)
     {
     case UP:
@@ -141,7 +139,7 @@ void Projectile::draw_entity(sf::Sprite &sprite, float rotation, float x, float 
     sf::FloatRect bounds = sprite.getLocalBounds();
     sprite.setOrigin(bounds.width / 2, bounds.height / 2);
     sprite.setRotation(rotation);
-    // GameWindow::draw_sprite(sprite);
+
 }
 
 

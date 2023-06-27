@@ -18,6 +18,8 @@ public:
 
     void shoot();
 
+    ////////////////// Game Entity ////////////////////////
+
     void move(GameEntity::Direction direction) override;
 
     void sem_lock() override;

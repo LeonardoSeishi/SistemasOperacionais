@@ -68,14 +68,14 @@ void Spaceship::draw_entity(sf::Sprite &sprite, float rotation, float x, float y
     sf::FloatRect bounds = sprite.getLocalBounds();
     sprite.setOrigin(bounds.width / 2, bounds.height / 2);
     sprite.setRotation(rotation);
-    // GameWindow::draw_sprite(sprite);
+
 }
 
 void Spaceship::move(GameEntity::Direction direction)
 {
     unsigned int new_x = x();
     unsigned int new_y = y();
-    // Speed pode ser o numero de vezes que inimigos se movimentam antes de player
+
     switch (direction)
     {
     case UP:

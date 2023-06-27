@@ -23,52 +23,42 @@ void Input::run()
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
             {
                 std::cout << "Keyboard esquerda!" << std::endl;
-                player->move(GameEntity::LEFT);//, GameWindow::get_player_sprite());
+                player->move(GameEntity::LEFT);
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
             {
                 std::cout << "Keyboard direita!" << std::endl;
-                player->move(GameEntity::RIGHT);//, GameWindow::get_player_sprite());
+                player->move(GameEntity::RIGHT);
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
             {
                 std::cout << "Keyboard para baixo!" << std::endl;
-                player->move(GameEntity::DOWN);//, GameWindow::get_player_sprite());
+                player->move(GameEntity::DOWN);
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
             {
                 std::cout << "Keyboard para cima!" << std::endl;
-                player->move(GameEntity::UP);//, GameWindow::get_player_sprite());
+                player->move(GameEntity::UP);
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
             {
                 std::cout << "Close Game!" << std::endl;
-                // Chamar game.endGame
                 exit(1);
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
             {
                 std::cout << "shoot!" << std::endl;
                 player->shoot();
-                // atirar
-                // new Thread em player
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
             {
                 std::cout << "reiniciar!" << std::endl;
                 // reiniciar
-                // game_control->restart();
             }
-            // GameWindow::sem_free();
         }
         
         Thread::yield();
     }
-    // else
-    // {
-    //     std::cout << "Keyboard pressed = " << event.key.code << std::endl;
-    //     break;
-    // }
 }
 
 __END_API

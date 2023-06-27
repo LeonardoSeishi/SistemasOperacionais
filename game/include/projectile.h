@@ -14,21 +14,19 @@ public:
 
     ~Projectile();
 
-    void set_thread(Thread * thread);
-    Thread * get_thread();
-
     bool checkPositionBound();
 
     static void runProjectile(Projectile * shot);
 
-    //gets
+    //gets e sets
     const sf::Sprite& getSprite() const;
+    void set_thread(Thread * thread);
+    Thread * get_thread();
 
 private:
-    //verifica se tiro é inimigo
     Thread * shot_thread;
     
-///////////////////////////////////////////////////// game entity 
+///////////////////// game entity ////////////////////////
 public:
     void move(GameEntity::Direction direction) override;
 

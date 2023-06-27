@@ -2,14 +2,12 @@
 
 #include "../include/window.h"
 
-//#include "../include/space.h"
-
 __BEGIN_API
 
 sf::RenderWindow GameWindow::window(sf::VideoMode(1086, 746), "Jogo das Naves");
 Semaphore *GameWindow::sem = new Semaphore();
 std::deque<sf::Sprite> GameWindow::sprite_queue;
-// bool can_draw = false;
+
 sf::Sprite GameWindow::maze_sprite;
 sf::Texture GameWindow::maze_tex;
 sf::Sprite GameWindow::score_sprite;
