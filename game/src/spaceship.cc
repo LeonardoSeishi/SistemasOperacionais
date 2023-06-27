@@ -19,7 +19,7 @@ void Spaceship::shoot() {
 
 
 void Spaceship::sem_lock() {
-    std::cout << "vai tomar no cu\n";
+    std::cout << "lock sem spaceship\n";
 }
 
 unsigned int Spaceship::speed() {
@@ -39,8 +39,17 @@ GameEntity::Direction Spaceship::direction() {
     return _direction;
 }
 
+void Spaceship::set_direction(GameEntity::Direction direction)
+{
+    _direction = direction;
+}
+
 sf::Sprite& Spaceship::getSprite() {
     return _entity_sprite;
+}
+
+sf::Texture& Spaceship::getTexture() {
+    return _entity_texture;
 }
 
 void Spaceship::set_position(unsigned int x, unsigned int y) {
