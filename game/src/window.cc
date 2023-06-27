@@ -12,6 +12,13 @@ std::deque<sf::Sprite> GameWindow::sprite_queue;
 // bool can_draw = false;
 sf::Sprite GameWindow::maze_sprite;
 sf::Texture GameWindow::maze_tex;
+sf::Sprite GameWindow::score_sprite;
+sf::Texture GameWindow::score_tex;
+sf::Sprite GameWindow::ready_sprite;
+sf::Texture GameWindow::ready_tex;
+sf::Text GameWindow::score_text;
+sf::Font GameWindow::font;
+
 
 GameWindow::GameWindow() {}
 
@@ -33,7 +40,7 @@ void GameWindow::make_sprite(
     double scale_y,
     int position_x = 0, 
     int position_y = 0, 
-    float angle = (0,0)
+    float angle = 0
     ) 
 {
     sprite.setTexture(texture);
@@ -42,10 +49,23 @@ void GameWindow::make_sprite(
     sprite.setRotation(angle);
 }
 
+void GameWindow::write_screen(sf::Font& font, sf::Text& text, int value, int x = 880, int y = 70) {
+    text.setFont(font);
+    text.setCharacterSize(100);
+    text.setPosition(x, y);
+    text.setFillColor(sf::Color::White);
+    text.setString(""+ std::to_string(value));
+}
+
+
 // Inicializa sprites do objeto window
 void GameWindow::init_sprites() 
 {
     load_texture("sprites/maze/screen.png", get_maze_texture());
+    load_texture("sprites/ui/score_tex.png", get_score_texture());
+    load_texture("sprites/ui/ready.png", get_ready_texture());
+
+
     // load_texture("sprites/space_ships/space_ship1.png", get_player_texture());
     // load_texture("sprites/space_ships/enemy_space_ship1.png", get_enemy_texture());
 
@@ -61,6 +81,9 @@ void GameWindow::init_sprites()
 
 
     make_sprite(get_maze_texture(), get_maze_sprite(), 2.0, 2.0);
+    make_sprite(get_score_texture(), get_score_sprite(), 2.0, 2.0, 880, 30);
+    make_sprite(get_ready_texture(), get_ready_sprite(), 2.0, 2.0, 880, 670);
+
 
     // PARA MOVER SPRITES:
     // Da posição 10 a 705 no sentido horizontal X
@@ -83,9 +106,12 @@ void GameWindow::draw_sprite(sf::Sprite& sprite) {
 
 void GameWindow::run(GameWindow *window_obj)
 {
+
     // Inicializa sprites e texturas
     window_obj->init_sprites();
+    window_obj->write_screen(font, score_text, 0);
     window.setKeyRepeatEnabled(true);
+
     std::cout << "Chegou no run  window\n";
     // Main workload
     while (window.isOpen())
@@ -96,6 +122,9 @@ void GameWindow::run(GameWindow *window_obj)
         // Limpa artefatos
         window.clear();
         window.draw(get_maze_sprite());
+        window.draw(get_score_sprite());
+        window.draw(get_ready_sprite());
+
         for (const auto& sprite : sprite_queue) {
             window.draw(sprite);
             sprite_queue.pop_front();
