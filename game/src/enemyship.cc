@@ -1,30 +1,24 @@
+#include <random>
 #include "../include/game.h"
+
 
 __BEGIN_API
 
 // ENEMY
-EnemyShip::EnemyShip(unsigned int x, unsigned int y, unsigned int speed)
+EnemyShip::EnemyShip(unsigned int x, unsigned int y, unsigned int speed, bool algoth)
 {
     _x = x;
     _y = y;
     _speed = speed;
     _health = 1;
+    _algth = algoth;
     _sem = new Semaphore(1);
 
-    getTexture().loadFromFile("sprites/space_ships/space_ship1.png");
+    // Inicializa sprite
+    getTexture().loadFromFile("sprites/space_ships/enemy_space_ship1.png");
     getSprite().setTexture(getTexture());
     getSprite().setPosition(x, y);
     getSprite().scale(0.5, 0.5);
-
-    // calcular a direction dependendo de qual parede ele ira surgir
-    // 705 = parede_direita
-    // 685 = valor_chao
-    // else if (_y > 685 && _x > 0 && _x < 705) {
-    //     _direction = UP;
-    // }
-    // else if (_y > 685 && _x > 0 && _x < 705) {
-    //     _direction = UP;
-    // }
 }
 
 EnemyShip::~EnemyShip() {
@@ -37,22 +31,63 @@ void EnemyShip::lose_life()
     // suspender a thread por 2 segundos
 }
 
+std::pair<int, int> EnemyShip::get_random_pair() {
+    // std::random_device rd;
+
+}
+std::pair<int, int> EnemyShip::get_circ_pair() {
+    if (x() <= 10)
+    {
+        move(RIGHT);
+        draw_entity(getSprite(), 90, x(), y());
+        GameWindow::draw_sprite(getSprite());
+    }
+    if (x() > 10 && y() < 705)
+    {
+        move(LEFT);
+        draw_entity(getSprite(), 90, x(), y());
+        GameWindow::draw_sprite(getSprite());
+    }
+    if (y() < 685 && y() > 10)
+    {
+        move(DOWN);
+        draw_entity(getSprite(), 90, x(), y());
+        GameWindow::draw_sprite(getSprite());
+    }
+    if (y() >= 685) 
+    {
+        move(UP);
+        draw_entity(getSprite(), 90, x(), y());
+        GameWindow::draw_sprite(getSprite());
+    }
+    if (y() == 10)
+    {
+        move(DOWN);
+        draw_entity(getSprite(), 90, x(), y());
+    }
+}
+
 void EnemyShip::runEnemyShip(EnemyShip *enemy, int algoritmo)
 {
     std::cout << "Chegou no run enemyship\n";
 
     while (Game::isWindowOpen())
     {
-        if (enemy->x() < 0 && enemy->x() > 0 && enemy->x() < 705)
-        {
-            enemy->move(DOWN);
-            GameWindow::draw_sprite(enemy->getSprite());
+        // calcular a direction dependendo de qual parede ele ira surgir
+        // 705 = parede_direita
+        // 685 = valor_chao
+        // Angulos
+        /* 90 - 
+        */
+        if (enemy->_algth) {
+            std::pair<int, int> coord = enemy->get_random_pair();
+            enemy->set_position(coord.first, coord.second);
+
+        } else {
+            std::pair<int, int> coord = enemy->get_circ_pair();
+            enemy->set_position(coord.first, coord.second);
         }
-        else if (enemy->y() > 685 && enemy->x() > 0 && enemy->x() < 705)
-        {
-            enemy->move(UP);
-            GameWindow::draw_sprite(enemy->getSprite());
-        }
+        GameWindow::draw_sprite(enemy->getSprite());
         Thread::yield();
 
     }

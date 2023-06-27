@@ -12,15 +12,6 @@ std::deque<sf::Sprite> GameWindow::sprite_queue;
 // bool can_draw = false;
 sf::Sprite GameWindow::maze_sprite;
 sf::Texture GameWindow::maze_tex;
-// sf::Sprite GameWindow::player_sprite;
-// sf::Texture GameWindow::player_tex;
-// sf::Texture GameWindow::enemy_tex;
-// sf::Sprite GameWindow::enemy1_sprite;
-// sf::Sprite GameWindow::enemy2_sprite;
-// sf::Sprite GameWindow::enemy3_sprite;
-// sf::Sprite GameWindow::enemy4_sprite;
-// sf::Texture GameWindow::shot_tex;
-// sf::Sprite GameWindow::shot_sprite;
 
 GameWindow::GameWindow() {}
 
@@ -86,7 +77,7 @@ void GameWindow::init_sprites()
 
 void GameWindow::draw_sprite(sf::Sprite& sprite) {
     // sem->p();
-    sprite_queue.push_front(sprite);
+    sprite_queue.push_back(sprite);
     // sem->v();
 }
 

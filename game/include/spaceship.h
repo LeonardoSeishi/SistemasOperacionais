@@ -2,6 +2,7 @@
 #define spaceship_h
 
 #include <SFML/Graphics.hpp>
+#include <utility>
 #include "../../thread/include/traits.h"
 #include "../../thread/include/semaphore.h"
 #include "game_entity.h"
@@ -38,7 +39,7 @@ public:
 class EnemyShip: public Spaceship 
 {
 public:
-    EnemyShip(unsigned int x, unsigned int y, unsigned int speed);
+    EnemyShip(unsigned int x, unsigned int y, unsigned int speed, bool algoth);
 
     ~EnemyShip();
 
@@ -49,7 +50,11 @@ public:
 
 private:
     int _dificult;
+    bool _algth;
 
+private:
+    std::pair<int, int> get_random_pair();
+    std::pair<int, int> get_circ_pair();
 };
 
 class PlayerShip: public Spaceship 

@@ -41,8 +41,8 @@ protected:
     unsigned int _health;
 
     //posicao
-    unsigned int _x;
-    unsigned int _y;
+    volatile unsigned int _x;
+    volatile unsigned int _y;
 
     sf::Sprite _entity_sprite;
     sf::Texture _entity_texture;
