@@ -100,10 +100,10 @@ void Game::init(void *name) {
 
     _game_window = new GameWindow();
     _player = new PlayerShip(380, 330);
-    _enemy_1 = new EnemyShip(10, 10, 1);
-    _enemy_2 = new EnemyShip(705, 10, 1);
-    _enemy_3 = new EnemyShip(10, 685, 1);
-    _enemy_4 = new EnemyShip(705, 685, 1);
+    _enemy_1 = new EnemyShip(10, 10, 1, true);
+    _enemy_2 = new EnemyShip(705, 10, 1, false);
+    _enemy_3 = new EnemyShip(10, 685, 1, true);
+    _enemy_4 = new EnemyShip(705, 685, 1, false);
 
     _input_obj = new Input(_player);
 
