@@ -6,14 +6,19 @@ Projectile::Projectile(unsigned int x, unsigned int y, Direction direction) {
     _speed = 1;
     _x = x;
     _y = y;
+    _health = 1;
     _direction = direction;
+
+    getTexture().loadFromFile("sprites/space_ships/shot.png");
+    getSprite().setTexture(getTexture());
+    getSprite().setPosition(x, y);
+    getSprite().scale(0.5, 0.5);
 }
 
 bool Projectile::checkPositionBound() {
     // Da posição 10 a 705 no sentido horizontal X
     // Da posição 10 a 685 no sentido vertical Y
     if ((_x > 10 && _x < 705 && _y > 10 && _y < 685)) {
-        std::cout << _y <<"\n";
         return true;
     } else {
         return false;
@@ -37,6 +42,7 @@ void Projectile::runProjectile(Projectile *shot) {
 
     while (Game::isWindowOpen()) {
         shot->move(shot->direction());
+        GameWindow::draw_sprite(shot->getSprite());
         if (shot->get_health() < 1) {
             std::cout << "tiro colidiu\n";
             break;
