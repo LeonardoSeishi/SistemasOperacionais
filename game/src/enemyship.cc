@@ -31,84 +31,29 @@ void EnemyShip::lose_life()
     // suspender a thread por 2 segundos
 }
 
-std::pair<int, int> EnemyShip::get_random_pair() {
-    const int min = 1;
-    const int max = 4;
-    const double fraction = 1.0 / (RAND_MAX + 1.0);
-
-    std::srand(static_cast<unsigned int>(std::time(0)));
-
-    int random_x = min + static_cast<int>((max - min + 1) * (std::rand() * fraction));
-    int random_y = min + static_cast<int>((max - min + 1) * (std::rand() * fraction));
-
-    int new_x = x(), new_y = y();
-    switch (random_x)
-    {
-    case 1:
-        // UP
-        if (y() > 10) {
-            new_y = y() + 1;
-            move(UP);
-            draw_entity(getSprite(), 90, x(), y());
-            GameWindow::draw_sprite(getSprite());
-        } else {
-            new_y = y() - 1;
-            move(DOWN);
-            draw_entity(getSprite(), 90, x(), y());
-            GameWindow::draw_sprite(getSprite());
-        }
-        break;
-    case 2:
-        // Down
-        if (y() < 685) {
-            new_y = y() - 1;
-            move(DOWN);
-            draw_entity(getSprite(), 90, x(), y());
-            GameWindow::draw_sprite(getSprite());
-        } else {
-            new_y = y() + 1;
-            
-        }
-        break;
-    case 3:
-        // Left
-        if (x() > 10) {
-            new_x = x() - 1;
-            move(LEFT);
-
-        } else {
-            new_x = x() + 1;
-            move(RIGHT);
-        }
-        break;
-    case 4:
-        // if (x() < )
-        new_x = x() + 1;
-        break;
-    default:
-        break;
-    }
-
-    std::pair<int, int> nome(random_x, random_y);
-    return nome;
-
+std::pair<int, int> EnemyShip::get_random_pair()
+{
+   std::pair<int, int> ret(100, 100);
+   return ret;
 }
+
+
 std::pair<int, int> EnemyShip::get_circ_pair() {
     if (x() <= 10)
-    {
-        move(RIGHT);
-        draw_entity(getSprite(), 90, x(), y());
-        GameWindow::draw_sprite(getSprite());
-    }
-    if (x() > 10 && y() < 705)
     {
         move(LEFT);
         draw_entity(getSprite(), 90, x(), y());
         GameWindow::draw_sprite(getSprite());
     }
+    if (x() > 10 && y() < 705)
+    {
+        move(RIGHT);
+        draw_entity(getSprite(), 90, x(), y());
+        GameWindow::draw_sprite(getSprite());
+    }
     if (y() < 685 && y() > 10)
     {
-        move(DOWN);
+        move(UP);
         draw_entity(getSprite(), 90, x(), y());
         GameWindow::draw_sprite(getSprite());
     }

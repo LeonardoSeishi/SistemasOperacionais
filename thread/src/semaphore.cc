@@ -4,7 +4,7 @@
 __BEGIN_API
 
 void Semaphore::p() {
-    db<Semaphore>(TRC) << "Semaphore post: " << _counter << "\n";
+    // db<Semaphore>(TRC) << "Semaphore post: " << _counter << "\n";
     if (_counter == 0) {
         sleep();
     }
@@ -12,7 +12,7 @@ void Semaphore::p() {
 }
 
 void Semaphore::v() {
-    db<Semaphore>(TRC) << "Semaphore free: " << _counter << "\n";
+    // db<Semaphore>(TRC) << "Semaphore free: " << _counter << "\n";
     if (_counter < 1) {
         wakeup();
     }

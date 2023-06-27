@@ -85,14 +85,6 @@ void GameWindow::init_sprites()
 
 }
 
-void GameWindow::sem_lock() {
-    GameWindow::sem->p();
-}
-
-void GameWindow::sem_free() {
-    GameWindow::sem->v();
-}
-
 void GameWindow::draw_sprite(sf::Sprite& sprite) {
     sem->p();
     sprite_queue.push_back(sprite);
