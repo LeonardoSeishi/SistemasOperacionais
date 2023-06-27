@@ -11,6 +11,7 @@ void Input::run()
     while (Game::isWindowOpen())
     {
         while (Game::getWindow().window.pollEvent(event)) {
+            // GameWindow::sem_lock();
             if (event.type == sf::Event::Closed) {
                 Game::getWindow().window.close();
             }
@@ -58,6 +59,7 @@ void Input::run()
                 // reiniciar
                 // game_control->restart();
             }
+            // GameWindow::sem_free();
         }
         
         Thread::yield();

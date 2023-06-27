@@ -65,13 +65,6 @@ void GameWindow::init_sprites()
     load_texture("sprites/ui/score_tex.png", get_score_texture());
     load_texture("sprites/ui/ready.png", get_ready_texture());
 
-
-    // load_texture("sprites/space_ships/space_ship1.png", get_player_texture());
-    // load_texture("sprites/space_ships/enemy_space_ship1.png", get_enemy_texture());
-
-    // Calcula bounds da maze pra centralizar na window
-    // N funciona ainda
-
     sf::Vector2u window_size = window.getSize();
     sf::FloatRect maze_bounds = get_maze_sprite().getGlobalBounds();
     float maze_w = maze_bounds.width;
@@ -90,18 +83,20 @@ void GameWindow::init_sprites()
     // Da posição 10 a 685 no sentido vertical Y
     // CENTRALIZAÇÃO DO PLAYER: (390, 340)
 
-    // make_sprite(get_player_texture(), get_player_sprite(), 0.5, 0.5, 390, 340, 90);
-    // make_sprite(get_enemy_texture(), get_enemy1_sprite(), 0.5, 0.5, 10, 10, 0);
-    // make_sprite(get_enemy_texture(), get_enemy2_sprite(), 0.5, 0.5, 705, 10, 0);    
-    // make_sprite(get_enemy_texture(), get_enemy3_sprite(), 0.5, 0.5, 10, 685, 0);    
-    // make_sprite(get_enemy_texture(), get_enemy4_sprite(), 0.5, 0.5, 705, 685, 0);
+}
 
+void GameWindow::sem_lock() {
+    GameWindow::sem->p();
+}
+
+void GameWindow::sem_free() {
+    GameWindow::sem->v();
 }
 
 void GameWindow::draw_sprite(sf::Sprite& sprite) {
-    // sem->p();
+    sem->p();
     sprite_queue.push_back(sprite);
-    // sem->v();
+    sem->v();
 }
 
 void GameWindow::run(GameWindow *window_obj)
@@ -111,14 +106,11 @@ void GameWindow::run(GameWindow *window_obj)
     window_obj->init_sprites();
     window_obj->write_screen(font, score_text, 0);
     window.setKeyRepeatEnabled(true);
-
-    std::cout << "Chegou no run  window\n";
     // Main workload
     while (window.isOpen())
     {
         // Espera outros objetos desenharem
-        // sem->p();
-        // std::cout << "AAA\n";
+        sem->p();
         // Limpa artefatos
         window.clear();
         window.draw(get_maze_sprite());
@@ -129,15 +121,9 @@ void GameWindow::run(GameWindow *window_obj)
             window.draw(sprite);
             sprite_queue.pop_front();
         }
-        // std::cout << "BBB\n";
-        // sem->v();
+        sem->v();
 
         window.display();
-        // PlayerShip& player = Game::getPlayer();
-        // std::vector<EnemyShip*> enemies = Game::getEnemies();  // Assuming you have a function that returns a vector of EnemyShip pointers in Game class
-        // std::vector<Projectile*> projectiles = Game::getProjectiles();  // Assuming you have a function that returns a vector of Projectile pointers in Game class
-       
-        // Collision::handleCollisions(player, enemies, projectiles);
 
         Thread::yield();
     }

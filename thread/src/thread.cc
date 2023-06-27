@@ -98,10 +98,9 @@ void Thread::dispatcher() {
         first->_state = RUNNING;
         // Troca o contexto entre as duas threads
         // db<Thread>(TRC) << "Thread [" << first->_id <<"] executando.\n";
-        switch_context(&_dispatcher, first);
         // Testa se o estado da proxima thread eh FINISHING e caso afirmativo remove de _ready
-        if (first->_state == FINISHING) {
-            _ready.remove(first);
+        if (first->_state != FINISHING) {
+            switch_context(&_dispatcher, first);
         }
     }
     // Muda o estado da thread dispatcher para FINISHING
@@ -210,9 +209,9 @@ void Thread::wakeup(Waiting_Queue *waiting_queue) {
             next->_ready.insert(&next->_link);
 
             db<Thread>(TRC) << "Thread [" << next->id() << "] acordou\n";
-            yield();
         } 
     }
+    yield();
 }
 
 __END_API
