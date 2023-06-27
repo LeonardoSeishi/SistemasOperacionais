@@ -190,7 +190,7 @@ void Thread::sleep(Waiting_Queue * waiting_queue) {
 
     Thread * sleep_thread = running();
     Thread::Ready_Queue::Element link_ptr = sleep_thread->link();
-    running()->_waiting->insert(&link_ptr);
+    waiting_queue->insert(&link_ptr);
 
 
     //muda o estado da thread
@@ -201,15 +201,18 @@ void Thread::sleep(Waiting_Queue * waiting_queue) {
 
 void Thread::wakeup(Waiting_Queue *waiting_queue) {
 
-    Thread *next = waiting_queue->remove()->object();
-    if (next != nullptr) {
-        next->_state = READY;
-        next->_ready.insert(&next->_link);
+    running()->_waiting = waiting_queue;
 
-        db<Thread>(TRC) << "Thread [" << next->id() << "] acordou\n";
+    if (waiting_queue->size() > 0) {
+        Thread *next = waiting_queue->remove()->object();
+        if (next != nullptr) {
+            next->_state = READY;
+            next->_ready.insert(&next->_link);
 
-        yield();
-    } 
+            db<Thread>(TRC) << "Thread [" << next->id() << "] acordou\n";
+            yield();
+        } 
+    }
 }
 
 __END_API
