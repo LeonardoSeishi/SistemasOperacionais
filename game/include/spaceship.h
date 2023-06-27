@@ -22,6 +22,8 @@ public:
     unsigned int y() override;
     Direction direction() override;
     void set_direction(GameEntity::Direction direction) override;
+    unsigned int get_health() override;
+    void lose_health() override;
 
     sf::Sprite &getSprite() override;
 
@@ -30,6 +32,10 @@ public:
     void set_position(unsigned int x, unsigned int y) override;
 
     void draw_entity(sf::Sprite &sprite, float rotation, float x, float y) override;
+
+private:
+    Projectile * _shot_obj;
+    Thread * _shot_thread;
 };
 
 

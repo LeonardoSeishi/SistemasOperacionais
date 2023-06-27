@@ -28,8 +28,6 @@ private:
     //verifica se tiro é inimigo
     Thread * shot_thread;
     
-
-
 ///////////////////////////////////////////////////// game entity 
 public:
     void move(GameEntity::Direction direction) override;
@@ -39,12 +37,17 @@ public:
     unsigned int x() override;
     unsigned int y() override;
     Direction direction() override;
+    void set_direction(GameEntity::Direction direction) override;
+    unsigned int get_health() override;
+    void lose_health() override;
 
     sf::Sprite &getSprite() override;
+    sf::Texture& getTexture() override;
 
     void set_position(unsigned int x, unsigned int y) override;
 
     void draw_entity(sf::Sprite &sprite, float rotation, float x, float y) override;
+
 
 };
 

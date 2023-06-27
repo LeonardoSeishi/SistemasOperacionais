@@ -2,14 +2,12 @@
 
 __BEGIN_API
 
-Projectile * _shot_obj;
-Thread * _shot_thread;
 
 void Spaceship::shoot() {
 
     _shot_obj = new Projectile(x(),y(),direction());
     _shot_thread = new Thread(Projectile::runProjectile, _shot_obj);
-    _shot_obj->set_thread(_shot_thread);
+    _shot_obj->Projectile::set_thread(_shot_thread);
     
     _shot_thread->join();
 
@@ -50,6 +48,14 @@ sf::Sprite& Spaceship::getSprite() {
 
 sf::Texture& Spaceship::getTexture() {
     return _entity_texture;
+}
+
+unsigned int Spaceship::get_health() {
+    return _health;
+}
+
+void Spaceship::lose_health() {
+    _health--;
 }
 
 void Spaceship::set_position(unsigned int x, unsigned int y) {

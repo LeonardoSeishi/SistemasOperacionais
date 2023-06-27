@@ -37,7 +37,10 @@ void Projectile::runProjectile(Projectile *shot) {
 
     while (Game::isWindowOpen()) {
         shot->move(shot->direction());
-        if (!shot->checkPositionBound()) {
+        if (shot->get_health() < 1) {
+            std::cout << "tiro colidiu\n";
+            break;
+        } else if (!shot->checkPositionBound()) {
             std::cout << "tiro saiu da tela\n";
             break;
         }
@@ -101,8 +104,25 @@ GameEntity::Direction Projectile::direction() {
     return _direction;
 }
 
+void Projectile::set_direction(GameEntity::Direction direction){
+    _direction = direction;
+}
+
+unsigned int Projectile::get_health() {
+    return _health;
+}
+
+void Projectile::lose_health() {
+    _health--;
+}
+
+
 sf::Sprite& Projectile::getSprite() {
     return _entity_sprite;
+}
+
+sf::Texture& Projectile::getTexture(){
+    return _entity_texture;
 }
 
 void Projectile::set_position(unsigned int x, unsigned int y) {
@@ -117,6 +137,7 @@ void Projectile::draw_entity(sf::Sprite &sprite, float rotation, float x, float 
     sprite.setRotation(rotation);
     // GameWindow::draw_sprite(sprite);
 }
+
 
 
 __END_API
