@@ -1,0 +1,219 @@
+@startuml
+
+package "THREAD_LIBRARY" {
+    class Thread {
+        - int _id = 0
+        - Context * volatile _context
+        - CPU::Context _main_context
+        - Thread * _running
+        - Thread _main
+        - Thread _dispatcher
+        - State _state
+        - Ready_Queue _ready
+        - Ready_Queue _suspended
+        - Ready_Queue::Element _link
+        - Waiting_Queue * _waiting
+        - int _exit_code
+        - int _counter
+        - Thread * _join_callee
+        + enum State
+        + template Thread()
+        + Thread * running()
+        + int switch_context(Thread *prev, Thread *next)
+        + thread_exit(int exit_code)
+        + int id()
+        + dispatcher()
+        + init(void (*main)(void *))
+        + yield()
+        + int join()
+        + suspend()
+        + resume()
+        + Context * context()
+        + Ready_Queue::Element link()
+        + sleep(Waiting_Queue * waiting_queue)
+        + wakeup(Waiting_Queue * waiting_queue)
+    }
+
+    class List
+    class Debug
+    Struct Traits
+
+    class System {
+        + init(void(*main)(void*))
+    }
+
+    class CPU {
+        + int switch_context(Context *from, Context *to)
+        + int finc(volatile int &number)
+        + int fdec(volatile int &number)
+        + template <typename ... Tn> CPU::Context::Context()
+    }
+
+    class Context {
+        - unsigned int STACK_SIZE
+        - char *_stack
+        + ucontext_t _context
+        + save()
+        + load()
+    }
+
+    class Semaphore {
+        - int _counter
+        - Waiting_Queue _waiting_queue
+        - finc(volatile int & number)
+        - fdec(volatile int & number)
+        - sleep()
+        - wakeup()
+        - wakeup_all()
+        + p()
+        + v()
+
+    }
+
+    Thread -- Semaphore
+    Thread -- CPU
+    CPU <|-- Context
+    System -- Thread
+    Thread -- List
+    List - Semaphore
+    Traits -- Debug
+    Thread -- Traits
+
+
+}
+
+    interface GameEntity {
+        - unsigned int _speed
+        - unsigned int _x
+        - unsigned int _y
+        - Direction _direction
+        + enum Direction
+        + move(Direction, Sprite &sprite)
+        + unsigned int speed()
+        + unsigned int x()
+        + unsigned int y()
+        + Direction direction()
+        + set_position(unsigned int x, unsigned int y)
+        + draw_entity(Sprite &sprite, float rotation, float x, float y)
+    }
+
+    class Game {
+        - Semaphore *_game_sem
+        - GameWindow* _game_window
+        - Input *_input_obj
+        - PlayerShip *_player
+        - EnemyShip *_enemy_1
+        - EnemyShip *_enemy_2
+        - EnemyShip *_enemy_3
+        - EnemyShip *_enemy_4
+        - Thread * _window_thread
+        - Thread * _input_thread
+        - Thread * _player_thread
+        - Thread * _enemy_1_thread
+        - Thread * _enemy_2_thread
+        - Thread * _enemy_3_thread
+        - Thread * _enemy_4_thread
+        - vector<EnemyShip*> _enemies
+        - bool _windowOpen
+        - bool _paused
+        - unsigned int _level
+        - unsigned int _speed
+        - unsigned int _eliminations
+        - unsigned int _score
+        + kill()
+        + restart()
+        + pause()
+        + update()
+        + endGame()
+        + startGame()
+        + init(void *name)
+        + bool isWindowOpen()
+        + bool closeWindow()
+        + Semaphore * sem()
+        + GameWindow& getWindow()
+        + addEnemy(Sprite& enemy)
+        + vector<Sprite>& getEnemies()
+        + bool paused()
+        + int getSpeed()
+        + int getScore()
+        + int getEliminations()
+    }
+
+    class Projectile {
+        - _enemy
+        + runProjectile()
+        + isEnemyShot()
+        + Sprite& getSprite()
+    }
+
+    class Input {
+        - PlayerShip * player
+        - Semaphore * input_mutex
+        + run()
+    }
+
+
+    class EnemyHandler {
+        - Thread * _enemylist[4]
+        + runEnemyHandler()
+        + spawnEnemy()
+        + destroyEnemy()
+        + setSpeed()
+    }
+
+    class GameWindow {
+        - Thread _render_thread
+        - Texture maze_tex
+        - Sprite maze_sprite
+        - Texture player_tex
+        - Sprite player_sprite
+        ...
+        + RenderWindow window
+        + Semaphore sem
+        + load_texture(string path, Texture& texture)
+        + make_sprite(Texture& texture, Sprite& sprite, ..., float angle)
+        + init_sprites()
+        + run(GameWindow *window_obj)
+        + Sprites& get_maze_texture()
+        + Texture& get_maze_texture()
+        ...
+    }
+
+     class SpaceShip {
+        ...
+        + shoot()
+    }
+    class PlayerShip {
+        - unsignet int _health
+        ...
+        + runPlayerShip()
+        + lose_life()
+        + health()
+    }
+
+    class EnemyShip {
+        - int _dificult
+        ...
+        + runEnemyShip()
+        + lose_life()
+    }
+
+
+    GameEntity <|-- SpaceShip
+    GameEntity <|-- Projectile
+
+    SpaceShip <|-- PlayerShip
+    SpaceShip <|-- EnemyShip
+
+    Projectile -- SpaceShip
+
+    Game -- GameWindow
+    Game -- Input
+    Game -- SpaceShip
+    Game -- EnemyHandler
+
+
+
+THREAD_LIBRARY -- Game
+
+@enduml

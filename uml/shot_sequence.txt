@@ -1,0 +1,16 @@
+@startuml
+Game -> Projectile: create(x, y, direction)
+Projectile -> Projectile: set_thread(thread)
+Game -> Thread: create(runProjectile(Projectile*))
+Thread -> Projectile: runProjectile(Projectile*)
+loop Game is running
+    Thread -> Projectile: move(direction)
+    alt Shot health < 1
+        Thread -> Game: "tiro colidiu"
+        deactivate Thread
+    else Shot out of bounds
+        Thread -> Game: "tiro saiu da tela"
+        deactivate Thread
+    end
+end
+@enduml

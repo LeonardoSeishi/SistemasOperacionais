@@ -1,0 +1,68 @@
+ 
+@startuml
+
+participant main as M
+participant System as S
+participant Game as G
+participant GameWindow as GW
+participant PlayerShip as PS
+participant EnemyShip as ES1
+participant EnemyShip as ES2
+participant EnemyShip as ES3
+participant EnemyShip as ES4
+participant Input as I
+participant Thread as T
+
+M -> S: 1. init(&Game::init)
+activate S
+
+S -> G: 2. init()
+activate G
+
+G -> T: 3. Thread(GameWindow::run, _game_window)
+activate GW
+
+G -> T: 4. Thread(PlayerShip::runPlayerShip, _player)
+activate PS
+
+G -> T: 5. Thread(EnemyShip::runEnemyShip, _enemy_1, 0)
+activate ES1
+
+G -> T: 6. Thread(EnemyShip::runEnemyShip, _enemy_2, 0)
+activate ES2
+
+G -> T: 7. Thread(EnemyShip::runEnemyShip, _enemy_3, 1)
+activate ES3
+
+G -> T: 8. Thread(EnemyShip::runEnemyShip, _enemy_4, 1)
+activate ES4
+
+G -> T: 9. Thread(Input::run)
+activate I
+
+G -> PS: 10. _player_thread->join()
+deactivate PS
+
+G -> ES1: 11. _enemy_1_thread->join()
+deactivate ES1
+
+G -> ES2: 12. _enemy_2_thread->join()
+deactivate ES2
+
+G -> ES3: 13. _enemy_3_thread->join()
+deactivate ES3
+
+G -> ES4: 14. _enemy_4_thread->join()
+deactivate ES4
+
+G -> GW: 15. _window_thread->join()
+deactivate GW
+
+G -> I: 16. _input_thread->join()
+deactivate I
+
+G -> G: 17. cleanup resources
+deactivate G
+deactivate S
+
+@enduml

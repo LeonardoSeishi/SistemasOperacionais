@@ -1,0 +1,11 @@
+ @startuml
+left to right direction
+actor Jogador
+
+Jogador -- (Mover Nave do Jogador)
+Jogador -- (Atirar Projéteis)
+Jogador -- (Perder Vida)
+Jogador -- (Pausar Jogo)
+Jogador -- (Reiniciar Jogo)
+
+@enduml

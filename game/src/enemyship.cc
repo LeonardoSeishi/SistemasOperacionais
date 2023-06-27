@@ -32,7 +32,9 @@ void EnemyShip::lose_life()
 }
 
 std::pair<int, int> EnemyShip::get_random_pair() {
-    // std::random_device rd;
+    // std::random_device rd ;
+    std::pair<int, int> nome(10,10);
+    return nome;
 
 }
 std::pair<int, int> EnemyShip::get_circ_pair() {
@@ -65,6 +67,9 @@ std::pair<int, int> EnemyShip::get_circ_pair() {
         move(DOWN);
         draw_entity(getSprite(), 90, x(), y());
     }
+
+    std::pair<int, int> nome(x(),y());
+    return nome;
 }
 
 void EnemyShip::runEnemyShip(EnemyShip *enemy, int algoritmo)
