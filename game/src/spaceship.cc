@@ -2,11 +2,19 @@
 
 __BEGIN_API
 
+
 void Spaceship::shoot() {
-    unsigned int projectile_x = x();
-    unsigned int projectile_y = y();
-    Direction projectile_direction = direction();
+
+    _shot_obj = new Projectile(x(),y(),direction());
+    _shot_thread = new Thread(Projectile::runProjectile, _shot_obj);
+    _shot_obj->Projectile::set_thread(_shot_thread);
+    
+    _shot_thread->join();
+
+    delete _shot_obj;
+    delete _shot_thread;
 }
+
 
 void Spaceship::sem_lock() {
     std::cout << "lock sem spaceship\n";
@@ -40,6 +48,14 @@ sf::Sprite& Spaceship::getSprite() {
 
 sf::Texture& Spaceship::getTexture() {
     return _entity_texture;
+}
+
+unsigned int Spaceship::get_health() {
+    return _health;
+}
+
+void Spaceship::lose_health() {
+    _health--;
 }
 
 void Spaceship::set_position(unsigned int x, unsigned int y) {

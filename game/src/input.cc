@@ -48,6 +48,7 @@ void Input::run()
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
             {
                 std::cout << "shoot!" << std::endl;
+                player->shoot();
                 // atirar
                 // new Thread em player
             }

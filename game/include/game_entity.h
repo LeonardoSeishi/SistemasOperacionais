@@ -27,6 +27,8 @@ public:
     virtual unsigned int y()=0;
     virtual sf::Sprite& getSprite()=0;
     virtual sf::Texture& getTexture()=0;
+    virtual unsigned int get_health()=0;
+    virtual void lose_health()=0;
 
     virtual Direction direction()=0;
     virtual void set_direction(GameEntity::Direction direction)=0;
