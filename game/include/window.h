@@ -39,11 +39,19 @@ public:
 
     static void draw_sprite(sf::Sprite& sprite);
 
+    void write_screen(sf::Font& font, sf::Text& text, int value, int x, int sy);
+
     static void run(GameWindow *window_obj);
 
     // Getters
     static sf::Sprite& get_maze_sprite() { return maze_sprite; }
     static sf::Texture& get_maze_texture() { return maze_tex; }
+
+    static sf::Sprite& get_score_sprite() { return score_sprite; }
+    static sf::Texture& get_score_texture() { return score_tex; }
+
+    static sf::Sprite& get_ready_sprite() { return ready_sprite; }
+    static sf::Texture& get_ready_texture() { return ready_tex; }
 
 public:
     static sf::RenderWindow window;
@@ -54,6 +62,13 @@ private:
     Thread _render_thread;
     static sf::Texture maze_tex;
     static sf::Sprite maze_sprite;
+    static sf::Texture score_tex;
+    static sf::Sprite score_sprite;
+    static sf::Texture ready_tex;
+    static sf::Sprite ready_sprite;
+    static sf::Font font;
+    static sf::Text score_text;
+
     static bool can_draw;    
 
 };
