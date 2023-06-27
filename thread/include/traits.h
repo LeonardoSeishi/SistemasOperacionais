@@ -14,11 +14,17 @@ class Debug;
 class System;
 class Thread;
 class Lists;
+// Nossas classes
+class GameWindow;
 class Game;
+class Collision;
+class EnemyHandler;
+class GameEntity;
+class Projectile;
+class SpaceShip;
 class PlayerShip;
 class Input;
 class EnemyShip;
-class GameWindow;
 
 //declaração da classe Traits
 template<typename T>

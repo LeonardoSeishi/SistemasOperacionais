@@ -8,6 +8,8 @@ EnemyShip::EnemyShip(unsigned int x, unsigned int y, unsigned int speed)
     _x = x;
     _y = y;
     _speed = speed;
+    _health = 1;
+    _sem = new Semaphore(1);
 
     // calcular a direction dependendo de qual parede ele ira surgir
     // 705 = parede_direita
@@ -28,7 +30,9 @@ EnemyShip::EnemyShip(unsigned int x, unsigned int y, unsigned int speed)
     // }
 }
 
-EnemyShip::~EnemyShip() {}
+EnemyShip::~EnemyShip() {
+    delete _sem;
+}
 
 void EnemyShip::lose_life()
 {

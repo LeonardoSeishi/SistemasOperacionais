@@ -22,22 +22,22 @@ void Input::run()
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
             {
                 std::cout << "Keyboard esquerda!" << std::endl;
-                player->move(GameEntity::LEFT, GameWindow::get_player_sprite());
+                player->move(GameEntity::LEFT);//, GameWindow::get_player_sprite());
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
             {
                 std::cout << "Keyboard direita!" << std::endl;
-                player->move(GameEntity::RIGHT, GameWindow::get_player_sprite());
+                player->move(GameEntity::RIGHT);//, GameWindow::get_player_sprite());
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
             {
                 std::cout << "Keyboard para baixo!" << std::endl;
-                player->move(GameEntity::DOWN, GameWindow::get_player_sprite());
+                player->move(GameEntity::DOWN);//, GameWindow::get_player_sprite());
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
             {
                 std::cout << "Keyboard para cima!" << std::endl;
-                player->move(GameEntity::UP, GameWindow::get_player_sprite());
+                player->move(GameEntity::UP);//, GameWindow::get_player_sprite());
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
             {

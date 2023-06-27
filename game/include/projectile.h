@@ -5,23 +5,23 @@
 
 __BEGIN_API
 
-class Projectile: public GameEntity
+class Projectile//: public GameEntity
 {
-public:
-    Projectile(unsigned int x, unsigned int y, Direction direction);
+// public:
+//     Projectile(unsigned int x, unsigned int y, Direction direction);
 
-    ~Projectile();
+//     ~Projectile();
 
-    void runProjectile();
+//     void runProjectile();
 
-    //gets
-    bool isEnemyShot();
+//     //gets
+//     bool isEnemyShot();
 
-    const sf::Sprite& getSprite() const;
+//     const sf::Sprite& getSprite() const;
 
-private:
-    //verifica se tiro é inimigo
-    bool _enemy;
+// private:
+//     //verifica se tiro é inimigo
+//     bool _enemy;
 
 };
 

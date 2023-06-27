@@ -4,6 +4,7 @@
 #include "../../thread/include/traits.h"
 #include "../../thread/include/thread.h"
 #include "../../thread/include/semaphore.h"
+#include "window.h"
 #include "spaceship.h"
 #include "input.h"
 

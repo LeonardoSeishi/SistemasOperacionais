@@ -13,9 +13,21 @@ class Spaceship: public GameEntity
 {
 public:
 
-void shoot();
+    void shoot();
 
-    //const sf::Sprite& getSprite() const;
+    void move(GameEntity::Direction direction) override;
+
+    void sem_lock() override;
+    unsigned int speed() override;
+    unsigned int x() override;
+    unsigned int y() override;
+    Direction direction() override;
+
+    sf::Sprite &getSprite() override;
+
+    void set_position(unsigned int x, unsigned int y) override;
+
+    void draw_entity(sf::Sprite &sprite, float rotation, float x, float y) override;
 };
 
 
@@ -49,10 +61,7 @@ public:
     bool lose_life();
 
     unsigned int health();
-
-private:
-    unsigned int _health;
-
+    
 };
 
 __END_API

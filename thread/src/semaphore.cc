@@ -14,6 +14,7 @@ void Semaphore::p() {
 void Semaphore::v() {
     db<Semaphore>(TRC) << "Semaphore free: " << _counter << "\n";
     if (_counter < 1) {
+        std::cout << "antes do wakeup\n";
         wakeup();
     }
     finc(_counter);

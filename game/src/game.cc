@@ -117,9 +117,6 @@ void Game::init(void *name) {
     _input_thread = new Thread(Input::run);
 
     int ec;
-    std::cout << "main: esperando window_thread...\n";
-    ec = _window_thread->join();
-    std::cout << "main: window_thread acabou com exit code " << ec << "\n";
 
     std::cout << "main: esperando player_thread...\n";
     ec = _player_thread->join();
@@ -141,14 +138,18 @@ void Game::init(void *name) {
     ec = _enemy_4_thread->join();
     std::cout << "main: enemy_4_thread acabou com exit code " << ec << "\n";
 
+    std::cout << "main: esperando window_thread...\n";
+    ec = _window_thread->join();
+    std::cout << "main: window_thread acabou com exit code " << ec << "\n";
+
     delete _game_sem;
 
-    delete _window_thread;
     delete _player_thread;
     delete _enemy_1_thread;
     delete _enemy_2_thread;
     delete _enemy_3_thread;
     delete _enemy_4_thread;
+    delete _window_thread;
 
     delete _input_thread;
     

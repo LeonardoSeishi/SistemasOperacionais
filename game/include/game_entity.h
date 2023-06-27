@@ -17,31 +17,32 @@ public:
         RIGHT
     };
 
-    void move(GameEntity::Direction, sf::Sprite &sprite);
+    virtual ~GameEntity();
 
+    virtual void move(GameEntity::Direction direction);//, sf::Sprite &sprite);
+    virtual void sem_lock();
     //gets e sets
-    unsigned int speed();
-    unsigned int x();
-    unsigned int y();
-    Direction direction();
+    virtual unsigned int speed();
+    virtual unsigned int x();
+    virtual unsigned int y();
+    virtual Direction direction();
+    virtual sf::Sprite& getSprite();
 
-    // sf::Sprite& getSprite();
-
-    // sf::Texture& getTexture();
-
-    void set_position(unsigned int x, unsigned int y);
-    void draw_entity(sf::Sprite &sprite, float rotation, float x, float y);
+    virtual void set_position(unsigned int x, unsigned int y);
+    virtual void draw_entity(sf::Sprite &sprite, float rotation, float x, float y);
 
 //Declaracao dos atributos de uma entidade  
 protected:
     unsigned int _speed;
     volatile Direction _direction;
+    unsigned int _health;
 
     //posicao
     unsigned int _x;
     unsigned int _y;
 
-    // sf::Sprite _shipSprite;
+    sf::Sprite _entity_sprite;
+    Semaphore *_sem;
     // sf::Texture _shipTexture;
 };
 

@@ -7,17 +7,20 @@
 __BEGIN_API
 
 sf::RenderWindow GameWindow::window(sf::VideoMode(1086, 746), "Jogo das Naves");
+Semaphore *GameWindow::sem = new Semaphore();
+std::deque<sf::Sprite> GameWindow::sprite_queue;
+// bool can_draw = false;
 sf::Sprite GameWindow::maze_sprite;
 sf::Texture GameWindow::maze_tex;
-sf::Sprite GameWindow::player_sprite;
-sf::Texture GameWindow::player_tex;
-sf::Texture GameWindow::enemy_tex;
-sf::Sprite GameWindow::enemy1_sprite;
-sf::Sprite GameWindow::enemy2_sprite;
-sf::Sprite GameWindow::enemy3_sprite;
-sf::Sprite GameWindow::enemy4_sprite;
-sf::Texture GameWindow::shot_tex;
-sf::Sprite GameWindow::shot_sprite;
+// sf::Sprite GameWindow::player_sprite;
+// sf::Texture GameWindow::player_tex;
+// sf::Texture GameWindow::enemy_tex;
+// sf::Sprite GameWindow::enemy1_sprite;
+// sf::Sprite GameWindow::enemy2_sprite;
+// sf::Sprite GameWindow::enemy3_sprite;
+// sf::Sprite GameWindow::enemy4_sprite;
+// sf::Texture GameWindow::shot_tex;
+// sf::Sprite GameWindow::shot_sprite;
 
 GameWindow::GameWindow() {}
 
@@ -52,8 +55,8 @@ void GameWindow::make_sprite(
 void GameWindow::init_sprites() 
 {
     load_texture("sprites/maze/screen.png", get_maze_texture());
-    load_texture("sprites/space_ships/space_ship1.png", get_player_texture());
-    load_texture("sprites/space_ships/enemy_space_ship1.png", get_enemy_texture());
+    // load_texture("sprites/space_ships/space_ship1.png", get_player_texture());
+    // load_texture("sprites/space_ships/enemy_space_ship1.png", get_enemy_texture());
 
     // Calcula bounds da maze pra centralizar na window
     // N funciona ainda
@@ -73,21 +76,20 @@ void GameWindow::init_sprites()
     // Da posição 10 a 685 no sentido vertical Y
     // CENTRALIZAÇÃO DO PLAYER: (390, 340)
 
-    make_sprite(get_player_texture(), get_player_sprite(), 0.5, 0.5, 390, 340, 90);
-    make_sprite(get_enemy_texture(), get_enemy1_sprite(), 0.5, 0.5, 10, 10, 0);
-    make_sprite(get_enemy_texture(), get_enemy2_sprite(), 0.5, 0.5, 705, 10, 0);    
-    make_sprite(get_enemy_texture(), get_enemy3_sprite(), 0.5, 0.5, 10, 685, 0);    
-    make_sprite(get_enemy_texture(), get_enemy4_sprite(), 0.5, 0.5, 705, 685, 0);
-   // get_enemy4_sprite().setPosition(300, 500);
+    // make_sprite(get_player_texture(), get_player_sprite(), 0.5, 0.5, 390, 340, 90);
+    // make_sprite(get_enemy_texture(), get_enemy1_sprite(), 0.5, 0.5, 10, 10, 0);
+    // make_sprite(get_enemy_texture(), get_enemy2_sprite(), 0.5, 0.5, 705, 10, 0);    
+    // make_sprite(get_enemy_texture(), get_enemy3_sprite(), 0.5, 0.5, 10, 685, 0);    
+    // make_sprite(get_enemy_texture(), get_enemy4_sprite(), 0.5, 0.5, 705, 685, 0);
 
-
-    // Game::addEnemy(get_enemy1_sprite);
-    // Game::addEnemy(get_enemy2_sprite);
-    // Game::addEnemy(get_enemy3_sprite);
-    // Game::addEnemy(get_enemy4_sprite);
 }
 
-
+void GameWindow::draw_sprite(sf::Sprite& sprite) {
+    sem->p();
+    std::cout << "FFF\n";
+    sprite_queue.push_front(sprite);
+    sem->v();
+}
 
 void GameWindow::run(GameWindow *window_obj)
 {
@@ -98,20 +100,20 @@ void GameWindow::run(GameWindow *window_obj)
     // Main workload
     while (window.isOpen())
     {
+        // Espera outros objetos desenharem
+        sem->p();
+        std::cout << "AAA\n";
         // Limpa artefatos
         window.clear();
-
-        // Espera outros objetos desenharem
-
         window.draw(get_maze_sprite());
-        window.draw(get_player_sprite());
-        window.draw(get_enemy1_sprite());
-        window.draw(get_enemy2_sprite());
-        window.draw(get_enemy3_sprite());
-        window.draw(get_enemy4_sprite());
-        window.display();
-        
+        for (const auto& sprite : sprite_queue) {
+            window.draw(sprite);
+            sprite_queue.pop_front();
+        }
+        std::cout << "BBB\n";
+        sem->v();
 
+        window.display();
         // PlayerShip& player = Game::getPlayer();
         // std::vector<EnemyShip*> enemies = Game::getEnemies();  // Assuming you have a function that returns a vector of EnemyShip pointers in Game class
         // std::vector<Projectile*> projectiles = Game::getProjectiles();  // Assuming you have a function that returns a vector of Projectile pointers in Game class
