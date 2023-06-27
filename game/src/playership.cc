@@ -12,10 +12,10 @@ PlayerShip::PlayerShip(int x, int y) {
     _y = y;
     _sem = new Semaphore(1);
     // Inicializa sprite da nave
-    sf::Texture tex;
-    tex.loadFromFile("sprites/space_ships/space_ship1.png");
-    _entity_sprite.setTexture(tex);
-    _entity_sprite.setPosition(x, y);
+    getTexture().loadFromFile("sprites/space_ships/space_ship1.png");
+    getSprite().setTexture(getTexture());
+    getSprite().setPosition(x, y);
+    getSprite().scale(0.5, 0.5);
 }
 
 PlayerShip::~PlayerShip() {

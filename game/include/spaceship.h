@@ -23,8 +23,11 @@ public:
     unsigned int x() override;
     unsigned int y() override;
     Direction direction() override;
+    void set_direction(GameEntity::Direction direction) override;
 
     sf::Sprite &getSprite() override;
+
+    sf::Texture &getTexture() override;
 
     void set_position(unsigned int x, unsigned int y) override;
 

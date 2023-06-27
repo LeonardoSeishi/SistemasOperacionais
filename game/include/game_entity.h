@@ -25,8 +25,11 @@ public:
     virtual unsigned int speed() =0;
     virtual unsigned int x()=0;
     virtual unsigned int y()=0;
-    virtual Direction direction()=0;
     virtual sf::Sprite& getSprite()=0;
+    virtual sf::Texture& getTexture()=0;
+
+    virtual Direction direction()=0;
+    virtual void set_direction(GameEntity::Direction direction)=0;
 
     virtual void set_position(unsigned int x, unsigned int y)=0;
     virtual void draw_entity(sf::Sprite &sprite, float rotation, float x, float y)=0;
@@ -42,6 +45,7 @@ protected:
     unsigned int _y;
 
     sf::Sprite _entity_sprite;
+    sf::Texture _entity_texture;
     Semaphore *_sem;
     // sf::Texture _shipTexture;
 };
