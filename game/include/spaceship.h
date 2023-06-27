@@ -1,11 +1,9 @@
 #ifndef spaceship_h
 #define spaceship_h
 
-#include <SFML/Graphics.hpp>
-#include "../../thread/include/traits.h"
-#include "../../thread/include/semaphore.h"
-#include "game_entity.h"
+#include "projectile.h"
 #include "game.h"
+#include "game_entity.h"
 
 
 __BEGIN_API

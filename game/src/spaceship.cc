@@ -2,11 +2,21 @@
 
 __BEGIN_API
 
+Projectile * _shot_obj;
+Thread * _shot_thread;
+
 void Spaceship::shoot() {
-    unsigned int projectile_x = x();
-    unsigned int projectile_y = y();
-    Direction projectile_direction = direction();
+
+    _shot_obj = new Projectile(x(),y(),direction());
+    _shot_thread = new Thread(Projectile::runProjectile, _shot_obj);
+    _shot_obj->set_thread(_shot_thread);
+    
+    _shot_thread->join();
+
+    delete _shot_obj;
+    delete _shot_thread;
 }
+
 
 void Spaceship::sem_lock() {
     std::cout << "vai tomar no cu\n";
