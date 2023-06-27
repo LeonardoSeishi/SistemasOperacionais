@@ -1,7 +1,7 @@
 #ifndef menu_h
 #define menu_h
 
-#include "game.h"
+#include "window.h"
 #include "../../thread/include/traits.h"
 
 __BEGIN_API
