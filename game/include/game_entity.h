@@ -49,7 +49,6 @@ protected:
     sf::Sprite _entity_sprite;
     sf::Texture _entity_texture;
     Semaphore *_sem;
-    // sf::Texture _shipTexture;
 };
 
 __END_API

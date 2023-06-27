@@ -83,7 +83,7 @@ void EnemyShip::runEnemyShip(EnemyShip *enemy, int algoritmo)
         // 705 = parede_direita
         // 685 = valor_chao
         // Angulos
-        /* 90 - 
+        /* 90 
         */
         if (enemy->_algth) {
             std::pair<int, int> coord = enemy->get_random_pair();

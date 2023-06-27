@@ -2,11 +2,6 @@
 
 __BEGIN_API
 
-Menu::Menu() {
-
-}
-
-
-
+Menu::Menu() {}
 
 __END_API

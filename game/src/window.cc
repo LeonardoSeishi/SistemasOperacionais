@@ -93,8 +93,6 @@ void GameWindow::draw_sprite(sf::Sprite& sprite) {
 
 void GameWindow::run(GameWindow *window_obj)
 {
-
-    // Inicializa sprites e texturas
     window_obj->init_sprites();
     window_obj->write_screen(font, score_text, 0);
     window.setKeyRepeatEnabled(true);

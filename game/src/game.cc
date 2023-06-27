@@ -31,22 +31,20 @@ unsigned int Game::_score;
 
 // std::vector<sf::Sprite> Game::_enemies;
 
-
 Game::Game() {
 
 }
 
 Game::~Game() {}
 
-void Game::kill(/**/) { //passar nave inimiga como parameto para destruila???
-    //delete EnemyShip
+void Game::kill(/**/) {
     _score = getScore() + 100;
 
     if (getSpeed() < 3)
     { // checar se nao esta na velocidade maxima
         if (getEliminations() < 4)
         {
-            _speed = getSpeed() + 1;   //aumenta a velocidade do jogo
+            _speed = getSpeed() + 1;  //aumenta a velocidade do jogo
             _eliminations = 0;      //reseta a contagem
         }
         else
@@ -61,7 +59,6 @@ void Game::restart() {
     _speed = 1;
     _eliminations = 0;
     _paused = false;
-    //outras coisas
 }
 
 void Game::pause() {
@@ -154,32 +151,6 @@ void Game::init(void *name) {
     delete _input_thread;
     
 }
-
-// void Game::windowRun() {
-// }
-
-// void Game::playerRun(PlayerShip *player_obj) {
-//     std::cout << "Dentro de playerRun em game.cc\n";
-    
-//     _player_obj->runPlayerShip(player_obj);
-//     _player_thread->thread_exit(3);
-//     delete _player_obj;
-// }
-
-//void Game::enemyRun
-
-//void Game::shotRun
-
-//void Game::inputRun
-
-
-// void Game::addEnemy(sf::Sprite& enemy) {
-//     _enemies.push_back(enemy);
-// }
-
-// std::vector<EnemyShip*>& Game::getEnemies() {
-//     return _enemies;
-// }
 
 //gets e sets
 bool Game::paused() { return _paused;}

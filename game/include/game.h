@@ -15,17 +15,6 @@ __BEGIN_API
 
 class Game
 {
-// private:
-//     static void windowRun();
-//     static void playerRun(PlayerShip *player_obj);
-//     static void enemyRun();
-    /*
-    static void Run();
-    static void Run();
-    static void Run();
-    static void Run();
-    static void Run();
-    */
 
 public:
 
@@ -64,11 +53,6 @@ public:
     static bool closeWindow() {_windowOpen = false;}
     static Semaphore* sem();
     static GameWindow& getWindow() { return *_game_window; }
-    // static PlayerShip getPlayer() { return *_player; }
-    // static EnemyShip getEnemy1() { return *_enemy_1; }
-    // static EnemyShip getEnemy2() { return *_enemy_2; }
-    // static EnemyShip getEnemy3() { return *_enemy_3; }
-    // static EnemyShip getEnemy4() { return *_enemy_4; }
 
     static void addEnemy(sf::Sprite& enemy);
     static std::vector<sf::Sprite>& getEnemies();
@@ -77,8 +61,6 @@ public:
     static unsigned int getSpeed();
     static unsigned int getScore();
     static unsigned int getEliminations();
-    // Passar pra cc
-    // static GameWindow& getWindow() { return *_game_window; }
 
 private:
     static Semaphore *_game_sem;
