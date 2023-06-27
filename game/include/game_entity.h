@@ -19,17 +19,17 @@ public:
 
     virtual ~GameEntity();
 
-    virtual void move(GameEntity::Direction direction);//, sf::Sprite &sprite);
-    virtual void sem_lock();
+    virtual void move(GameEntity::Direction direction) =0;//, sf::Sprite &sprite);
+    virtual void sem_lock() =0;
     //gets e sets
-    virtual unsigned int speed();
-    virtual unsigned int x();
-    virtual unsigned int y();
-    virtual Direction direction();
-    virtual sf::Sprite& getSprite();
+    virtual unsigned int speed() =0;
+    virtual unsigned int x()=0;
+    virtual unsigned int y()=0;
+    virtual Direction direction()=0;
+    virtual sf::Sprite& getSprite()=0;
 
-    virtual void set_position(unsigned int x, unsigned int y);
-    virtual void draw_entity(sf::Sprite &sprite, float rotation, float x, float y);
+    virtual void set_position(unsigned int x, unsigned int y)=0;
+    virtual void draw_entity(sf::Sprite &sprite, float rotation, float x, float y)=0;
 
 //Declaracao dos atributos de uma entidade  
 protected:

@@ -8,7 +8,7 @@
 #include <vector>
 
 
-__BEGIN_API
+// __BEGIN_API
 
 class Collision
 {
@@ -17,6 +17,6 @@ public:
     // static void handleCollisions(PlayerShip &player, const std::vector<EnemyShip *> &enemies, std::vector<Projectile *> &projectiles);
 };
 
-__END_API
+// __END_API
 #endif
 

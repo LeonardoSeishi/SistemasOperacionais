@@ -1,5 +1,4 @@
-#include "../include/game.h"
-#include "spaceship.h"
+#include "../include/spaceship.h"
 //PLAYER
 
 __BEGIN_API
@@ -30,6 +29,7 @@ void PlayerShip::runPlayerShip(PlayerShip *player)
     {
         // std::cout << "Game::isWindowOpen()\n";
         // Game::sem()->p();
+        GameWindow::draw_sprite(player->getSprite());
         Thread::yield();
         // Game::sem()->v();
     }

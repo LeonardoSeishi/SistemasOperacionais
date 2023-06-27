@@ -17,7 +17,7 @@ class Lists;
 // Nossas classes
 class GameWindow;
 class Game;
-class Collision;
+// class Collision;
 class EnemyHandler;
 class GameEntity;
 class Projectile;

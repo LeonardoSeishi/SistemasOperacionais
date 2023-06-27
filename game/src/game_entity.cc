@@ -1,4 +1,4 @@
-#include "game_entity.h"
+#include "../include/game_entity.h"
 
 __BEGIN_API
 

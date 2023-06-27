@@ -12,6 +12,7 @@
 #include "../../thread/include/semaphore.h"
 
 #include "game.h"
+#include "window.h"
 
 
 __BEGIN_API

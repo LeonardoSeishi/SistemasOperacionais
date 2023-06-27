@@ -85,10 +85,9 @@ void GameWindow::init_sprites()
 }
 
 void GameWindow::draw_sprite(sf::Sprite& sprite) {
-    sem->p();
-    std::cout << "FFF\n";
+    // sem->p();
     sprite_queue.push_front(sprite);
-    sem->v();
+    // sem->v();
 }
 
 void GameWindow::run(GameWindow *window_obj)
@@ -101,8 +100,8 @@ void GameWindow::run(GameWindow *window_obj)
     while (window.isOpen())
     {
         // Espera outros objetos desenharem
-        sem->p();
-        std::cout << "AAA\n";
+        // sem->p();
+        // std::cout << "AAA\n";
         // Limpa artefatos
         window.clear();
         window.draw(get_maze_sprite());
@@ -110,8 +109,8 @@ void GameWindow::run(GameWindow *window_obj)
             window.draw(sprite);
             sprite_queue.pop_front();
         }
-        std::cout << "BBB\n";
-        sem->v();
+        // std::cout << "BBB\n";
+        // sem->v();
 
         window.display();
         // PlayerShip& player = Game::getPlayer();
